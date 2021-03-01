@@ -1,0 +1,1 @@
+Hibernate学习笔记的示例代码都是基于Hibernate 4.2.21.Final.jar

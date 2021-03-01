@@ -1,0 +1,100 @@
+#cnzz_stat_icon_1258390419{
+position:absolute;
+top:10px;
+right:10px;
+}
+#cnblogs_post_body p{
+line-height: 2;
+}
+
+p > img {
+  width: 100%;
+}
+.postTitle a:hover, .postTitl2 a:hover, .entrylistPosttitle a:hover {
+    color: #3399ff;
+    text-decoration: none;
+}
+#myposts .postTitl2 a {
+  font-size: 14px;
+}
+.c_b_p_desc_readmore{
+display:block;
+padding-top: 10px;
+}
+
+#cnblogs_post_body  table{table-layout: fixed;width:100%;border:none;}
+#cnblogs_post_body  table img{width: 100%}
+
+
+#con {
+    position: fixed;
+    color: white;
+    background-color: #2175BC;
+    border-radius: 10px;
+    padding: 5px;
+    right: 10px;
+    top: 55px;
+    cursor: pointer;
+}
+#myposts .postTitl2 {
+    width: 705px;
+    overflow: hidden;
+    height: 35px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+#green_channel {
+    display:none;
+}
+#author_profile{
+margin-top: 20px;
+}
+#cnblogs_post_body h2 {
+    border-bottom: 2px solid #ccc;
+    margin-bottom: 20px;
+    margin-top: 10px;
+}
+
+#cnblogs_post_body h3 {
+    border-right: 3px solid #2175BC;
+    padding-right: 6px;
+    font-size: 120%;
+    line-height: 1.2;
+    display: inline-block;
+    margin-bottom: 10px;
+
+}
+
+.cnblogs_code {
+    border-radius: 10px;
+    border: 2px solid #ccc;
+}
+#MySignature{
+    display: block;
+    margin: 40px 40px 40px 0;
+    font-size: 30px;
+    color: #f1ebe5;
+    text-shadow: 0 8px 9px #c4b59d, 0px -2px 1px #fff;
+    font-weight: bold;
+    text-align: center;
+    background: linear-gradient(to bottom, #ece4d9 0%,#e9dfd1 100%);
+    border-radius: 10px;
+    line-height: 60px;
+    cursor:default;
+}
+#div_digg .diggit{
+background: url("//files.cnblogs.com/files/xiaohuochai/zan.gif") no-repeat;
+margin-top: 32px;
+margin-left: -180px;
+line-height: 50px;
+width:48px;
+}
+#digg_count{
+margin-left:10px;
+}
+#div_digg .buryit{
+display:none;
+}
+#digg_tips{
+display:none;
+}

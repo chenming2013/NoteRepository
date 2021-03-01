@@ -1,0 +1,32 @@
+https://www.zhihu.com/question/20679695
+
+https://blog.csdn.net/wjheha/article/details/69396602
+
+https://www.zhihu.com/question/19848946/answer/92536822
+
+https://wdxtub.com/2016/09/11/work-page/
+
+http://lucida.me/blog/developer-reading-list/#foundation
+
+
+计算机学习顺序：
+1、硬件基础：
+	1)《编码：隐匿在计算机软硬件背后的语言》
+	2)《模拟和数字电子电路基础》
+	3)《计算机科学概论》
+	4) http://www.icourses.cn/web/sword/portal/shareDetails?cId=6011#/course/chapter [计算机组成原理]
+	4)《深入理解计算机系统(原书第3版)》
+	5)《浪潮之巅》(慢慢看)
+2、数学：
+	1)《数学之美》
+3、C语言：
+	1)《C Primer Plus》
+	2)《C程序设计语言》
+	3)《征服C指针》
+	4)《C和指针》
+	5)《老码识途》
+	6)《C缺陷和陷阱：C语言调试指南》
+
+《windows程序设计》
+
+

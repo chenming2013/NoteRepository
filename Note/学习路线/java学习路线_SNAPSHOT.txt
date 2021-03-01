@@ -1,0 +1,20 @@
+https://www.zhihu.com/question/27648923（江忘南的回答）
+
+step1： 《Head First Java》
+
+step2：W3C 和 IBM 的 Java教程
+
+step3：《Core Java》
+
+step4：
+
+
+
+
+推荐：
+《jdbc》
+	----->传智播客李勇：http://yun.itheima.com/course/38.html
+
+《jQuery》
+	----->李兴华
+	----->李炎恢

@@ -1,0 +1,9 @@
+《Struts2技术内幕：深入解析Struts架构设计与实现原理》
+《精通Struts:基于MVC的Java Web设计与开发》 
+《struts in action》
+《WebWork in Action》
+《struts2深入详解》
+《研磨struts2》
+
+
+《可以看一下马士兵的视频》

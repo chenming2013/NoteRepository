@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="origin">
+<title>javascript运算符——关系运算符 - 小火柴的蓝色理想 - 博客园</title>
+<meta property="og:description" content="[1]恒等
+[2]相等
+[3]大于
+[4]小于">
+<link type="text/css" rel="stylesheet" href="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E5%85%B3%E7%B3%BB%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E5%85%B3%E7%B3%BB%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/bundle-BlueSky.css">
+<link type="text/css" rel="stylesheet" href="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E5%85%B3%E7%B3%BB%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/221787.css">
+<link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E5%85%B3%E7%B3%BB%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/bundle-BlueSky-mobile.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/xiaohuochai/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/xiaohuochai/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/xiaohuochai/wlwmanifest.xml">
+<script src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E5%85%B3%E7%B3%BB%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/osd.js"></script><script src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E5%85%B3%E7%B3%BB%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/pubads_impl_rendering_285.js"></script><script async="" src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E5%85%B3%E7%B3%BB%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/analytics.js"></script><script type="text/javascript" src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E5%85%B3%E7%B3%BB%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/encoder.js"></script><script src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E5%85%B3%E7%B3%BB%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/jquery-2.js"></script>
+<script type="text/javascript">var currentBlogApp = 'xiaohuochai', cb_enable_mathjax=true;var isLogined=false;</script>
+<script type="text/x-mathjax-config;executed=true">
+    MathJax.Hub.Config({
+        tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processClass: 'math', processEscapes: true },
+        TeX: { 
+            equationNumbers: { autoNumber: ['AMS'], useLabelIds: true }, extensions: ['extpfeil.js'] 
+        },
+        'HTML-CSS': { linebreaks: { automatic: true } },
+        SVG: { linebreaks: { automatic: true } }
+        });
+    </script><script src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E5%85%B3%E7%B3%BB%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/MathJax.js"></script>
+<script src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E5%85%B3%E7%B3%BB%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.js" type="text/javascript"></script>
+<style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Menu_Button .MathJax_Hover_Arrow {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px; font-family: 'Courier New',Courier; font-size: 9px; color: #F0F0F0}
+.MathJax_Menu_Button .MathJax_Hover_Arrow span {display: block; background-color: #AAA; border: 1px solid; border-radius: 3px; line-height: 0; padding: 4px}
+.MathJax_Hover_Arrow:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_Hover_Arrow:hover span {background-color: #CCC!important}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_About.MathJax_MousePost {outline: none}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 2px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 2px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; padding-top: .25em; color: #666666; font-size: .75em}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: 1em}
+.MathJax_MenuRadioCheck.RTL {right: 1em; left: auto}
+.MathJax_MenuLabel {padding: 2px 2em 4px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #CCCCCC; margin: 4px 1px 0px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: Highlight; color: HighlightText}
+.MathJax_MenuDisabled:focus, .MathJax_MenuLabel:focus {background-color: #E8E8E8}
+.MathJax_ContextMenu:focus {outline: none}
+.MathJax_ContextMenu .MathJax_MenuItem:focus {outline: none}
+#MathJax_AboutClose {top: .2em; right: .2em}
+.MathJax_Menu .MathJax_MenuClose {top: -10px; left: -10px}
+.MathJax_MenuClose {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; font-family: 'Courier New',Courier; font-size: 24px; color: #F0F0F0}
+.MathJax_MenuClose span {display: block; background-color: #AAA; border: 1.5px solid; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; line-height: 0; padding: 8px 0 6px}
+.MathJax_MenuClose:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_MenuClose:hover span {background-color: #CCC!important}
+.MathJax_MenuClose:hover:focus {outline: none}
+</style><style type="text/css">.MathJax_Preview .MJXf-math {color: inherit!important}
+</style><style type="text/css">.MJX_Assistive_MathML {position: absolute!important; top: 0; left: 0; clip: rect(1px, 1px, 1px, 1px); padding: 1px 0 0 0!important; border: 0!important; height: 1px!important; width: 1px!important; overflow: hidden!important; display: block!important; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none}
+.MJX_Assistive_MathML.MJX_Assistive_MathML_Block {width: 100%!important}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1px; bottom: 2px; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><style type="text/css">#list{margin: 0!important;	padding: 0!important;	width: 120px;	text-align: center;	cursor: pointer;	font:20px/40px  '宋体';	background-color: #eee;	position:fixed;	display:none;}	#list li{list-style:none!important;}#list li:hover{background-color: lightblue;color: white;font-weight:bold;}</style><style type="text/css">.MJXp-script {font-size: .8em}
+.MJXp-right {-webkit-transform-origin: right; -moz-transform-origin: right; -ms-transform-origin: right; -o-transform-origin: right; transform-origin: right}
+.MJXp-bold {font-weight: bold}
+.MJXp-italic {font-style: italic}
+.MJXp-scr {font-family: MathJax_Script,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-frak {font-family: MathJax_Fraktur,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-sf {font-family: MathJax_SansSerif,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-cal {font-family: MathJax_Caligraphic,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-mono {font-family: MathJax_Typewriter,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-largeop {font-size: 150%}
+.MJXp-largeop.MJXp-int {vertical-align: -.2em}
+.MJXp-math {display: inline-block; line-height: 1.2; text-indent: 0; font-family: 'Times New Roman',Times,STIXGeneral,serif; white-space: nowrap; border-collapse: collapse}
+.MJXp-display {display: block; text-align: center; margin: 1em 0}
+.MJXp-math span {display: inline-block}
+.MJXp-box {display: block!important; text-align: center}
+.MJXp-box:after {content: " "}
+.MJXp-rule {display: block!important; margin-top: .1em}
+.MJXp-char {display: block!important}
+.MJXp-mo {margin: 0 .15em}
+.MJXp-mfrac {margin: 0 .125em; vertical-align: .25em}
+.MJXp-denom {display: inline-table!important; width: 100%}
+.MJXp-denom > * {display: table-row!important}
+.MJXp-surd {vertical-align: top}
+.MJXp-surd > * {display: block!important}
+.MJXp-script-box > *  {display: table!important; height: 50%}
+.MJXp-script-box > * > * {display: table-cell!important; vertical-align: top}
+.MJXp-script-box > *:last-child > * {vertical-align: bottom}
+.MJXp-script-box > * > * > * {display: block!important}
+.MJXp-mphantom {visibility: hidden}
+.MJXp-munderover {display: inline-table!important}
+.MJXp-over {display: inline-block!important; text-align: center}
+.MJXp-over > * {display: block!important}
+.MJXp-munderover > * {display: table-row!important}
+.MJXp-mtable {vertical-align: .25em; margin: 0 .125em}
+.MJXp-mtable > * {display: inline-table!important; vertical-align: middle}
+.MJXp-mtr {display: table-row!important}
+.MJXp-mtd {display: table-cell!important; text-align: center; padding: .5em 0 0 .5em}
+.MJXp-mtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-mlabeledtr {display: table-row!important}
+.MJXp-mlabeledtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mlabeledtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MJXp-scale0 {-webkit-transform: scaleX(.0); -moz-transform: scaleX(.0); -ms-transform: scaleX(.0); -o-transform: scaleX(.0); transform: scaleX(.0)}
+.MJXp-scale1 {-webkit-transform: scaleX(.1); -moz-transform: scaleX(.1); -ms-transform: scaleX(.1); -o-transform: scaleX(.1); transform: scaleX(.1)}
+.MJXp-scale2 {-webkit-transform: scaleX(.2); -moz-transform: scaleX(.2); -ms-transform: scaleX(.2); -o-transform: scaleX(.2); transform: scaleX(.2)}
+.MJXp-scale3 {-webkit-transform: scaleX(.3); -moz-transform: scaleX(.3); -ms-transform: scaleX(.3); -o-transform: scaleX(.3); transform: scaleX(.3)}
+.MJXp-scale4 {-webkit-transform: scaleX(.4); -moz-transform: scaleX(.4); -ms-transform: scaleX(.4); -o-transform: scaleX(.4); transform: scaleX(.4)}
+.MJXp-scale5 {-webkit-transform: scaleX(.5); -moz-transform: scaleX(.5); -ms-transform: scaleX(.5); -o-transform: scaleX(.5); transform: scaleX(.5)}
+.MJXp-scale6 {-webkit-transform: scaleX(.6); -moz-transform: scaleX(.6); -ms-transform: scaleX(.6); -o-transform: scaleX(.6); transform: scaleX(.6)}
+.MJXp-scale7 {-webkit-transform: scaleX(.7); -moz-transform: scaleX(.7); -ms-transform: scaleX(.7); -o-transform: scaleX(.7); transform: scaleX(.7)}
+.MJXp-scale8 {-webkit-transform: scaleX(.8); -moz-transform: scaleX(.8); -ms-transform: scaleX(.8); -o-transform: scaleX(.8); transform: scaleX(.8)}
+.MJXp-scale9 {-webkit-transform: scaleX(.9); -moz-transform: scaleX(.9); -ms-transform: scaleX(.9); -o-transform: scaleX(.9); transform: scaleX(.9)}
+.MathJax_PHTML .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style><link rel="preload" href="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E5%85%B3%E7%B3%BB%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/integrator.js" as="script"><script type="text/javascript" src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E5%85%B3%E7%B3%BB%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/integrator.js"></script><script src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E5%85%B3%E7%B3%BB%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/pubads_impl_285.js" async=""></script><style type="text/css">h6{margin:0;padding:0;}	    	.box{position: fixed; left: 10px;top: 60px;font:16px/30px '宋体'; border: 2px solid #ccc;padding: 4px; border-radius:5px;min-width:80px;max-width:118px;overflow:hidden;cursor:default;background:rgba(0,0,0,0.1);}	    	.boxHide{border:none;width:60px;height:30px;padding:0;}	    	.box-title{text-align:center;font-size:20px;color:#444;}	    	.box-quit{position: absolute;text-align:center; right: 0;top: 4px;cursor:pointer;font-weight:bold;}	    	.box-quitAnother{background:#3399ff;left:0;top:0;}	    	a.box-anchor{display:block;text-decoration:none;color:black; border-left: 3px solid transparent;padding:0 3px;margin-bottom: 3px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;}	    	a.box-anchor:hover{color:#3399ff;}	    	a.box-anchorActive{color:#3399ff;text-decoration:underline;border-color:#2175bc};</style></head>
+<body><div id="MathJax_Message" style="display: none;"></div>
+<a name="top"></a>
+<div id="page_begin_html"><!--[if lte IE 8]>
+<div style="display: none" id="__document_write_ajax_div-1"></div><script>window['__document_write_ajax_callbacks__']['1']();</script>
+<![endif]--></div><script>load_page_begin_html();</script>
+
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+	<a id="lnkBlogLogo" href="https://www.cnblogs.com/xiaohuochai/"><img id="blogLogo" src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E5%85%B3%E7%B3%BB%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/logo.gif" alt="返回主页"></a>			
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle" href="https://www.cnblogs.com/xiaohuochai/">小火柴的蓝色理想</a></h1>
+<h2></h2>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">博客园</a></li>
+<li><a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/xiaohuochai/">首页</a></li>
+<li><a id="blog_nav_newpost" class="menu" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+<li><a id="blog_nav_contact" class="menu" rel="nofollow" href="https://msg.cnblogs.com/send/%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3">联系</a></li>
+<li><a id="blog_nav_rss" class="menu" href="https://www.cnblogs.com/xiaohuochai/rss">订阅</a>
+<!--<a id="blog_nav_rss_image" class="aHeaderXML" href="https://www.cnblogs.com/xiaohuochai/rss"><img src="//www.cnblogs.com/images/xml.gif" alt="订阅" /></a>--></li>
+<li><a id="blog_nav_admin" class="menu" rel="nofollow" href="https://i.cnblogs.com/">管理</a></li>
+</ul>
+		<div class="blogStats">
+			
+			<div id="blog_stats">
+<span id="stats_post_count">随笔 - 698&nbsp; </span>
+<span id="stats_article_count">文章 - 0&nbsp; </span>
+<span id="stats-comment_count">评论 - 1166</span>
+</div>
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle" style="padding-right: 0px;">
+			<a id="cb_post_title_url" class="postTitle2" href="https://www.cnblogs.com/xiaohuochai/p/5615445.html">javascript运算符——关系运算符</a>
+		<div style="position: absolute; margin-left: 6px; display: inline-block; vertical-align: middle;"><img id="oImg" style="cursor: pointer; margin: 0px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAoklEQVQ4T+2T4Q2CMBCFv27CBjgCG+gIjAAbOAIjOIJs4Ai6gRvIBpjXXCOp19T/8pJLoTneXcj3Ah91wAV4bu68xwXoAZ2EzEAmE9AWTB6AelRDyaAx9zgh0wE4ATczcTdIE7wl0oe7wX/8RMHigfQTB3fDdM1IEvYyONdIVEOSqDwCY2Z2NaS/UNbqMSQmvauUPlfbNKpBSdTUVyXSs/XyBlRCNBG20I28AAAAAElFTkSuQmCC"><div id="qrcode" style="display: none; position: absolute; left: 20px; top: -40px;" title="http://www.cnblogs.com/xiaohuochai/p/5615445.html"><canvas width="80" height="80" style="display: none;"></canvas><img style="display: block;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAADK0lEQVR4nO2X21LkMAxE5/9/Gl6ACoylvkgBClpV8+DYarWOo7D7eDweL+rvPb6uvwabj54rNVBU5xwObz9ctCq+Dfako3pAgNg1igC8A6A6stPxUvZZD+roszrNfgAyOrcAdEMZYbbm9PID8C8AVE0y4V4a81kIQCPvVoCqKdeMEqgR1QvyaPgKwO4c4av/oCsjfcf6O2uZvwAcAXwZBDtO7lh1e+wlI2/TCMBhfFJwR1ZtotI76aKzag31MwXzmEOuGbW5ky46q9b4UYBbZtF5RRt5cS+dzuuKBiCVt1+ENYGed17Yfdcb+/IE4BSgYhIVU5tg9NDZKSAECuoE4DcCdE2j6PTZs9NzjrcAJDwSTPaLqGPY5bGXgLyqL4XwC8AxQNUcW3Ta1FKDrRf1sg/7ATgCqABy1+g5Mu1cMqPpAH/S64pUIgFYAERmXDAqDObs1mi7PQbgJkC1iGuaDadRtfGqFqsXgHcCZIuhvC3wHXwV9NTj07kAHAKcgJiCqZqcAL7LQ3MuANcAqg255yvw1bqLaS02yh4nZtRi0MzCG6KeH7/ZATj+NOimqzUqhprs8qtgG93KO+gEoJJ30NH/9V4VRU1uNTXxzNYSdAKw60UCyJpUAavRgUM/Vcv1ctkPQMfLxz4DwB0HpOOOTVcbNc56oc8pJtgm/hVAZRTVkVTBdvtODlOb1W3yApDRLfMYUO7rvgXUaQx5cC/iSa8TdxtF5l3dXwlwa8SU4gokdxTZnqpzQi8BOAaojo07TuxYdHEXINbrgUsAjgGqZlnQbmxeGuoF6VMjrBYNwE+6fFG22KZ5thHWO3uerReAoqdD3vy/Oy5QRp/VQjXcXqQRDkAD4NMTIVRTjn6lXXlwvaP9si+5slPkLwNc+g5Qo1/ldc2wjSBNNo8FfDkXgIrngz//T72a51wIm8tqs70IdQKQ8dzU2X/N1XHodKa1Ub57QZfnAfjjAJ3RVKB0DbDeqpi+JAH4GwC6+aiZwjBqiLpMN++WEXbzkbmu0SkIN68FiAKZaYpQ44WacTRVT6zHyzoAHY+XNTbtjgNrrsvb0OjWSI/IC8AJwFcETSM3Iu7c4QAAAABJRU5ErkJggg=="></div></div></h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body" class="blogpost-body"><h2>前面的话</h2>
+<p>　　关系运算符用于测试两个值之间的关系，根据关系是否存在而返回true或false，关系表达式总是返回一个布尔值，通常在if、while或for语句中使用关系表达式，用以控制程序的执行流程</p>
+<p>　　javascript提供了===、!==、==、!=、&lt;、&lt;=、&gt;、&gt;=8个关系运算符，本文将分为4类介绍关系运算符</p>
+<p>&nbsp;</p>
+<h3 id="anchor1">恒等运算符</h3>
+<p>　　恒等运算符'==='，也叫严格相等运算符，首先计算其操作数的值，然后比较这两个值，比较过程没有任何类型转换，比较过程如下：</p>
+<p>　　【1】如果两个值的类型不相同，则返回false</p>
+<div class="cnblogs_code">
+<pre>console.log(1 === '1');<span style="color: #008000;">//</span><span style="color: #008000;">false</span>
+console.log(1 === [1]);<span style="color: #008000;">//</span><span style="color: #008000;">false</span></pre>
+</div>
+<p>　　【2】如果两个值都是Undefined、Null、Boolean、Number、String相同原始类型的值，值相同，就返回true，否则，返回false</p>
+<div class="cnblogs_code">
+<pre>console.log(undefined === undefined);<span style="color: #008000;">//</span><span style="color: #008000;">true</span>
+console.log(<span style="color: #0000ff;">null</span> === <span style="color: #0000ff;">null</span>);<span style="color: #008000;">//</span><span style="color: #008000;">true</span></pre>
+</div>
+<div class="cnblogs_code">
+<pre>console.log(<span style="color: #0000ff;">true</span> === <span style="color: #0000ff;">true</span>);<span style="color: #008000;">//</span><span style="color: #008000;">true</span>
+console.log(<span style="color: #0000ff;">false</span> === <span style="color: #0000ff;">false</span>);<span style="color: #008000;">//</span><span style="color: #008000;">true</span></pre>
+</div>
+<div class="cnblogs_code">
+<pre>console.log(1 === 1);<span style="color: #008000;">//</span><span style="color: #008000;">true</span>
+console.log(2.5 === 2.5);<span style="color: #008000;">//</span><span style="color: #008000;">true</span></pre>
+</div>
+<p>　　[注意]不论什么进制的数字，在进行关系比较时，最终都转换为十进制进行运算</p>
+<div class="cnblogs_code">
+<pre>console.log(10 === 0xa);<span style="color: #008000;">//</span><span style="color: #008000;">true</span></pre>
+</div>
+<p>　　在数字Number类型中，有一个值比较特殊，是NaN(not a number)，它与任何值都不相等；此外，数字Number类型中存在着+0和-0，虽然其符号不同，但值相等</p>
+<div class="cnblogs_code">
+<pre>console.log(NaN === NaN);<span style="color: #008000;">//</span><span style="color: #008000;">false</span>
+console.log(+0 === -0);<span style="color: #008000;">//</span><span style="color: #008000;">true</span></pre>
+</div>
+<p>　　两个相同字符串值表现为：相同的长度和相同的字符对应相同的位置</p>
+<div class="cnblogs_code">
+<pre>console.log('abc' === 'abc');<span style="color: #008000;">//</span><span style="color: #008000;">true</span>
+console.log('abc' === 'acb');<span style="color: #008000;">//</span><span style="color: #008000;">false</span></pre>
+</div>
+<p>　　【3】如果两个值引用同一个对象，则返回true，否则，返回false</p>
+<p>　　[注意]更详细的解释是，javascript对象的比较是引用的比较，而不是值的比较。对象和其本身是相等的，但和其他任何对象都不相等。如果两个不同的对象具有相同数量的属性，相同的属性名和值，它们依然是不相等的</p>
+<div class="cnblogs_code">
+<pre>console.log([] === []);<span style="color: #008000;">//</span><span style="color: #008000;">false</span>
+console.log({} === {});<span style="color: #008000;">//</span><span style="color: #008000;">false    </span>
+console.log(<span style="color: #0000ff;">function</span>(){} === <span style="color: #0000ff;">function</span>(){});<span style="color: #008000;">//</span><span style="color: #008000;">false</span></pre>
+</div>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">var</span> a =<span style="color: #000000;"> {};
+b </span>=<span style="color: #000000;"> a;
+console.log(a </span>=== b);<span style="color: #008000;">//</span><span style="color: #008000;">true</span></pre>
+</div>
+<p>【恒不等运算符】</p>
+<p>　　恒不等运算符(!==)又叫严格不等于运算符，操作数的比较过程与恒等运算符相同，结果取反。如果'==='的比较结果是true，则'!=='的比较结果是false；如果'==='的比较结果是false，则'!=='的比较结果是true</p>
+<div class="cnblogs_code">
+<pre>console.log(1 !== '1');<span style="color: #008000;">//</span><span style="color: #008000;">true</span>
+console.log(1 !== 1);<span style="color: #008000;">//</span><span style="color: #008000;">false</span>
+console.log(<span style="color: #0000ff;">true</span> !== <span style="color: #0000ff;">false</span>);<span style="color: #008000;">//</span><span style="color: #008000;">true</span>
+console.log({} !== {});<span style="color: #008000;">//</span><span style="color: #008000;">true</span></pre>
+</div>
+<p>&nbsp;</p>
+<h3 id="anchor2">相等运算符</h3>
+<p>　　相等运算符'=='和恒等运算符相似，但相等运算符的比较并不严格，如果两个操作数不是同一类型，相等运算符会尝试进行一些类型转换，然后再进行比较</p>
+<p>　　当两个操作数类型相同时，比较规则和恒等运算符规则相同</p>
+<div class="cnblogs_code">
+<pre>console.log(undefined == undefined);<span style="color: #008000;">//</span><span style="color: #008000;">true</span>
+console.log(10 == 0xa);<span style="color: #008000;">//</span><span style="color: #008000;">true</span>
+console.log(NaN == NaN);<span style="color: #008000;">//</span><span style="color: #008000;">false</span>
+console.log([] == []);<span style="color: #008000;">//</span><span style="color: #008000;">false</span></pre>
+</div>
+<p>　　当两个操作数类型不同时，相等运算符'=='会遵守如下规则：</p>
+<p>　　【1】如果一个值是对象类型，另一值是原始类型，则对象类型会先使用valueOf()转换成原始值，如果结果还不是原始值，则再使用toString()方法转换，再进行比较</p>
+<p><span class="Apple-tab-span"> 
+　　[注意]日期类只允许使用toString()方法转换为字符串。类似地，时间Date对象进行加法运算时使用toString()转换为字符串，而
+在其他数学运算，包括减法、乘法、除法、求余等运算中，都是使用Number()转换函数将时间Date对象使用valueOf()转换为数字</span></p>
+<p><span class="Apple-tab-span">　　【2】在对象转换为原始值之后，如果两个操作数都是字符串，则进行字符串的比较</span></p>
+<div class="cnblogs_code">
+<pre>console.log(<span style="color: #0000ff;">new</span> Date() == 'Sat Jun 25 2016 11:07:20 GMT+0800 (中国标准时间)');<span style="color: #008000;">//</span><span style="color: #008000;">true</span></pre>
+</div>
+<p><span class="Apple-tab-span" style="line-height: 1.5;">　　【3】在对象转换为原始值之后，如果至少有一个操作数不是字符串，则两个操作数都将通过Number()转型函数转换成数字进行数值比较</span></p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E5%85%B3%E7%B3%BB%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre>console.log(<span style="color: #0000ff;">true</span> == 1);<span style="color: #008000;">//</span><span style="color: #008000;">true</span>
+console.log(<span style="color: #0000ff;">true</span> == 0);<span style="color: #008000;">//</span><span style="color: #008000;">false</span>
+console.log(<span style="color: #0000ff;">false</span> == '1');<span style="color: #008000;">//</span><span style="color: #008000;">false</span>
+console.log(<span style="color: #0000ff;">false</span> == '0');<span style="color: #008000;">//</span><span style="color: #008000;">true</span>
+console.log(<span style="color: #0000ff;">true</span> == 'true');<span style="color: #008000;">//</span><span style="color: #008000;">false，相当于1 == NaN</span>
+<span style="color: #000000;">
+console.log([</span>1] == 1);<span style="color: #008000;">//</span><span style="color: #008000;">true，相当于1 == 1</span>
+console.log([1] == '1');<span style="color: #008000;">//</span><span style="color: #008000;">true，相当于'1' == '1'</span>
+console.log([] == 0);<span style="color: #008000;">//</span><span style="color: #008000;">true，相当于0 == 0</span>
+console.log([] == '0');<span style="color: #008000;">//</span><span style="color: #008000;">false，相当于'' == '0'</span>
+<span style="color: #000000;">
+console.log([] </span>== <span style="color: #0000ff;">true</span>);<span style="color: #008000;">//</span><span style="color: #008000;">false，相当于0 == 1</span>
+console.log([1] == <span style="color: #0000ff;">true</span>);<span style="color: #008000;">//</span><span style="color: #008000;">true，相当于1 == 1</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E5%85%B3%E7%B3%BB%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E5%85%B3%E7%B3%BB%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #0000ff;">var</span> a =<span style="color: #000000;"> {
+    valueOf:</span><span style="color: #0000ff;">function</span><span style="color: #000000;">(){
+        </span><span style="color: #0000ff;">return</span> 1<span style="color: #000000;">;
+    },
+    toString:</span><span style="color: #0000ff;">function</span><span style="color: #000000;">(){
+        </span><span style="color: #0000ff;">return</span> '2'<span style="color: #000000;">;
+    }
+} 
+console.log( a </span>== '1');<span style="color: #008000;">//</span><span style="color: #008000;">true，相当于1 == 1</span>
+
+<span style="color: #0000ff;">var</span> a =<span style="color: #000000;"> {
+    valueOf:</span><span style="color: #0000ff;">function</span><span style="color: #000000;">(){
+        </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> {};
+    },
+    toString:</span><span style="color: #0000ff;">function</span><span style="color: #000000;">(){
+        </span><span style="color: #0000ff;">return</span> '1'<span style="color: #000000;">;
+    }
+} 
+console.log( a </span>== 1);<span style="color: #008000;">//</span><span style="color: #008000;">true，相当于1 == 1</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E5%85%B3%E7%B3%BB%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p><span style="line-height: 1.5;">　　</span><span style="line-height: 1.5;">[注意]如果一个值是null，另一个值是undefined，则返回true。虽然Number(null)是0，但null和0并不相等</span></p>
+<div class="cnblogs_code">
+<pre>console.log(<span style="color: #0000ff;">null</span> == undefined);<span style="color: #008000;">//</span><span style="color: #008000;">true</span>
+console.log(<span style="color: #0000ff;">null</span> == 0);<span style="color: #008000;">//</span><span style="color: #008000;">false</span></pre>
+</div>
+<p><span style="line-height: 1.5;">　　[注意]空字符串或空格字符串会转成0</span></p>
+<div class="cnblogs_code">
+<pre>console.log(<span style="color: #0000ff;">null</span> == []);<span style="color: #008000;">//</span><span style="color: #008000;">false</span>
+console.log(<span style="color: #0000ff;">null</span> == '');<span style="color: #008000;">//</span><span style="color: #008000;">false</span>
+console.log([] == ' ');<span style="color: #008000;">//</span><span style="color: #008000;">false，相当于'' == ' '</span>
+console.log([] == '');<span style="color: #008000;">//</span><span style="color: #008000;">true，相当于'' == ''</span>
+console.log(0 == '');<span style="color: #008000;">//</span><span style="color: #008000;">true</span></pre>
+</div>
+<p>&nbsp;【不相等运算符】</p>
+<p>　　不相等运算符(!=)的操作数比较过程与相等运算符相同，结果取反。如果'=='的比较结果是true，则'!='的比较结果是false；如果'=='的比较结果是false，则'!='的比较结果是true</p>
+<div class="cnblogs_code">
+<pre>console.log(1 != '1');<span style="color: #008000;">//</span><span style="color: #008000;">false，相当于1 != 1</span>
+console.log(<span style="color: #0000ff;">true</span> != '1');<span style="color: #008000;">//</span><span style="color: #008000;">false，相当于1 != 1</span>
+console.log('true' != 1);<span style="color: #008000;">//</span><span style="color: #008000;">true，相当于NaN != 1</span>
+console.log([1] != '1');<span style="color: #008000;">//</span><span style="color: #008000;">false，相当于'1' != '1'</span>
+console.log([1] != <span style="color: #0000ff;">true</span>);<span style="color: #008000;">//</span><span style="color: #008000;">false，相当于1 != 1</span></pre>
+</div>
+<p>&nbsp;</p>
+<h3 id="anchor3">大于运算符</h3>
+<p>　　大于运算符(&gt;)用于比较两个操作数，如果第一个操作数大于第二个操作数，则大于运算符的计算结果为true，否则为false</p>
+<p>　　大于运算符的操作数可能是任意类型，然而，只有数字和字符串才能真正执行比较操作，因此那些不是数字和字符串的操作数都将进行类型转换，类型转换规则如下：</p>
+<p>　　【1】如果操作数是对象，则这个对象将先使用valueOf()转换成原始值，如果结果还不是原始值，则再使用toString()方法转换</p>
+<p>　　[注意]实际上，在原生对象中，使用valueOf()方法转换为原始值的，只有转换为数字Number类型的时间Date对象，其他对象都通过toString()方法转换为字符串</p>
+<p>　　【2】在对象转换为原始值之后，如果两个操作数都是字符串，则按照字母表的顺序对两个字符串进行比较，这里提到的字母表顺序是指组成这个字符串的16位unicode字符的索引顺序</p>
+<p><img src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E5%85%B3%E7%B3%BB%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/740839-20160625115236266-509676764.gif" alt=""></p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E5%85%B3%E7%B3%BB%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre>console.log('b' &gt; 'a');<span style="color: #008000;">//</span><span style="color: #008000;">true</span>
+console.log('B' &gt; 'a');<span style="color: #008000;">//</span><span style="color: #008000;">false</span>
+<span style="color: #000000;">
+console.log({} </span>&gt; '[a]');<span style="color: #008000;">//</span><span style="color: #008000;">true，相当于'[object Object]' &gt; '[a]'</span>
+console.log({} &gt; '[p]');<span style="color: #008000;">//</span><span style="color: #008000;">false，相当于'[object Object]' &gt; '[p]'</span>
+<span style="color: #000000;">
+console.log(['a'] </span>&gt; ['b']);<span style="color: #008000;">//</span><span style="color: #008000;">false，相当于'a' &gt; 'b'</span>
+console.log([2] &gt; [11]);<span style="color: #008000;">//</span><span style="color: #008000;">true，相当于'2' &gt; '11'</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E5%85%B3%E7%B3%BB%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>　　[注意]在字母表中大写字母在小写字母的前面，所以大写字母 &lt; 小写字母；但字符串String对象有一个字符串比较的方法<a href="http://www.cnblogs.com/xiaohuochai/p/5612962.html#anchor10" target="_blank">localeCompare()方法</a>会考虑自然语言的排序情况，把'B'排在'a'的后面，如果字符串在字母表中排在其参数之前时，则该方法返回一个负数；字符串在字母表中排在其参数之后时，返回一个正数</p>
+<div class="cnblogs_code">
+<pre>console.log('B'.localeCompare('a'));<span style="color: #008000;">//</span><span style="color: #008000;">1</span>
+console.log('B' &gt; 'a');<span style="color: #008000;">//</span><span style="color: #008000;">false</span>
+console.log('b'.localeCompare('a'));<span style="color: #008000;">//</span><span style="color: #008000;">1</span>
+console.log('b' &gt; 'a');<span style="color: #008000;">//</span><span style="color: #008000;">true</span></pre>
+</div>
+<p><span style="line-height: 1.5;">　　【3】在对象转换为原始值之后，如果至少有一个操作数不是字符串，则两个操作数都转换成数字进行比较</span></p>
+<p>　　[注意]在等于操作符中，时间Date()对象只允许通过toString()方法转换为字符串，而不允许通过valueOf()方法转换为数字；而在大于操作符中，时间Date()对象允许优先使用valueOf()方法转换为数字&nbsp;</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E5%85%B3%E7%B3%BB%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #000000;">console.log(</span><span style="color: #0000ff;">new</span> Date() &gt; 100);<span style="color: #008000;">//</span><span style="color: #008000;">true，相当于1466826928667 &gt; 100</span>
+console.log(<span style="color: #0000ff;">true</span> &gt; [0]);<span style="color: #008000;">//</span><span style="color: #008000;">true，相当于 1 &gt; 0</span>
+<span style="color: #000000;">
+console.log(</span>2 &gt; 1);<span style="color: #008000;">//</span><span style="color: #008000;">true</span>
+console.log(11 &gt; '2');<span style="color: #008000;">//</span><span style="color: #008000;">true，相当于11 &gt; 2</span>
+<span style="color: #000000;">
+console.log(NaN </span>&gt; 1);<span style="color: #008000;">//</span><span style="color: #008000;">false</span>
+console.log(1 &gt; NaN);<span style="color: #008000;">//</span><span style="color: #008000;">false</span>
+console.log({} &gt; <span style="color: #0000ff;">true</span>);<span style="color: #008000;">//</span><span style="color: #008000;">false，相当于 NaN &gt; 1</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E5%85%B3%E7%B3%BB%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p><span style="line-height: 1.5;">　　[注意]null == 0的结果为false，这是因为javascript将null == undefined的结果设为true。在大于运算中，null和undefined进行Number()转型函数转换分别转换为0和NaN</span></p>
+<div class="cnblogs_code">
+<pre>console.log(undefined &gt; -1);<span style="color: #008000;">//</span><span style="color: #008000;">false，相当于NaN &gt; -1</span>
+console.log(<span style="color: #0000ff;">null</span> &gt; -1);<span style="color: #008000;">//</span><span style="color: #008000;">true，相当于0 &gt; -1</span>
+console.log(undefined &gt; 0);<span style="color: #008000;">//</span><span style="color: #008000;">false，相当于NaN &gt; 0</span>
+console.log(<span style="color: #0000ff;">null</span> &gt; 0);<span style="color: #008000;">//</span><span style="color: #008000;">false，相当于0 &gt; 0    </span></pre>
+</div>
+<p><span style="line-height: 1.5;">　　对于数字和字符串来说，加号运算符和比较运算符的行为有所不同，加号运算符更偏爱字符串，如果它的一个操作数是字符串，就进行字符串连接。而比较运算符则更偏爱数字，只有在两个操作数都是字符串时，才进行字符串的比较</span></p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E5%85%B3%E7%B3%BB%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre>console.log(1 + 2);<span style="color: #008000;">//</span><span style="color: #008000;">3</span>
+console.log('1' + '2');<span style="color: #008000;">//</span><span style="color: #008000;">'12'</span>
+console.log('1' + 2);<span style="color: #008000;">//</span><span style="color: #008000;">'12'，相当于 '1' + '2'</span>
+<span style="color: #000000;">
+console.log(</span>2 &gt; 1);<span style="color: #008000;">//</span><span style="color: #008000;">true</span>
+console.log('2' &gt; '1');<span style="color: #008000;">//</span><span style="color: #008000;">true</span>
+console.log('2' &gt; 1);<span style="color: #008000;">//</span><span style="color: #008000;">true，相当于 2 &gt; 1</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E5%85%B3%E7%B3%BB%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>【小于等于运算符】</p>
+<p>　　小于等于运算符(&lt;=)并不依赖于小于或等于运算符的比较规则，而是遵循大于运算符的比较规则，结果取反。如果'&gt;'的比较结果是
+true，则'&lt;='的比较结果是false；如果'&gt;'的比较结果是false，则'&lt;='的比较结果是true</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E5%85%B3%E7%B3%BB%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre>console.log(1 &lt;= '0');<span style="color: #008000;">//</span><span style="color: #008000;">false，相当于1 &lt;= 0</span>
+console.log(<span style="color: #0000ff;">true</span> &lt;= '0');<span style="color: #008000;">//</span><span style="color: #008000;">false，相当于1 &lt;= 0</span>
+console.log('true' &lt;= 0);<span style="color: #008000;">//</span><span style="color: #008000;">false，相当于NaN &lt;= 0</span>
+console.log([1] &lt;= '0');<span style="color: #008000;">//</span><span style="color: #008000;">false，相当于'1' &lt;= '0'</span>
+console.log([0] &lt;= <span style="color: #0000ff;">true</span>);<span style="color: #008000;">//</span><span style="color: #008000;">true，相当于0 &lt;= 1</span>
+console.log(1 &lt;= 1);<span style="color: #008000;">//</span><span style="color: #008000;">true</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E5%85%B3%E7%B3%BB%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>&nbsp;</p>
+<h3 id="anchor4">小于运算符</h3>
+<p>　　小于运算符(&lt;)用于比较两个操作数，如果第一个操作数小于第二个操作数，则小于运算符的计算结果为true，否则为false</p>
+<p>　　小于运算符与大于运算符的类型转换规则类似，就不再赘述</p>
+<p>【大于等于运算符】</p>
+<p>　　同样地，大于等于运算符(&gt;=)并不依赖于大于或等于运算符的比较规则，而是遵循小于运算符的比较规则，结果取反。如果'&lt;'的比
+较结果是true，则'&gt;='的结果是false；如果'&lt;'的比较结果是false，则'&gt;='的结果是true</p>
+<p>&nbsp;</p>
+<h2>参考资料</h2>
+<p>【1】 ES5/关系运算符 <a href="https://www.w3.org/html/ig/zh/wiki/ES5/expressions#.E5.85.B3.E7.B3.BB.E8.BF.90.E7.AE.97.E7.AC.A6" target="_blank">https://www.w3.org/html/ig/zh/wiki/ES5/expressions</a><br>【2】 阮一峰Javascript标准参考教程——语法——比较运算符 <a href="http://javascript.ruanyifeng.com/grammar/operator.html#toc6" target="_blank">http://javascript.ruanyifeng.com</a><br>【3】 W3School-Javascript高级教程——ECMAScript关系运算符 <a href="http://www.w3school.com.cn/js/pro_js_operators_relational.asp" target="_blank">http://www.w3school.com.cn</a><br>【4】《javascript权威指南(第6版)》第4章 表达式和运算符<br>【5】《javascript高级程序设计(第3版)》第3章 基本概念 <br>【6】《javascript DOM编程艺术(第2版)》第2章 Javascript语法</p>
+<p>&nbsp;</p></div><div id="MySignature">好的代码像粥一样，都是用时间熬出来的</div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory"></div>
+<div id="EntryTag">标签: <a href="https://www.cnblogs.com/xiaohuochai/tag/javascript%E6%80%BB%E7%BB%93/">javascript总结</a></div>
+<div id="blog_post_info"><div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(5615445,cb_blogId,1);green_channel_success(this,'谢谢推荐！');">好文要顶</a>
+            <a id="green_channel_follow" onclick="follow('fff91f67-38dc-e411-b908-9dcfd8948a71');" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E5%85%B3%E7%B3%BB%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E5%85%B3%E7%B3%BB%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/xiaohuochai/" target="_blank"><img src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E5%85%B3%E7%B3%BB%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/20150730225601.png" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/xiaohuochai/">小火柴的蓝色理想</a><br>
+            <a href="http://home.cnblogs.com/u/xiaohuochai/followees">关注 - 76</a><br>
+            <a href="http://home.cnblogs.com/u/xiaohuochai/followers">粉丝 - 3263</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow('fff91f67-38dc-e411-b908-9dcfd8948a71');return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(5615445,'Digg')">
+        <span class="diggnum" id="digg_count">2</span>
+    </div>
+    <div class="buryit" onclick="votePost(5615445,'Bury')">
+        <span class="burynum" id="bury_count">1</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="https://www.cnblogs.com/xiaohuochai/p/5612962.html" class="p_n_p_prefix">« </a> 上一篇：<a href="https://www.cnblogs.com/xiaohuochai/p/5612962.html" title="发布于2016-06-24 10:41">String类型的属性和方法</a><br><a href="https://www.cnblogs.com/xiaohuochai/p/5616641.html" class="p_n_p_prefix">» </a> 下一篇：<a href="https://www.cnblogs.com/xiaohuochai/p/5616641.html" title="发布于2016-06-25 23:14">javascript类型系统——布尔Boolean类型</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2016-06-25 13:26</span> <a href="https://www.cnblogs.com/xiaohuochai/">小火柴的蓝色理想</a> 阅读(<span id="post_view_count">2055</span>) 评论(<span id="post_comment_count">2</span>)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=5615445" rel="nofollow">编辑</a> <a href="#" onclick="AddToWz(5615445);return false;">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,cb_blogId=221787,cb_entryId=5615445,cb_blogApp=currentBlogApp,cb_blogUserGuid='fff91f67-38dc-e411-b908-9dcfd8948a71',cb_entryCreatedDate='2016/6/25 13:26:00';loadViewCount(cb_entryId);var cb_postType=1;</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"><div id="comments_pager_top"></div>
+<br>
+<div class="feedback_area_title">评论列表</div>
+<div class="feedbackNoItems"></div>	
+
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="#3458788" class="layer">#1楼</a><a name="3458788" id="comment_anchor_3458788"></a>  <span class="comment_date">2016-06-25 15:07</span> <a id="a_comment_author_3458788" href="https://www.cnblogs.com/janneystory/" target="_blank">欢喜颖宝宝</a> <a href="http://msg.cnblogs.com/send/%E6%AC%A2%E5%96%9C%E9%A2%96%E5%AE%9D%E5%AE%9D" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3458788" class="blog_comment_body">总结的很详细，赞一个</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3458788,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3458788,'Bury',this)">反对(0)</a></div><span id="comment_3458788_avatar" style="display:none;">http://pic.cnblogs.com/face/509839/20171201132901.png</span>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="#3461592" class="layer">#2楼</a><a name="3461592" id="comment_anchor_3461592"></a><span id="comment-maxId" style="display:none;">3461592</span><span id="comment-maxDate" style="display:none;">2016/6/30 13:54:22</span>  <span class="comment_date">2016-06-30 13:54</span> <a id="a_comment_author_3461592" href="https://www.cnblogs.com/mamingbo/" target="_blank">晓道</a> <a href="http://msg.cnblogs.com/send/%E6%99%93%E9%81%93" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3461592" class="blog_comment_body">mark</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3461592,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3461592,'Bury',this)">反对(0)</a></div>
+			</div>
+		</div>
+	<div id="comments_pager_bottom"></div></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login('commentform');">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank">【推荐】超50万VC++源码: 大型组态工控、电力仿真CAD与GIS源码库！</a><br><a href="http://clickc.admaster.com.cn/c/a116493,b2949399,c1705,i0,m101,8a1,8b3,h" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-会员节')">【活动】华为云12.12会员节 云产品1折起 满额送Mate20 点击抢购</a><br><a href="https://cloud.tencent.com/act/southwest?fromSource=gwzcw.2017844.2017844.2017844" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-腾讯云')">【推荐】服务器100%基准CPU性能，1核1G首年168元，限时特惠！</a><br></div>
+<div id="opt_under_post"></div>
+<div id="cnblogs_c1" class="c_ad_block"><a href="https://cloud.tencent.com/act/special/amd?fromSource=gwzcw.1351353.1351353.1351353" target="_blank"><img src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E5%85%B3%E7%B3%BB%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/24442-20181129113406214-695115565.jpg" alt="腾讯云1129" onclick="ga('send', 'event', 'Link', 'click', 'C1');" width="300" height="250"></a></div>
+<div id="under_post_news"></div>
+<script async="async" src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E5%85%B3%E7%B3%BB%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/gpt.js"></script>
+<script>
+  var googletag = googletag || {};
+  googletag.cmd = googletag.cmd || [];
+</script>
+
+<script>
+  googletag.cmd.push(function() {
+    googletag.defineSlot('/1090369/C2', [468, 60], 'div-gpt-ad-1539008685004-0').addService(googletag.pubads());
+    googletag.pubads().enableSingleRequest();
+    googletag.enableServices();
+  });
+</script>
+<div id="cnblogs_c2" class="c_ad_block">
+    <div id="div-gpt-ad-1539008685004-0" style="height:60px; width:468px;" data-google-query-id="CPeDrPqXvN8CFRiNlgodsxEMYg">
+    <script>
+    if (new Date() >= new Date(2018, 9, 13)) {
+        googletag.cmd.push(function() { googletag.display('div-gpt-ad-1539008685004-0'); });
+    }
+    </script>
+    <div id="google_ads_iframe_/1090369/C2_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C2_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C2_0" scrolling="no" marginwidth="0" marginheight="0" style="border: 0px none; vertical-align: bottom;" srcdoc="" data-google-container-id="1" data-load-complete="true" width="468" height="60" frameborder="0"></iframe></div></div>
+</div>
+<div id="under_post_kb"><div class="itnews c_ad_block"><b>最新新闻</b>：<br> ·  <a href="https://news.cnblogs.com/n/615800/" target="_blank">谁该为阿里的彩蛋背锅？</a><br> ·  <a href="https://news.cnblogs.com/n/615798/" target="_blank">拉勾网：新产品项目和销售团队扩招 拟明年赴美上市</a><br> ·  <a href="https://news.cnblogs.com/n/615795/" target="_blank">这三只科技股今年跌幅均超30% 比FaceBook还惨</a><br> ·  <a href="https://news.cnblogs.com/n/615793/" target="_blank">中兴回应被法院列入被执行人名单：正常商业纠纷 并非失信被执行</a><br> ·  <a href="https://news.cnblogs.com/n/615791/" target="_blank">比特大陆裁员50%？官方否认，多位接近比特大陆人士证实</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverAdT2();
+    deliverAdC1();
+    deliverAdC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);   
+</script>
+</div>
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"><p style="margin-bottom:10px;">【tips】点击右键可弹出功能菜单</p>
+<canvas id="canvas" style="width:100%;" height="100" width="700">当前浏览器不支持canvas，请更换浏览器后再试</canvas>
+<script type="text/javascript">window['__document_write_ajax_callbacks__']['3']();</script><script type="text/javascript">window['__document_write_ajax_callbacks__']['4']();</script><script>window['__document_write_ajax_callbacks__']['1']();</script>
+<p style="margin:10px 4px;">前端小站<a target="_blank" href="https://github.com/littlematch0123/blog-client">
+    <svg aria-hidden="true" version="1.1" viewBox="0 0 16 16" width="16" height="16">
+      <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+    </svg>
+</a>：<a href="https://xiaohuochai.cc/" target="_blank">xiaohuochai.cc</a></p>
+<p style="margin:10px 4px;">前端小册<a target="_blank" href="https://github.com/littlematch0123/FE-booklet">
+    <svg aria-hidden="true" version="1.1" viewBox="0 0 16 16" width="16" height="16">
+      <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+    </svg>
+</a>：<a href="https://xiaohuochai.site/" target="_blank">xiaohuochai.site</a></p>
+<style>
+.navbar{ overflow:hidden;}
+.navbar-link{float:left;margin: 2px;text-decoration: none;background:rgba(255,255,255,0.5);padding:3px;border-radius:10px;}
+.navbar-link:hover{color:#2175bc;background-color:transparent;}
+</style>
+<nav class="navbar">
+  <a class="navbar-link" target="_blank" href="http://www.cnblogs.com/xiaohuochai/p/5203223.html">HTML</a>
+  <a class="navbar-link" target="_blank" href="http://www.cnblogs.com/xiaohuochai/p/5249139.html">CSS</a>
+  <a class="navbar-link" target="_blank" href="http://www.cnblogs.com/xiaohuochai/p/5613593.html">JS</a>
+  <a class="navbar-link" target="_blank" href="http://www.cnblogs.com/xiaohuochai/p/5657404.html">PS</a>
+  <a class="navbar-link" target="_blank" href="http://www.cnblogs.com/xiaohuochai/p/7233392.html">ES6</a>
+  <a class="navbar-link" target="_blank" href="http://www.cnblogs.com/xiaohuochai/p/6392010.html">HTTP</a>
+
+
+  <a class="navbar-link" target="_blank" href="http://www.cnblogs.com/xiaohuochai/p/6489658.html">jQuery</a>
+ <a class="navbar-link" target="_blank" href="http://www.cnblogs.com/xiaohuochai/p/8794894.html">React</a>
+  <a class="navbar-link" target="_blank" href="http://www.cnblogs.com/xiaohuochai/p/7356084.html">Vue</a>
+  <a class="navbar-link" target="_blank" href="http://www.cnblogs.com/xiaohuochai/p/6940560.html">NodeJS</a>
+  <a class="navbar-link" target="_blank" href="http://www.cnblogs.com/xiaohuochai/p/6038637.html">PHP</a>
+  <a class="navbar-link" target="_blank" href="http://www.cnblogs.com/xiaohuochai/p/6081482.html">MySQL</a>
+    <a class="navbar-link" target="_blank" href="http://www.cnblogs.com/xiaohuochai/p/7097376.html">Bootstrap</a>
+  <a class="navbar-link" target="_blank" href="http://www.cnblogs.com/xiaohuochai/p/7372243.html">MongoDB</a>
+<a class="navbar-link" target="_blank" href="http://www.cnblogs.com/xiaohuochai/p/7423751.html">移动端</a>
+  <a class="navbar-link" target="_blank" href="http://www.cnblogs.com/xiaohuochai/p/6666415.html">前端工具</a>
+</nav><div id="profile_block">昵称：<a href="https://home.cnblogs.com/u/xiaohuochai/">小火柴的蓝色理想</a><br>园龄：<a href="https://home.cnblogs.com/u/xiaohuochai/" title="入园时间：2015-04-06">3年8个月</a><br>粉丝：<a href="https://home.cnblogs.com/u/xiaohuochai/followers/">3263</a><br>关注：<a href="https://home.cnblogs.com/u/xiaohuochai/followees/">76</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="follow('fff91f67-38dc-e411-b908-9dcfd8948a71')">+加关注</a></div><script type="text/javascript">window['__document_write_ajax_callbacks__']['5']();</script><script>window['__document_write_ajax_callbacks__']['2']();</script></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="blog-calendar" style="display:none"></div><script type="text/javascript">loadBlogDefaultCalendar();</script>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk"></div>
+<div id="widget_my_google" class="div_my_zzk"><input type="text" name="google_q" id="google_q" onkeydown="return google_go_enter(event)" class="input_my_zzk">&nbsp;<input onclick="google_go()" type="button" value="谷歌搜索" class="btn_my_zzk"></div>
+</div>
+</div>
+
+</div><div id="sidebar_toptags" class="sidebar-block">
+<div class="catListTag">
+<h3 class="catListTitle">我的标签</h3>
+<ul>
+<li><a href="https://www.cnblogs.com/xiaohuochai/tag/javascript%E6%80%BB%E7%BB%93/">javascript总结</a>(253)</li><li><a href="https://www.cnblogs.com/xiaohuochai/tag/css%E6%80%BB%E7%BB%93/">css总结</a>(102)</li><li><a href="https://www.cnblogs.com/xiaohuochai/tag/%E5%B7%A5%E5%85%B7/">工具</a>(61)</li><li><a href="https://www.cnblogs.com/xiaohuochai/tag/Vue/">Vue</a>(44)</li><li><a href="https://www.cnblogs.com/xiaohuochai/tag/PHP/">PHP</a>(36)</li><li><a href="https://www.cnblogs.com/xiaohuochai/tag/bootstrap/">bootstrap</a>(34)</li><li><a href="https://www.cnblogs.com/xiaohuochai/tag/jQuery/">jQuery</a>(31)</li><li><a href="https://www.cnblogs.com/xiaohuochai/tag/HTML%E6%80%BB%E7%BB%93/">HTML总结</a>(30)</li><li><a href="https://www.cnblogs.com/xiaohuochai/tag/nodejs/">nodejs</a>(27)</li><li><a href="https://www.cnblogs.com/xiaohuochai/tag/HTTP/">HTTP</a>(25)</li><li><a href="https://www.cnblogs.com/xiaohuochai/tag/">更多</a></li>
+</ul>
+</div></div><div id="sidebar_scorerank" class="sidebar-block">
+<div class="catListBlogRank">
+<h3 class="catListTitle">积分与排名</h3>
+<ul>
+	<li class="liScore">
+		积分 -	1226006
+	</li>
+	<li class="liRank">
+		排名 -	57
+	</li>
+</ul>
+</div>
+
+
+</div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock"><ul><li><a href="https://www.cnblogs.com/xiaohuochai/p/7388866.html">1. Vue组件选项props(99027)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/5347930.html">2. 深入理解CSS过渡transition(57038)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/5289653.html">3. 深入理解CSS溢出overflow(42997)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/5777186.html">4. 深入理解定时器系列第二篇——被誉为神器的requestAnimationFrame(37141)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/6036475.html">5. 深入理解ajax系列第一篇——XHR对象(33108)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/5179909.html">6. 了解HTML表单之input元素的23种type类型(32180)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/7215067.html">7. Mongoose基础入门(28266)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/7372665.html">8. animate.css的使用(27095)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/5494624.html">9. 移动web开发之像素和DPR(25822)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/4793421.html">10. 前端工程师技能之photoshop巧用系列第五篇——雪碧图(24420)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/5351477.html">11. 深入理解CSS变形transform(3d)(22752)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/7243166.html">12. ES6解构赋值(21554)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/5202761.html">13. 深入理解display属性(19866)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/5773183.html">14. 深入理解定时器系列第一篇——理解setTimeout和setInterval(19207)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/5831640.html">15. 深入理解滚动scroll(18946)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/7222227.html">16. pug模板引擎(原jade)(17698)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/5721552.html">17. 一张图理解prototype、proto和constructor的三角关系(16984)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/5728577.html">18. 深入理解闭包系列第一篇——到底什么才是闭包(16949)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/5314289.html">19. 深入理解CSS中的margin负值(16564)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/7083153.html">20. grid栅格布局(16491)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topdiggedposts" class="sidebar-block"><div id="topdigg_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">推荐排行榜</h3>
+<div id="TopDiggPostsBlock"><ul><li><a href="https://www.cnblogs.com/xiaohuochai/p/5869472.html">1. 博客园博文添加自定义右键菜单(220)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/9228543.html">2. 使用vue全家桶制作博客网站(89)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/5347930.html">3. 深入理解CSS过渡transition(72)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/6370123.html">4. canvas动态小球重叠效果(62)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/6368039.html">5. canvas粒子时钟(57)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/7388866.html">6. Vue组件选项props(47)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/5721552.html">7. 一张图理解prototype、proto和constructor的三角关系(43)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/5613593.html">8. javascript学习目录(39)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/7521282.html">9. CSS文本效果(39)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/5777186.html">10. 深入理解定时器系列第二篇——被誉为神器的requestAnimationFrame(37)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/5419236.html">11. 动画animation的三个应用(漂浮的白云、旋转的星球、正方体合成)(37)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/5249139.html">12. CSS学习目录(37)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/5289653.html">13. 深入理解CSS溢出overflow(34)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/6036475.html">14. 深入理解ajax系列第一篇——XHR对象(34)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/5351477.html">15. 深入理解CSS变形transform(3d)(33)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/5271217.html">16. 深入理解line-height与vertical-align(31)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/5836179.html">17. 5种回到顶部的写法从实现到增强(29)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/5773183.html">18. 深入理解定时器系列第一篇——理解setTimeout和setInterval(28)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/6146939.html">19. 自动生成博客目录(28)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/5248536.html">20. 深入理解BFC(27)</a></li></ul></div>
+</div></div></div></div><script type="text/javascript">loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2018 小火柴的蓝色理想
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+<!--PageEndHtml Block Begin-->
+<script src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E5%85%B3%E7%B3%BB%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/z_stat_002.php" language="JavaScript"></script><script src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E5%85%B3%E7%B3%BB%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/core_002.php" charset="utf-8" type="text/javascript"></script><a href="https://www.cnzz.com/stat/website.php?web_id=1258390419" target="_blank" title="站长统计">站长统计</a>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258390419'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1258390419%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));</script><span id="cnzz_stat_icon_1258390419"><a href="https://www.cnzz.com/stat/website.php?web_id=1258390419" target="_blank" title="站长统计"><img src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E5%85%B3%E7%B3%BB%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/pic1.gif" vspace="0" hspace="0" border="0"></a></span><script src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E5%85%B3%E7%B3%BB%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/z_stat.php" type="text/javascript"></script><script src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E5%85%B3%E7%B3%BB%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/core.php" charset="utf-8" type="text/javascript"></script>
+<script type="text/javascript" src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E5%85%B3%E7%B3%BB%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/contextMenu.js"></script><ul id="list" style="display: none;"><li id="menuTop">回到顶部</li>	<li id="menuFavour">点赞(<span id="favourNum">2</span>赞)</li>	<li id="menuCommand">评论</li></ul>
+<script type="text/javascript" src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E5%85%B3%E7%B3%BB%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/catalog.js"></script><progress id="progress" style="position: fixed; left: 0px; right: 0px; bottom: 0px; width: 100%; height: 12px; text-align: center; font: 12px/12px &quot;宋体&quot;;" max="6611" value="1638" title="24%">24%</progress><script type="text/javascript" src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E5%85%B3%E7%B3%BB%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/qrcode.js"></script>
+<!--PageEndHtml Block End-->
+
+
+<script type="text/javascript">getFollowStatus('fff91f67-38dc-e411-b908-9dcfd8948a71')</script><div id="box" class="box"><span id="boxQuit" class="box-quit">×</span><h6 class="box-title">目录</h6><a class="box-anchor box-anchorActive" href="#anchor1" title="恒等运算符">[1]恒等运算符</a><a class="box-anchor" href="#anchor2" title="相等运算符">[2]相等运算符</a><a class="box-anchor" href="#anchor3" title="大于运算符">[3]大于运算符</a><a class="box-anchor" href="#anchor4" title="小于运算符">[4]小于运算符</a></div><iframe id="google_osd_static_frame_316795457123" name="google_osd_static_frame" style="display: none; width: 0px; height: 0px;"></iframe></body></html>

@@ -1,0 +1,2146 @@
+# 1. Java介绍
+
+## 1.1 Java简介
+
+> Java是由`Sun Microsystems`公司与于1995年推出的 `Java面向对象程序设计语言` 和 `Java平台` 的总称。 
+
+Java不只是一种语言，它是一个完整的平台，有一个庞大的库，其中包含了很多可充用的 代码和一个提供诸如安全性、跨操作系统的可以执行以及自动垃圾收集等服务的执行环境。
+
+
+
+## 1.2 Java的主要特性
+
+### 1.2.1 简单性：
+
+Java语言的语法与C语言和C++语言很接近，使得大多数程序员很容易学习和使用。另一方面，Java丢弃了C++中很少使用的、很难理解的、令人迷惑的那些特性，如操作符重载、多继承、自动的强制类型转换。特别的，Java语言不适用指针，而是引用。并提供了自动分配和回收内存空间，使得程序员不必为内存管理而担忧。
+
+### 1.2.2 面向对象：
+
+Java语言提供类、接口和继承等面向对象的特性，为了简单起见，只支持类之间的单继承，但支持接口之间的多继承，并且支持类与接口之间的多实现。Java语言全面支持动态绑定，而C++语言只对虚函数使用动态绑定。
+
+总之，Java是一个纯的面向对象程序设计语言。
+
+### 1.2.3 分布式：
+
+Java设计成支持在网络上应用，它是分布式语言。Java既支持各种层次的网络连接，又以Socket类支持可靠的流（stream）网络连接，所以用户可以产生分布式的客户机和服务器。
+
+### 1.2.4 健壮性：
+
+Java的强类型机制、异常处理、垃圾的自动收集等是Java程序健壮性的重要保证。对指针的丢弃是Java的明智选择。Java的安全检查机制使得Java更具健壮性。
+
+### 1.2.5 安全性：
+
+Java通常被用在网络环境中，为此，Java提供了一个安全机制以防恶意代码的攻击。除了Java语言具有的许多安全特性以外，Java对通过网络下载的类具有一个安全防范机制（类加载器），如分配不同的名字空间以防替代本地的同名类、字节码检查，并提供安全管理机制（SecurityManager）让Java应用设置安全哨兵。
+
+### 1.2.6 体系结构中立：
+
+Java程序（后缀为java的文件）在Java平台上被编译为体系结构中立的字节码格式（后缀为class的文件），然后可以在实现这个Java平台的任何系统中运行。这种途径适合于异构的网络环境和软件的分发。
+
+### 1.2.7 可移植性：
+
+这种可移植性来源于体系结构中立性，另外，Java还严格规定了各个基本数据类型的长度。Java系统也具有很强的可移植性，Java编译器是用Java实现的，Java的运行环境是用ANSI C实现的。
+
+### 1.2.8 解释型：
+
+如前所述，Java程序在Java平台上被编译为字节码格式，然后可以在实现这个Java平台的任何系统中运行。在运行时，Java平台中的Java解释器对这些字节码进行解释执行，执行过程中需要的类在链接阶段被载入到运行环境中。
+
+### 1.2.9 高性能：
+
+与那些解释型的高级脚本语言相比，Java的确是高性能的。事实上，Java的运行速度随着JIT（Just-In-Time）编译器技术的发展越来越接近于C++。
+
+### 1.2.10 多线程：
+
+在Java语言中，线程是一种特殊的对象，它必须由Thread类或其子类来创建。
+
+### 1.2.11 动态性：
+
+Java语言设计的目标之一是适应动态变化的环境。Java程序需要的类能够动态的被载入到运行环境，也可以通过网络来载入所需要的类。这也有利于软件的升级。另外，Java中的类有一个运行时刻的表示，能进行运行时刻的类型检查。
+
+
+
+## 1.3 Java平台（体系）
+
+- JavaSE：Java Platform Standard Edition，Java平台标准版。
+- JavaEE：Java Platform Enterprise Edition，Java平台企业版。
+- JavaME：Java Platform Micro Edition，Java平台微型版。
+
+
+
+## 1.4 Java的发展历史
+
+- 1995年5月23日，Java语言诞生
+- 1996年1月，第一个JKD，JDK1.0诞生
+- 1996年4月，10个最主要的操作系统供应商申明将在其产品中嵌入Java技术
+- 1996年9月，约8.3万个网页应用了Java技术来制作
+- 1997年2月18日，JDK1.1发布
+- 1997年4月2日，JavaOne会议召开，参与者逾一万人，创当时全球同类会议规模之记录
+- 1997年9月，JavaDeveloperConnection社区成员超过十万
+- 1998年8月，JDK1.1被下载超过200万次
+- 1998年12月8日，JAVA2企业平台J2EE发布
+- 1999年6月，SUN公司发布Java的三个版本：J2SE、J2EE、J2ME
+- 2000年5月6日，JDK1.3发布
+- 2000年5月29日，JDK1.4发布
+- 2001年6月5日，NOKIA宣布，到2003年将出售一亿部支持Java的手机
+- 2001年9月24日，J2EE1.3发布
+- 2002年2月26日，J2SE1.4发布，自此Java的计算能力有了大幅提升
+- 2004年9月30日 18:00PM，J2SE1.5发布，成为Java语言发展史上的又一里程碑。为了表示该版本的重要性，J2SE1.5更名为Java SE5.0
+- 2005年6月，JavaOne大会召开，SUN公司公开Java SE6。此时，Java的各种版本已经更名，以取消其中的数字 "2"：J2SE更名为Java SE，J2EE更名为Java EE，J2ME更名为Java ME
+- 2006年12月，SUN公司发布JRE6.0
+- 2009年04月20日，Oracle74亿美元收购SUN，取得Java的版权
+- 2010年11月，由于Oracle对于Java社区的不友善，因此Apache扬言将推出JCP
+- 2011年7月28日，Oracle发布Java7.0的正式版
+- 2014年3月18日，Oracle发布Java SE 8
+- 2017年9月21日，Oracle发布Java SE 9
+- 2018年3月21日，Oracle发布Java SE 10
+- 2018年9月25日，Java SE 11发布
+- 2019年3月20日，Java SE 12发布
+
+![image-20201218205548525](images/JavaCore详解/image-20201218205548525.png)
+
+
+
+# 2. Java开发环境配置
+
+## 2.1 JDK安装与配置
+
+JDK下载安装与配置详细步骤略...
+
+
+
+## 2.2 JDK目录介绍
+
+> [参考]https://blog.csdn.net/weixin_45797022/article/details/105246383
+
+### 2.2.1 bin目录：
+
+是binary的缩写，里面存放了JDK的各种工具命令，即JDK开发工具的可执行文件（文件都是二进制的，其中包括编译器、解释器以及其他一些工具），该目录应该配置到PATH变量中。
+
+作为JDK实用程序，文件中主要程序有以下几个：
+
+- java：Java解释器，直接从类文件执行Java应用程序字节代码；
+- javac：Java编译器，将Java源代码转换成字节码；
+- appletviewer：小程序浏览器，一种执行HTML文件中 java小程序的Java浏览器；
+- javadoc：根据Java源码及说明语句生成HTML文档；
+- jdb：Java调试器，可以逐行执行程序，设置断点和检查变量；
+- javah：产生可以调用javac过程的C过程，或建立能被Java程序调用的C过程的头文件；
+- javap：Java反编译器，显示编译类文件中的可访问功能和数据，同时显示字节码含义；
+- ...
+
+### 2.2.2 db目录：
+
+db文件是从Java6开始新增的一个目录，这是一个纯Java实现、开源的数据库管理系统（DBMS），源于Apache软件基金会（ASF）名下的项目Derby。
+
+它是一个先进的全事务处理的基于Java技术的数据库，它支持各类开放标准、触发器和存储程序。Java DB可以客户端服务器模式使用，也可以直接嵌入到一个Java应用程序中。因此Java DB可以在同样的Java虚拟机中运行，这就无需在应用程序之外单独购买、下载、安装或管理这个数据库。
+
+它只有3MB大小，对比动辄上G的数据库来说可谓袖珍，但这并不妨碍Derby功能齐备，支持几乎大部分的数据库应用所需的特性。Java程序员不再需要耗费大量精力安装和配置数据库，就能进行安全、易用、标准并且免费的数据库编程。
+
+### 2.2.3 include目录：
+
+由于JDK是通过C和C++实现的，因此在启动时需要引入一些C语言的头文件，所以inculde目录里面放的就是一些提供C语言使用的头文件，其中C语言的头文件支持Java本地接口和Java虚拟机调试程序接口的本地编程技术。
+
+### 2.2.4 jre目录：
+
+jre（java runtime environment，即Java运行时环境）目录路径下安装的就是运行Java程序所必须的JRE环境。
+
+### 2.2.5 lib目录：
+
+lib是library的缩写，存放的是开发工具使用的归档文件。例如Jar 包等。
+
+dt.jar是所谓DesignTime的东西，是给JavaBean和IDE用到。
+
+jconsole.jar是给jconsole工具用的。
+
+tools.jar包含了对开发工具的支持功能库。
+
+
+
+## 2.3 名词解释与作用
+
+### 2.3.1 jdk、jre、jvm：
+
+- jvm：Java Virtual Machine，就是我们耳熟能详的Java虚拟机，它只认识xxx.class类型的文件，它能够将class文件中的字节码指令进行识别，并调用操作系统提供的API完成动作。
+- jre：Java Runtime Environment，即Java运行时环境，它主要包含两个部分，jvm的标准实现和java的一些基本类库。
+- jdk：Java Development Kit，即Java开发工具包。JDK是整个Java开发的核心，它集成了jre和一些好用的小工具。例如：javac.exe，java.exe，jar.exe
+
+
+
+### 2.3.2 JAVA_HOME：
+
+设置JAVA_HOME变量，主要有一下几个目的：
+
+- 为了方便引用，如果以后修改了jdk的安装目录，或者想要安装新的jdk，那么只需要将JAVA_HOME变量的值改变就行，path环境变量的值可以不变；
+- 第三方软件会引用约定好的JAVA_HOME变量，典型的就是Tomcat，如果不配置JAVA_HOME，那么Tomcat服务器根本运行不起来；
+
+### 2.3.3 path变量：
+
+操作系统用path的路径来查找可执行程序（.exe程序），在windows下当我们敲任何一个命令时，实际上就是在执行一个可执行文件，如输入notepad命令就可以打开一个记事本。
+
+实际上就是执行了`c:\Windows`下的notepad.exe这个可执行文件，和用鼠标双击notepad.exe后能够打开一个记事本的效果是一样的。
+
+当在命令窗口敲一个命令时，系统就会去自动寻找这个命令对应的可执行文件（.exe），如果这个文件不存在，就当然无法执行这个命令了。`这个可执行文件的根目录必须设置在path环境变量中`。
+
+直接输入 "echo %path%" 命令就可以显示当前设置的path环境变量的所有根目录了，只要是根目录里存在相应的.exe文件，敲入命令时就能执行这个相应的.exe文件
+
+````shell
+echo %path%
+````
+
+![image-20201219164316160](images/JavaCore详解/image-20201219164316160.png)
+
+Windows系统中，根目录都是以 `";"` 分割的，可以看到，我当前电脑中的根目录有很多，此时如果我们输入`"notepad"`命令，windows查找的过程如下：
+
+> - 先在 "C:\Program Files\Java\jdk1.8.0_241\bin" 目录下查找是否有notepad.exe，如果有，则执行该可执行文件。如果没有，继续下一步；
+>
+> - 然后在 "C:\Program Files\Common Files\Oracle\Java\javapath" 目录下查找是否有notepad.exe，如果有，则执行该可执行文件。如果没有，继续下一步；
+>
+> - 依次类推，直到在某个目录下找到notead.exe并执行，否则就报错：
+>
+>   ​	'xxx' 不是内部或外部命令，也不是可运行的程序或批处理文件
+
+> 所以，如果我们想要执行某个命令的时候能够更快的响应，可以将包含该命令的目录配置到path环境变量的前面。如这里我想执行javac、java命令的时候能够更快的响应，所以我将javac/java命令所在的目录 "C:\Program Files\Java\jdk1.8.0_241\bin" 放在了最前面。
+
+### 2.3.4 classpath：
+
+classpath并不是操作系统的概念，而是java的概念，表示的是类所在的路径。
+
+设置classpath的目的，作用是指定类搜索路径，在于告诉java执行环境（JVM），在哪些目录下可以找到你要执行的java程序（.class文件）。
+
+> 总而言之，path是Windows查找.exe文件的路径；classpath是jvm查找.class文件的路径。
+
+### 2.3.5 多版本jdk：
+
+一般情况下，我们直到自己安装的JDK的版本，但是有时候，却发现执行 `"java -version"` 命令，给出的信息却不是我们想要的版本。
+
+下面是演示的一种情况：
+
+我们配置了 `"JAVA_HOME" = "C:\Program Files\Java\jdk1.8.0_241"`
+
+```SHELL
+C:\Users\admin>echo %JAVA_HOME%
+C:\Program Files\Java\jdk1.8.0_241
+```
+
+并且也将JAVA_HOME配置到了path环境变量中
+
+![image-20201219175106848](images/JavaCore详解/image-20201219175106848.png)
+
+此时，我们执行 `"java -version"` 命令，发出输出的信息如下：
+
+```shell
+C:\Users\admin>java -version
+java version "15.0.1" 2020-10-20
+Java(TM) SE Runtime Environment (build 15.0.1+9-18)
+Java HotSpot(TM) 64-Bit Server VM (build 15.0.1+9-18, mixed mode, sharing)
+```
+
+发现输出的版本信息是Java15，并不是我们JAVA_HOME指定的Java8，这是为什么呢？:flushed:
+
+这是因为在JAVA_HOME之前的环境变量中的某个目录下已经存在java.exe了，那怎样才能知道是使用哪个目录下的jdk的呢？
+
+此时，我们可以使用 `"java -verbose"` 输出更详细的信息：
+
+```shell
+C:\Users\admin>java -verbose
+[0.022s][info][class,load] opened: C:\Program Files\Java\jdk-15.0.1\lib\modules
+[0.030s][info][class,load] java.lang.Object source: shared objects file
+...
+```
+
+从这里可以看到是 "C:\Program Files\Java\jdk-15.0.1" 这个15版本的JDK。
+
+所以，一般我们都是讲JAVA_HOME放到path变量的最前面。
+
+
+
+## 2.4 用户变量和系统变量的区别
+
+环境变量中有两种变量，一种是用户变量，另一种是系统变量，那么这两种变量有什么区别呢？
+
+> 用户变量，是针对某一个特定的用户，只对特定的用户有效；而系统变量，则对所有用户有效。
+
+我们看到我们的环境变量中有两个path环境变量，一个是用户变量，一个是系统变量：
+
+![image-20201219192527742](images/JavaCore详解/image-20201219192527742.png)
+
+那么当需要使用到path变量的值时，到底使用哪一个呢，怎么区分这两个path呢？:flushed:
+
+> 操作系统的做法是把用户自己创建的 "path用户变量的值" 和 "path系统变量的值" 合在一起使用，会把 "path用户变量的值" 追加到 "path系统变量的值" 的后面。
+
+输出整合后的path变量值：
+
+```shell
+C:\Users\admin>echo %path%
+C:\Program Files\Java\jdk1.8.0_241\bin;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Git\cmd;E:\Dev\apache-maven-3.6.3\bin;E:\Program Files\TortoiseGit\bin;E:\Dev\mysql-8.0.22-winx64\bin;
+C:\Users\admin\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Bandizip\;E:\Program Files\JetBrains\DataGrip 2019.1\bin;;C:\Users\admin\AppData\Local\Programs\Microsoft VS Code\bin;
+```
+
+我们仔细查看就能发现，用户的path变量的值追加到了系统的path变量的值的后面。
+
+
+
+# 3. Java基础
+
+## 3.1 保留字&关键字
+
+### 3.1.1 保留字：
+
+> 指在高级语言中已经定义过的字，使用者不能再将这些字作为变量名/方法名/类名/包名使用（就是Java系统可以用也可以不用，但是你不能用）
+
+```java
+true false null goto const
+```
+
+在Java现有版本中没有特殊含义，以后版本可能会作为有特殊含义的词，或者该词虽然在Java中没有特殊含义，以后版本也不打算使用，但在其他语言中有特殊含义，不宜在Java中使用。
+
+### 3.1.2 关键字：
+
+> 在语言中有特定含义，称为语法中一部分的那些字。
+
+注：**关键字一定是保留字**
+
+
+
+## 3.2 标识符：
+
+### 3.2.1 定义：
+
+> Java中标识符是为方法、变量或其他用户自定义项所定义的名称。标识符可以有一个或多个字符
+
+### 3.2.2 标识符的构成：
+
+> - 标识符由字母（A-Z和a-z）、数字（0-9）、下划线（_）以及美元符号($)构成
+> - 标识符的第一个字符只能是字母、下划线、美元符号，后面可以是任何字母、数字、下划线、美元符号
+
+【注】**Java区分大小写**，因此 `myvar` 和 `myVar` 是两个不同的标识符。
+
+
+
+## 3.3 注释
+
+> 注释是对程序代码的说明，有助于程序员理解代码。注释不是编程语句，也是给计算机看到，因此编译器会忽略。
+
+Java中支持三种注释：
+
+### 3.3.1 单行注释：
+
+以双斜杠 `"//"` 标识，只能注释一行内容，用在注释信息内容少的地方。
+
+### 3.3.2 多行注释：
+
+包含在 `"/*"` 和 `"*/"`之间，能注释很多行的内容。
+
+【注】多行注释可以嵌套单行注释，但是不能嵌套多行注释和文档注释
+
+### 3.3.3 文档注释：
+
+包含在 `"/**"` 和 `"*/"` 之间，也能注释多行内容。
+
+文档注释可以通过javadoc命令把文档注释中的内容生成文档，并输出到HTML文件中，方便记录程序信息。文档注释只放在类、接口、成员变量、方法之前，因为javadoc只处理这些地方的文档注释，而忽略其他地方的文档注释。
+
+详细的关于文档注释，可以参考[这里](http://c.biancheng.net/view/6262.html)
+
+
+
+## 3.4 变量
+
+Java语言是强类型语言，强类型包含以下两方面的含义：
+
+1. 所有的变量必须先声明，后使用；
+2. 指定类型的变量只能接受类型与之匹配的值；
+
+这意味着每个变量和每个表达式都有一个在编译时就确定的类型。类型限制了一个变量能被赋予的值，限制了一个表达式可以产生的值，限制了在这些值上可以进行的操作，并确定了这些操作的含义。
+
+> 变量并不仅仅说是一个名字，变量包含三个部分：变量类型、变量名、变量值。
+
+**Java程序在运行期间，随时可能产生一些临时数据，应用程序会将这些数据保存在一些存储单元中，每个内存单元都用一个标识符来标识。这些内存单元被称为变量，定义的标识符就是变量名，内存单元中存储的数据就是变量的值。**
+
+> 变量本质上就是代表一个 "可操作的存储空间" ，空间位置是确定的，但是里面放置什么值不确定。我们可以通过变量名来访问 "对应的存储空间"，从而操纵这个 "存储空间" 存储的值。
+
+### 3.4.1 变量声明：
+
+```java
+DataType identifier;
+```
+
+或
+
+```java
+DataType identifier = value;
+```
+
+变量只有先声明才能使用，否则会报错。
+
+### 3.4.2 变量赋值：
+
+变量赋值是指为变量指定一个明确的值。初始化变量有两种方式：一种是声明时直接赋值，一种是先声明后赋值。
+
+声明时直接赋值的方式：
+
+```java
+int a = 1;
+```
+
+先声明，再赋值的方式：
+
+```java
+int a;
+a = 1;
+```
+
+### 3.4.3 赋值与初始化：
+
+#### 3.4.3.1 赋值：
+
+> 赋值是给变量指定一个值或者是改变一个变量的值。
+
+#### 3.4.3.2 初始化：
+
+> 声明一个变量以后，必须对变量进行初始化，然后才能使用这个变量。
+
+所以，可以说，`初始化也是赋值`。
+
+### 3.4.4 默认初始化与显式初始化：
+
+#### 3.4.4.1 默认初始化：
+
+```java
+public class Test {
+    private String name;
+}
+```
+
+name变量没有`"指定初始化(显式初始化)"`，运行时就会就会为其赋予一个默认值，这就是默认初始化。
+
+#### 3.4.4.2 显式初始化：
+
+```java
+public class Test {
+    private String name = "cm";
+}
+```
+
+我们在声明name变量的同时，并为其初始化为"cm"
+
+#### 3.4.4.3 赋值：
+
+```java
+public class Test {
+    private String name = "cm";
+    {
+        name = "chenming";
+    }
+}
+```
+
+我们在声明name变量的同时，并为期初始化为 "cm"，然后又为其赋值为 "chenming"
+
+#### 3.4.4.4 比较：
+
+```java
+public class Test {
+    private String name;	//默认初始化
+    {
+        name = "chenming";	// 这个应该是叫显式初始化,还是赋值呢？
+    }
+}
+```
+
+个人认为，初始化只能有一种，要么是默认初始化，要么是显示初始化，所有这里我认为应该是赋值。
+
+#### 3.4.4.5 举例：
+
+下面以一个简单的示例说明变量的声明过程：
+
+```java
+int age = 18;
+```
+
+1. 根据变量类型，开辟出指定大小的内存空间（4个字节的内存空间）；
+2. 将内存地址复制给变量名a；
+3. 将18设置到内存空间中；
+
+![image-20201224191018494](images/JavaCore详解/image-20201224191018494.png)
+
+### 3.4.5 各种类型数据的默认值：
+
+- 整型变量（byte/short/int/long）的默认值是0；
+- 浮点型变量（float/double）的默认值是0.0；
+- 布尔型变量（boolean）的默认值是false；
+- 字符型变量（char）的默认值是'u0000'；
+- 引用类型的默认值是null；
+
+## 3.5 变量类型
+
+在Java语言中，所有的变量在使用前必须声明，声明变量的基本格式如下：
+
+```shell
+type identifier [ = value][, identifier [ = value]...]
+```
+
+Java语言支持的变量类型有：
+
+- 类变量：用static修饰，不属于某个对象，而是属于类；
+- 实例变量：也叫成员变量，从属于某个具体对象，也就是说每个对象都有一份自己的实例变量，即使是由同一个类创建的对象；
+- 局部变量：类的方法中的变量；
+
+```java
+public class Variable{
+    static int allClicks=0;    // 类变量
+ 
+    String str="hello world";  // 实例变量
+ 
+    public void method(){
+ 
+        int i =0;  // 局部变量
+ 
+    }
+}
+```
+
+### 3.5.1 局部变量：
+
+> - 局部变量声明在方法、构造方法或者语句块中；
+> - 局部变量在方法、构造方法、或者语句块被执行的时候创建，当它们执行完成后，变量将被销毁；
+> - 访问修饰符不能修饰局部变量；
+> - 局部变量只在声明它的方法、构造方法或者语句块中可见；
+> - 局部变量是在栈上分配的；
+> - 局部变量没有默认值，所以局部变量被声明后，必须经过初始化，才可以使用；
+
+**【局部变量只在其作用内有效】**
+
+```java
+public class App {
+    {
+        String name = "cm";
+    }
+    
+    @Test
+    public void test() {
+        System.out.println(name);   // Cannot resolve symbol 'name'
+    }
+}
+```
+
+ 报错，name的作用范围只在其语句块中，所以test方法中找不到。
+
+**【局部变量必须要初始化之后才能使用】**
+
+```java
+public class App {
+    @Test
+    public void test() {
+        int age;
+        age = 10;
+        age = age + 18;
+
+        String name;
+        name = name + "hello world";    // Variable 'name' might not have been initialized
+    }
+}
+```
+
+### 3.5.2 实例变量：
+
+> - 实例变量声明在一个类中，但在方法、构造方法和语句块之外；
+> - 当一个对象被实例化之后，每个实例变量的值就跟着确定；
+> - 实例变量在对象创建的时候创建，在对象销毁的时候销毁；
+> - 访问修饰符可以修饰实例变量；
+> - 实例变量对于类中的方法、构造方法或者语句块是可见的。一般情况下应该把实例变量设为私有；
+> - 实例变量可以声明在使用前或者使用后；
+> - 实例变量具有默认值；
+> - 
+
+**【实例变量可以先使用再声明】**
+
+```java
+public class App {
+    {
+        name = "cm";
+    }
+    String name;
+}
+```
+
+### 3.5.3 类变量：
+
+> - 类变量也称为静态变量，在类中以static关键字声明，但必须在方法之外；
+> - 无论一个类创建了多少个对象，类变量只有一份，且不属于任何对象，而是属于类；
+> - 静态变量存储在静态存储区，经常被声明为常量，很少单独使用static声明变量；
+> - 静态变量在第一次访问时被创建，在类销毁之前被销毁；
+> - 静态变量可以通过ClassName.VariableName的方式访问；
+
+
+
+## 3.6 数据类型
+
+变量就是申请内存来存储值，也就是说，当创建变量的时候，需要在内存中申请空间。
+
+内存管理系统根据变量的类型为变量分配存储空间，分配的空间只能用来存储该类型数据。
+
+![img](images/JavaCore详解/2020-10-27-code-mem.png)
+
+因此，通过定义不同类型的变量，可以在内存中存储整数、小数或者字符。
+
+Java的两大数据类型：
+
+- **基本数据类型**
+- **引用数据类型**
+
+### 3.6.1 基本数据类型：
+
+Java语言提供了八种基本类型。六种数字类型（四个整数型、两个浮点型），一种字符类型，一种布尔类型。
+
+#### 3.6.1.1 byte：
+
+- byte数据类型是8位、有符号的，以二进制补码表示的整数；
+- 最小值是`-128（-2^7）`;
+- 最大值是`127（2^7-1）`;
+- 默认值是0；
+- byte类型用在大型数组中节约空间，因为byte变量占用的空间只有int类型的四分之一；
+
+#### 3.6.1.2 short：
+
+- short数据类型是16位、有符号的以二进制补码表示的数；
+- 最小值是-32768（-2^15）;
+- 最大值是32767（2^15-1）;
+- short数据类型也可以像byte那样可以节省空间；
+- 默认值是0；
+
+#### 3.6.1.3 int：
+
+- int数据类型是32位、有符号的以二进制补码表示的整数；
+- 最小值是-2147483648（-2^31）;
+- 最大值是2147483647（2^31-1）；
+- 默认值是0；
+
+#### 3.6.1.4 long：
+
+- long数据类型是64位、有符号的以二进制补码表示的整数；
+- 最小值是-2^63；
+- 最大值是2^63-1；
+- 默认值是`0L`；
+
+#### 3.6.1.5 float：
+
+- float数据类型是单精度、32位、符合IEEE 754标准的浮点数；
+- 默认值是`0.0f`；
+- 浮点数不能用来表示精确的值，如货币；
+
+#### 3.6.1.6 double：
+
+- double数据类型是双精度、64位、符合IEEE 754标准的浮点数；
+- 浮点数的默认类型为double类型；
+- double类型同样不能表示精确的值，如货币；
+- 默认值是0.0d；
+
+#### 3.6.1.7 boolean：
+
+- boolean数据类型表示`一位`的信息；
+- 只有两个取值：`true`和`false`；
+- 这种类型只作为一种标志位来记录true/false情况；
+- 默认值是`false`；
+
+#### 3.6.1.8 char：
+
+- char类型是一个单一的16位的Unicode字符；
+- 最小值是 `'\u0000'`；
+- 最大值是 `'\uffff'`；
+- char类型可以存储任何字符；
+- 默认值是 `'\u0000'`；
+
+### 3.6.2 引用数据类型：
+
+引用数据类型建立在基本数据类型的基础上，包括数组、类和接口。
+
+引用数据类型是由用户自定义，用来限制其他数据的类型。另外，Java语言中不支持C++中的指针类型、结构类型、联合类型和枚举类型。
+
+引用类型还有一种特殊的null类型。
+
+所谓引用类型就是对一个对象的引用，对象包括实例和数组两种。实际上，引用类型变量就是一个指针，只是Java语言里不再使用指针这个说法。
+
+空类型（null type）就是null值的类型，这种类型没有名称。因为null类型没有名称，所以不可能声明一个null类型的变量或者强制转型到null类型。
+
+空引用（null）是null类型变量唯一的值。空引用（null）可以转换为任何引用类型。
+
+### 3.6.3 数据类型转换：
+
+> 数据类型的转换是在所赋值的数值类型和变量接收的数据类型不一致时发生的，它需要从一种数据类型转换成另一种数据类型。
+>
+> 数据类型的转换可以分为**隐式转换（自动类型转换）**和**显式转换（强制类型转换）**。
+
+#### 3.6.3.1 隐式转换（自动类型转换）：
+
+如果以下2个条件都满足，那么将一种类型的数据赋给另外一种类型变量时，将执行自动类型转换。
+
+- 两种数据类型彼此兼容
+- 目标类型的取值范围大于源数据类型（低级数据类型转换成高级数据类型）
+
+当以上2个条件都满足时，拓宽转换（widening conversion）发生。例如byte类型向short类型转换时，由于short类型的取值范围较大，会自动将byte转换为short类型。
+
+在运算过程中，由于不同的数据类型会转换成同一种数据类型，所以整型、浮点型、字符型都可以参加混合运算。自动转换的规则是从低级类型数据转换成高级类型数据。
+
+转换规则如下：
+
+- 数值类型的转换：byte -> short -> int -> long -> float -> double
+- 字符型转换成整型：char -> int
+
+以上数据类型的转换遵循从左到右的转换顺序，最终转换成**表达式中**表示范围最大的变量的数据类型。
+
+> 注意：char类型比较特殊，char自动转换成int/long/float/double，但byte和short不能自动转换成char，char也不能自动转换成byte和short。
+
+#### 3.6.3.2 显式转换（强制类型转换）：
+
+> 当两种数据类型不兼容，或目标类型的取值范围小于源类型时，自动转换将无法进行，这时就需要进行强制类型转换。
+
+#### 3.6.3.3 图解：
+
+![image-20210101225849522](images/JavaCore详解/image-20210101225849522.png)
+
+`箭头流转方向表示可以进行自动类型转换，但是虚线表示进行自动类型转换的时候，可能损失数据`。
+
+int→float，long→float、long→double之所以可能会损失数据，是因为float、double的精度是有限的。
+
+#### 3.6.3.4 思考：
+
+- 例1：
+
+```java
+public static void main(String[] args) {
+    byte b1 = 10;
+
+    int a = 10;
+    byte b2 = a;    //Error: Required byte, Provided int
+    /**
+     * 思考：b1为什么不报错,而b2报错
+     *      我们知道,b2报错是因为将int类型的变量赋值给byte类型的变量,所以报错
+     *      但是为什么将整型的数值10赋值给byte类型的变量b1却不报错呢？
+     * 解答：
+     *      其实这是因为编译器的范围检查,编译器在编译的时候,知道我们的字面量10在byte类型的取值范围之内,所以不会报错
+     *      而将a赋值给b2,因为a是一个变量,其值只有在运行的时候才能真正确定,那么a的值就很可能超出byte的取值范围,所以报错
+     */
+}
+```
+
+- 例2
+
+```java
+public static void main(String[] args) {
+    byte b1 = 10;
+    byte b2 = b1 + 1; // Error: Required byte, Provided int
+    /**
+     * 思考: b2为什么报错？
+     *
+     * 解答:
+     *      1. 因为小类型与大类型做运算,会先将小类型提升为大类型,然后进行运算：
+     *          即 b1 + 1 进行运算,会将b1的类型byte提升为int,然后再与int型的1进行运算,最后结果是int
+     *      2. 因为 b1 + 1 整体是一个变量,在编译期间无法确定其具体的值,所有将大类型赋值给小类型会报错
+     *          既然这样,如果我们将1强转为byte是不是就可以了呢？看下面的例子
+     */
+    byte b3 = b1 + (byte)1; // Error: Required byte, Provided int
+    /**
+     * 思考: 我们将int型的1强转为了byte型,两个byte型操作,为什么会变成int型？
+     *
+     * 解答:
+     *      int型的1强转为byte型是没有错的,这里最主要的问题是编译器做了优化
+     *      因为两个byte型进行操作,很容易就超出了byte型的范围,所以编译器进行了优化,提升到了int型
+     *      最后将int型数值赋值给byte型变量,所以报错
+     */
+    // 这是正确的做法
+    byte b4 = (byte)(b1 + 1);
+}
+```
+
+- 例3：
+
+```java
+// 编译正常
+byte b5 = 1;
+b5 += 1000;
+/**
+ * 上面的 b5 += 10000; 就相当于 b5 = (byte)(b5 + 10000)
+ */
+```
+
+
+
+## 3.7 代码块
+
+根据代码块在程序中不同的位置和不同的作用，把代码块分为三种：
+
+### 3.7.1 局部代码块：
+
+在方法中定义的代码块，比如我们的if语句块之类的：
+
+```	java
+public void method() {
+    if () {
+        // ...
+    }
+}
+```
+
+### 3.7.2 初始代码块：
+
+又叫初始化代码块，在类中直接定义，和方法是平行关系，用来做初始化操作。
+
+```java
+public class Test {
+    {
+    	int a = 1;
+        System.out.println("初始化代码块");
+    }
+    
+    public void method() {
+        // ...
+    }
+}
+```
+
+### 3.7.3 静态代码块：
+
+使用static修饰的初始化代码块。
+
+```java
+public class Test {
+    // 静态代码块
+    static {
+        int b = 10;
+    }
+    
+    // 构造代码块
+    {
+        int a = 1;
+    }
+    
+    public void method() {
+        // 局部代码块
+        if () {
+            // ...
+        }
+    }
+}
+```
+
+### 3.7.4 注意点：
+
+不管是哪一种代码块，对于在其内声明的变量，都是属于局部变量，都有着局部变量的特征：
+
+- 局部变量没有默认值，所以局部变量被声明后，必须经过初始化，才可以使用
+- 局部变量只在声明它的方法、构造方法或者语句块中可见
+- 访问修饰符不能修饰局部变量
+
+```java
+// 局部变量必须先初始化,才能使用
+class Test {
+    {
+        int a;
+        System.out.println(a);  // Variable 'a' might not have been initialized
+    }
+    static {
+        int c;
+        System.out.println(c); // Variable 'c' might not have been initialized
+    }
+
+    public void method() {
+        int b;
+        System.out.println(b);  // Variable 'b' might not have been initialized
+    }
+}
+```
+
+
+
+## 3.8 运算符
+
+Java提供了一套丰富的运算符来操纵变量，可以把运算符分成如下几组：
+
+- 算术运算符
+- 关系运算符
+- 位运算符
+- 逻辑运算符
+- 赋值运算符
+- 其它运算符
+
+### 3.8.1 位运算符：
+
+Java定义了位运算符，应用于整数类型(int)、长整型(long)、短整型(short)、字节型(byte)、`字符型(char)`。
+
+位运算符作用在所有的位上，并且按位运算。
+
+下表列出了位运算符的基本运算，假设整数变量A的值为60，整数变量B的值为13（这里只取低8位进行运算）
+
+| 操作符 |                             描述                             |             例子              |
+| :----: | :----------------------------------------------------------: | :---------------------------: |
+|   &    |         按位与：如果相应位都是1，则结果为1，否则为0          | (A & B) ，得到12，即0000-1100 |
+|   \|   |         安位或：如果相应位都是0，则结果为0，否则为1          | (A \| B)，得到61，即0011-1101 |
+|   ^    |       按位异或：如果相应位位值相同，则结果为0，否则为1       | (A ^ B)，得到49，即0011-0001  |
+|   ~    |        按位取反：翻转操作数的每一位，即0变成1，1变成0        |   (~A) 得到-61，即1011-1101   |
+|   <<   | 按位左移运算符。左操作数按位左移右操作数指定的位数<br>(右边补0)(相当于*2) | A << 2，得到240，即1111-0000  |
+|   >>   | 按位右移运算符。左操作数按位右移右操作数指定的位数<br>(左边补符号位)(相当于/2) |  A >> 2，得到15，即0000-1111  |
+|  >>>   | 无符号右移运算符。做操作数的值按右操作数指定的位数右移，移动得到的左边空位以0填充 | A >>> 2，得到15，即0000-1111  |
+
+### 3.8.2 逻辑运算符：
+
+下表列出逻辑运算符的基本运算，假设布尔变量A为真，变量B为假
+
+| 操作符 |                             描述                             |      例子      |
+| :----: | :----------------------------------------------------------: | :------------: |
+|   &    | 逻辑与运算符，当且仅当两个操作数都为真，条件才为真<br>(不论左操作数是真还是假，都需要对右操作数判断) |  (A & B) 为假  |
+|   \|   | 逻辑或运算符，两个操作数任何一个为真，条件为真<br>(不论左操作数是真还是假，都需要对右操作数判断) | (A \| B) 为真  |
+|   \|   |        逻辑或运算符，两个操作数任何一个为真，条件为真        | (A \| B) 为真  |
+|   !    | 逻辑非运算符，用来反转操作数的逻辑状态。如果条件为true，则逻辑非运算将得到false | !A为假，!B为真 |
+|   &&   | 短路逻辑与运算符，当且仅当两个操作数都为真，条件才为真<br/>(当左操作数为真时，还需要对右操作数进行判断；<br/>当左操作数为假，整个条件表达式为假，不需要对右操作数判断) |                |
+|  \|\|  | 短路逻辑或运算符，两个操作数任何一个为真，条件为真<br>(当左操作数为假时，还需要对右操作数进行判断；<br/>当左操作数为真，整个条件表达式为真，不需要对右操作数判断) |                |
+
+### 3.8.3 instanceof运算符：
+
+该操作符用于操作对象实例，用于检查一个对象是否是一个特定类型
+
+### 3.8.4 运算符优先级：
+
+下图列出各种运算符的优先级，从上到下，优先级依次降低
+
+![image-20210107154332376](images/JavaCore详解/image-20210107154332376.png)
+
+
+
+## 3.9 直接量（字面量）
+
+并不是所有的数据类型都可以指定直接量，能指定直接量的通常只有三中类型：基本类型、字符串类型、null类型。
+
+具体而言，Java支持如下8种类型的直接量：
+
+### 3.9.1 int类型的直接量：
+
+在程序中直接给出的整型数值，可分为二进制、八进制、十进制、十六进制4种，其中二进制需要以`0B`或`0b`开头，八进制需要以`0`开头，十六进制需要以`0x`或`0X`开头。
+
+### 3.9.2 long类型的直接量：
+
+在整型数值后添加`l`或`L`后就变成了long类型的直接量。
+
+### 3.9.3 float类型的直接量：
+
+在一个浮点数后添加`f`或`F`就变成了float类型的直接量，这个浮点数可以是标准小数形式，也可以是科学计数法形式。
+
+### 3.9.4 double类型的直接量：
+
+直接给出一个标准小数形式或者科学计数法形式的浮点数就是double类型的直接量。
+
+### 3.9.5 boolean类型的直接量：
+
+这个类型的直接量只有true和false。
+
+### 3.9.6 char类型的直接量：
+
+char类型的直接量有三种形式，分别是用单引号括起来的字符、转义字符和Unicode值表示的字符。
+
+例如：'a','\n','\u0061'
+
+### 3.9.7 String类型的直接量：
+
+一个用双引号括起来的字符序列就是String类型的直接量
+
+### 3.9.8 null类型的直接量：
+
+这个类型的直接量只有一个值，即null。
+
+<hr>
+【注意点】
+- String类型的直接量不能赋给其他类型的变量； 
+- null类型的直接量可以直接赋给任何引用类型的变量，包括String类型；
+- boolean类型的直接量只能赋给boolean类型的变量，不能赋给其他任何类型的变量
+
+
+## 3.10 常量
+
+### 3.10.1 常量的定义：
+
+> 常量定义：在程序执行的过程中，其值不可以发生改变的量。常量不同于常量值，它可以在程序中用符号来代替常量值使用，因此在使用前必须定义。
+>
+> 常量值定义：常量和常量值是不同的概念，常量值又称为字面量，它是通过数据直接表示的。
+>
+> 关系：常量值是常量的具体和直观的表现形式，常量值是形式化的表现。通常在程序中既可以直接使用常量值，也可以使用常量。
+
+### 3.10.2 定义常量：
+
+常量与变量一样也需要初始化，只不过对于成员变量而言，若是没有显式初始化，Java编译器会默认初始化，但是对于常量而言，没有默认初始化，所以常量需要显式初始化，即要么在定义常量的时候就进行初始化，或者在初始化代码块中进行初始化。
+
+Java语言使用`final`关键字来定义一个常量，其语法如下所示：
+
+```java
+final dataType variableName = value
+```
+
+### 3.10.3 常量类型：
+
+**常量有三种类型：静态常量、成员常量和局部常量**。
+
+```java
+public class HelloWorld {
+    // 静态常量
+    public static final double PI = 3.14;
+    // 声明成员常量
+    final int y = 10;
+    public static void main(String[] args) {
+        // 声明局部常量
+        final double x = 3.3;
+    }
+}
+```
+
+
+
+
+
+## 3.11 数组
+
+数组对于每一门编程语言来说都是重要的数据结构之一，当然不同的语言对数组的实现及处理也不尽相同。
+
+Java语言中提供的数组是用来存储固定大小的同类型元素。
+
+### 3.11.1 声明数组：
+
+```java
+dataType[] arrayRefVar; // 首选的方法
+或
+dataType arrayRefVar[]; // 效果相同，但不是首选方法
+```
+
+### 3.11.2 创建数组：
+
+Java语言使用new操作符来创建数组，语法如下
+
+```java
+arrayRefVar = new dataType[arraySize];
+```
+
+上面的语法做了两件事：
+
+- 使用 dataType[arraySize]创建了一个数组
+- 把新创建的数组的引用赋值给变量arrayRefVar
+
+另外，还可以使用如下方式创建数组：
+
+```java
+dataType[] arrayRefVar = {value0,value1,value2,...,valuek};
+```
+
+数组的元素是通过索引访问的。数组索引从0开始
+
+### 3.11.3 实例：
+
+下面的语句首先声明了一个数组变量myList，接着创建了一个包含10个double类型元素的数组，并且把它的引用赋值给myList变量。
+
+```java
+public class TestArray {
+   public static void main(String[] args) {
+      // 数组大小
+      int size = 10;
+      // 定义数组
+      double[] myList = new double[size];
+      myList[0] = 5.6;
+      myList[1] = 4.5;
+      myList[2] = 3.3;
+      myList[3] = 13.2;
+      myList[4] = 4.0;
+      myList[5] = 34.33;
+      myList[6] = 34.0;
+      myList[7] = 45.45;
+      myList[8] = 99.993;
+      myList[9] = 11123;
+      // 计算所有元素的总和
+      double total = 0;
+      for (int i = 0; i < size; i++) {
+         total += myList[i];
+      }
+      System.out.println("总和为： " + total);
+   }
+}
+```
+
+以上实例输出结果为：
+
+```java
+总和为： 11367.373
+```
+
+下图描绘了数组myList。
+
+![img](images/JavaCore详解/12-130Q0221Q5602.jpg)
+
+
+
+## 3.12 流程控制
+
+[参考]https://www.liaoxuefeng.com/wiki/1252599548343744/1259541030848864
+
+### 3.12.1 switch case：
+
+>switch case语句判断一个变量与一系列值中某个值是否相等，每个值称为一个分支。
+
+#### 3.12.1.1 语法：
+
+switch case语句语法格式如下：
+
+```java
+switch(expression){
+    case value :
+       //语句
+       break; //可选
+    case value :
+       //语句
+       break; //可选
+    //你可以有任意数量的case语句
+    default : //可选
+       //语句
+}
+```
+
+#### 3.12.1.2 规则：
+
+switch case语句有如下规则：
+
+- switch语句中的变量类型可以是：byte、short、int、char，从JavaSE7开始，switch支持字符串String类型了，也支持枚举类型，同时case标签必须为字符串常量或字面量。
+
+  ```java
+  public class LoopTest {
+      public static void main(String[] args) {
+          ColorType a = ColorType.RED;
+          switch (a) {
+              case RED :
+                  break;
+              case GREEN :
+                  break;
+              case BLUE :
+                  break;
+          }
+      }
+  }
+  enum ColorType {
+      RED,
+      GREEN,
+      BLUE
+  }
+  ```
+
+- switch 语句可以有多个case语句，每个case语句后面跟一个要比较的值和冒号；
+
+- case语句中的值的数据类型必须与变量的数据类型相同，而且只能是常量或者字面量（字面常量）
+
+- 当变量的值与case语句的值相等时，那么case语句之后的语句可以执行，直到break语句出现才会跳出switch语句；
+
+- 当遇到break语句时，switch语句终止。程序跳转到switch语句后面的语句执行。case语句不必要包含break语句。如果没有break语句出现，程序会继续执行下一条case语句，直到出现break或者结束；
+
+- switch语句可以包含一个default分支，该分支一般是switch语句的最后一个分支（可以在任何位置，但建议在最后一个）。default在没有case语句的值和变量的值相等的时候执行。default分支不需要break语句；
+
+**switch case执行时，一定会先进行匹配，匹配成功返回当前case值，再根据是否有break，判断是否继续输出，或是跳出判断。**
+
+#### 3.12.1.3 注意点：
+
+- case穿透
+
+- while循环，如下代码所示
+
+  ```java
+  public static void main(String[] args) {
+          boolean flag = true;
+          while (flag); {  // 主要这里有一个分号
+              System.out.println("这不是循环打印");
+          }
+  
+  
+          /**
+           * 上面的代码相当于下面这样的，所以代码块中的输出语句没有打印
+           */
+          boolean flag = true;
+          while (flag) {
+              ;
+          }
+          {
+              System.out.println("这不是循环打印");    
+          }
+      }
+  ```
+
+
+
+
+## 3.13 访问修饰符
+
+> https://www.cnblogs.com/beilou310/p/10094846.html
+>
+> https://blog.csdn.net/justloveyou_/article/details/61672133
+>
+> https://blog.csdn.net/dawn_after_dark/article/details/74453915
+
+### 3.13.1 关于protected的误解：
+
+#### 3.13.1.1 protected关键字的真正内涵：
+
+很多介绍Java语言的书籍都对protected介绍的比较简单，基本都是一句话，就是：**被protected修饰的成员对于本包和其子类可见。**这种说法有点含糊，常常会对大家造成误解。实际上，protected的可见性在于两点：
+
+- 基类的protected成员是包内可见的，并且对子类可见；
+- 若子类与基类不在一个包中，那么在子类中，子类实例可以访问其从基类继承而来的protected方法，而不能访问基类实例的protected方法；
+
+我们可以通过以下几个关于protected方法可见性的例子来进一步掌握protected关键字。`在碰到涉及protected成员的调用的时候，首先要确定出该protected成员来自哪一个基类，其可见性范围是什么，然后就可以判断出当前用法是否可行`，看下面的例子：
+
+【示例一】
+
+```java
+//示例一
+package p1;
+public class Father1 {
+    protected void f() {}    // 父类Father1中的protected方法
+}
+
+package p1;
+public class Son1 extends Father1 {}
+
+package p11;
+public class Son11 extends Father1{}
+
+package p1;
+public class Test1 {
+    public static void main(String[] args) {
+        Son1 son1 = new Son1();
+        son1.f(); // Compile OK     ----（1）
+        son1.clone(); // Compile Error     ----（2）
+
+        Son11 son = new Son11();    
+        son11.f(); // Compile OK     ----（3）
+        son11.clone(); // Compile Error     ----（4）
+    }
+}
+```
+
+对于上面的示例，首先看(1)(3)，其中的f()方法从类Father1继承而来，其可见性是包p1及其子类Son1和Son11，而由于调用f()方法的类Test1所在的包也是p1，因此(1)(3)处编译通过。其次看(2)(4)，其中clone()方法的可见性是java.lang包及其所有子类，对于语句son1.clone();和son11.clone();，二者的clone()在类Son1、Son11中是可见的，但对Test1是不可见的，因此(1)(3)处编译不通过。
+
+【示例二】
+
+```java
+//示例二
+package p2;
+class MyObject2 {
+    protected Object clone() throws CloneNotSupportedException{
+       return super.clone();
+    }
+}
+
+package p22;
+public class Test2 extends MyObject2 {
+    public static void main(String args[]) {
+       MyObject2 obj = new MyObject2();
+       obj.clone(); // Compile Error         ----（1）
+
+       Test2 tobj = new Test2();
+       tobj.clone(); // Complie OK         ----（2）
+    }
+}
+```
+
+对于(1)而言，clone()方法来自于类MyObject2本身，因此其可见性为包p2及MyObject2的子类，虽然Test2是MyObject2的子类，但在Test2中不能直接访问基类MyObject2的protected方法clone()，因此编译不通过；对于(2)而言，由于在Test2中访问的是其本身实例从基类MyObject2继承来的clone()，因此编译通过。
+
+【示例三】
+
+```java
+//示例三
+package p3;
+class MyObject3 extends Test3 {
+}
+
+package p33;
+public class Test3 {
+  public static void main(String args[]) {
+    MyObject3 obj = new MyObject3();
+    obj.clone();   // Compile OK     ------（1）
+  }
+}
+```
+
+对于(1)而言，clone()方法来自于类Test3，因此其可见性为包p33及其子类MyObject3，而(1)正是在p33的类Test3中调用，属于同一包，编译通过。
+
+【示例四】
+
+```java
+//示例四
+package p4;
+class MyObject4 extends Test4 {
+  protected Object clone() throws CloneNotSupportedException {
+    return super.clone();
+  }
+}
+
+package p44;
+public class Test4 {
+  public static void main(String args[]) {
+    MyObject4 obj = new MyObject4();
+    obj.clone(); // Compile Error      -----（1）
+  }
+}
+```
+
+对于(1)而言，clone()方法来自于类MyObject4，因此其可见性为包p4及其子类（此处没有子类），而类Test4却在包p44中，因此不满足可见性，编译不通过。
+
+【示例五】
+
+```java
+//示例五
+package p5;
+
+class MyObject5 {
+    protected Object clone() throws CloneNotSupportedException{
+       return super.clone();
+    }
+}
+public class Test5 {
+    public static void main(String[] args) throws CloneNotSupportedException {
+       MyObject5 obj = new MyObject5();
+       obj.clone(); // Compile OK        ----(1)
+    }
+}
+```
+
+对于(1)而言，clone()方法来自于类MyObject5，因此其可见性为包p5及其子类（此处没有子类），而类Test5也在包p5中，因此满足可见性，编译通过。
+
+【示例六】
+
+```java
+//示例六
+package p6;
+
+class MyObject6 extends Test6{}
+public class Test6 {
+  public static void main(String[] args) {
+    MyObject6 obj = new MyObject6();
+    obj.clone();        // Compile OK   -------（1）
+  }
+}
+```
+
+对于(1)而言，clone()方法来自于类Test6，因此其可见性为包p6及其子类MyObject6，而类Test6也在包p6中，因此满足可见性，编译通过。
+
+【示例七】
+
+```java
+//示例七
+package p7;
+
+class MyObject7 extends Test7 {
+    public static void main(String[] args) {
+        Test7 test = new Test7();
+        test.clone(); // Compile Error   ----- (1)
+  }
+}
+
+public class Test7 {
+}
+```
+
+对于(1)而言，clone()方法来自于类Object，因此该clone()方法可见性为包java.lang及其子类Test7，由于类MyObject7不在此范围内，因此不满足可见性，编译不通过。
+
+
+
+## 3.14 continue、break、return
+
+### 3.14.1 continue：
+
+> continue语句是跳过循环体中剩余的语句而强制执行下一次循环，其作用为结束本次循环，即跳过循环体中下面尚未执行的语句，接着进行下一次是否执行循环的判定。
+
+continue语句类似于break语句，但它只能出现在循环体中。它与break语句的区别在于：continue并不是中断循环语句，而是中止当前迭代的循环，进入下一次的迭代。
+
+【注意】continue语句只能用在while语句，for语句、foreach语句的循环体中，在这之外的任何地方使用它都会引起语法错误。
+
+在循环体中使用continue语句有两种方式：可以带有标签，也可以不带标签。语法格式如下：
+
+> continue //不带标签
+>
+> continue label //带标签，label是标签名
+
+【带标签的continue语句】
+
+```java
+public static void main(String[] args) {
+    label1: 
+    for (int x = 0; x < 5; x++) {
+        for (int y = 5; y > 0; y--) {
+            if (y == x) {
+                continue label1;
+            }
+            System.out.println(x+","+y);
+        }
+    }
+    System.out.println("Game Over!");
+}
+```
+
+`默认情况下，continue只会跳出最近的内循环，如果要跳出到外循环执行外循环，可以为外循环添加一个标签label1。`
+
+### 3.14.2 break：
+
+> break用于完全结束当前循环，跳出循环体。
+
+在Java中，break语句有3种作用：在switch语句中终止一个语句序列、使用break语句直接强行退出循环、使用break语句实现goto的功能。
+
+#### 3.14.2.1 在switch语句中终止一个语句序列：
+
+```java
+public class Test {
+    public static void main(String[] args) {
+        int a = 10;
+        switch (a) {
+            case 1:
+                System.out.println("1");
+                break;
+            case 10:
+                System.out.println("10");
+                break;
+            case 100:
+                System.out.println("100");
+                break;
+            default:
+                System.out.println("default");
+        }
+    }
+}
+```
+
+#### 3.14.2.2 使用break语句直接强行推出循环（break不带标签）
+
+```java
+public static void main(String[] args) {
+    // 外循环，循环5次
+    for (int i = 0; i < 5; i++) {
+        System.out.print("第" + (i + 1) + "次循环：");
+        // 内循环，设计为循环10次
+        for (int j = 0; j < 10; j++) {
+            // 判断j是否等于3，如果是，则终止循环
+            if (j == 3) {
+                break;
+            }
+            System.out.print("内循环的第" + (j + 1) + "次循环\t");
+        }
+        System.out.println();
+    }
+}
+```
+
+不带标签的break，只能终止当前循环，在本示例中，即是终止内循环，外循环并没有受到影响。
+
+#### 3.14.2.3 使用break语句实现goto的功能（break带标签）：
+
+通过扩展的break语句，可以终止一个或几个任意代码块，这些代码块不必是一个循环或一个switch语句的一部分。同事这种扩展的break语句带有标签，可以明确指定从何处继续执行。
+
+**用标签（label）可以指定一个代码块，标签可以是任何合法有效的Java标识符，后跟一个冒号**。加上标签的代码块可以作为break语句的对象，使程序在加标签的块的结尾继续执行。
+
+```java
+public class GotoDemo {
+    public static void main(String[] args) {
+        label: 
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 8; j++) {
+                System.out.println(j);
+                if (j % 2 != 0) {
+                    break label;
+                }
+            }
+        }
+    }
+}
+```
+
+### 3.14.3 return：
+
+return关键字并不是专门用来结束循环的，return语句用于终止函数的执行或退出类的方法，并把控制权返回该方法的调用者。如果这个方法带有返回类型，return语句就必须返回这个类型的值；如果这个方法没有返回值，可以使用没有表达式的return语句。
+
+
+
+## 3.15 可变参数
+
+> [参考]https://www.runoob.com/w3cnote/java-varargs-parameter.html
+
+在Java 5中提供了变长参数，允许在调用方法时传入不定长度的参数。变长参数是Java的一个语法糖，本质上还是基于数组的实现。
+
+### 3.15.1 定义方法：
+
+在定义方法时，在最后一个形参后加上三个点(...)，就表示该形参可以接受多个参数值，`多个参数值被当成数组传入`。
+
+上述定义有几个要点需要注意：
+
+- 可变参数只能作为一个函数的最后一个参数，但其前面可以有也可以没有任何其他参数；
+
+- 由于可变参数必须是最后一个参数，所以一个函数最多只能有一个可变参数；
+
+- Java的可变参数，会被编译器转型为一个数组；
+
+- 变长参数在编译为字节码后，在方法签名中就是以数组形态出现的。这两个方法的签名是一致的，不能作为方法的重载。如果同时出现，是不能编译通过的。可变参数可以兼容数组，反之则不成立
+
+  - 同时出现，编译不通过
+
+    ```java
+    public class ParameterTest {
+        public void method1(int... arr) {//Error:'method1(int[])' is already defined in 'com.chenming.core.$02_ClassAndObject.ParameterTest'
+            System.out.println("hello");
+        }
+        public void method1(int[] arr) {//Error:'method1(int[])' is already defined in 'com.chenming.core.$02_ClassAndObject.ParameterTest'
+            System.out.println("world");
+        }
+    }
+    ```
+
+  - 可变参数可以兼容数组，反之不成立
+
+    - 可变参数可以兼容数组
+
+      ```java
+      public class ParameterTest {
+          public void method1(int... arr) {
+              System.out.println("hello");
+          }
+      
+          public static void main(String[] args) {
+              ParameterTest parameterTest = new ParameterTest();
+              //以不定参数的形式传递参数,OK
+              parameterTest.method1(1,2,3);
+              //以数组的形式传入参数,OK
+              parameterTest.method1(new int[]{1,2,3});
+          }
+      }
+      ```
+
+    - 数组不能兼容可变参数
+
+      ```java
+      public class ParameterTest {
+          public void method1(int[] arr) {
+              System.out.println("hello");
+          }
+      
+          public static void main(String[] args) {
+              ParameterTest parameterTest = new ParameterTest();
+              //以不定参数的形式传递参数,Error
+              parameterTest.method1(1,2,3); // Error: Expected 1 arguments but found 3
+              //以数组的形式传入参数,OK
+              parameterTest.method1(new int[]{1,2,3});
+          }
+      }
+      ```
+
+### 3.15.2 方法重载：
+
+#### 3.15.2.1 优先匹配固定参数：
+
+调用一个被重载的方法时，如果此调用既能够和固定参数的重载方法匹配，也能够与可变长参数的重载方法匹配，则选择固定参数的方法。
+
+```java
+public class Varargs {
+
+    public static void test(String... args) {
+        System.out.println("version 1");
+    }
+
+    public static void test(String arg1, String arg2) {
+        System.out.println("version 2");
+    }
+    public static void main(String[] args) {
+        test("a","b");//version 2 优先匹配固定参数的重载方法
+                test();//version 1
+    }
+}
+```
+
+#### 3.15.2.2 匹配多个可变参数：
+
+调用一个被重载的方法时，如果此调用能够和两个可变长参数的重载方法匹配，则编译出错
+
+```java
+public class Varargs {
+
+    public static void test(String... args) {
+        System.out.println("version 1");
+    }
+
+    public static void test(String arg1, String... arg2) {
+        System.out.println("version 2");
+    }
+    public static void main(String[] args) {
+        test("a","b");//Compile error
+    }
+}
+```
+
+### 3.15.3 方法重写：
+
+#### 3.15.3.1 避免带有边长参数的方法重载：
+
+即便编译器可以按照优先匹配固定参数的方式确定具体的调用方法，但在阅读代码的时候依然容易掉入陷阱。要慎重考虑变长参数的方法重载。
+
+#### 3.15.3.2 别让null值和空值威胁到边长方法：
+
+```java
+public class Client {
+     public void methodA(String str,Integer... is){       
+     }  
+
+     public void methodA(String str,String... strs){          
+     }  
+
+     public static void main(String[] args) {  
+           Client client = new Client();  
+           client.methodA("China", 0);  
+           client.methodA("China", "People");  
+           client.methodA("China");  //compile error：Ambiguous method call
+           client.methodA("China",null);  //compile error：Ambiguous method call
+     }  
+}
+```
+
+修改如下：
+
+```java
+public static void main(String[] args) {  
+     Client client = new Client();  
+     String[] strs = null;  
+     client.methodA("China",strs);  
+}
+```
+
+让编译器知道这个null值是String类型的，编译即可顺利通过，也就减少了错误的发生。
+
+#### 3.15.3.3 覆写边长方法也要循规蹈矩：
+
+```java
+package com;
+public class VarArgsTest2 {
+    /**
+     * @param args
+     */
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
+        // 向上转型
+        Base base = new Sub();
+        base.print("hello");
+        // 不转型
+        Sub sub = new Sub();
+        sub.print("hello");//compile error
+    }
+}
+// 基类
+class Base {
+    void print(String... args) {
+        System.out.println("Base......test");
+    }
+}
+// 子类，覆写父类方法
+class Sub extends Base {
+    @Override
+    void print(String[] args) {
+        System.out.println("Sub......test");
+    }
+}
+```
+
+第一个能编译通过，这是为什么呢？事实上，base对象把子类对象sub做了向上转型，形参列表是由父类决定的，当然能通过。而看看子类直接调用的情况，这时编译器看到子类覆写了父类的print方法，因此肯定使用子类重新定义的print方法，尽管参数列表不匹配也不会跑到父类再去匹配下，因此找到了就不再找了，因此有了类型不匹配的错误。
+
+#### 3.15.3.4 可能出现的问题：
+
+使用`Object...`作为变长参数：
+
+```java
+public void foo(Object... args) {
+    System.out.println(args.length);
+}
+
+foo(new String[]{"arg1", "arg2", "arg3"}); //3
+foo(100, new String[]{"arg1", "arg1"}); //2
+
+foo(new Integer[]{1, 2, 3}); //3
+foo(100, new Integer[]{1, 2, 3}); //2
+foo(1, 2, 3); //3
+foo(new int[]{1, 2, 3}); //1
+```
+
+`int[]`无法转型为`Object[]`，因而被当做一个单纯的数组对象；`Integer[]`可以转型为`Object[]`，可以作为一个对象数组。
+
+
+
+
+
+
+
+# 4. 面向对象
+
+## 4.1 类和对象
+
+### 4.1.1 对象的概念：
+
+Java是面向对象的编程语言，对象就是面向对象程序设计的核心。
+
+所谓对象就是真实世界中的实体，对象与实体是一一对应的，也就是说现实世界中每一个实体都是一个对象，它是一种具体的概念。
+
+对象有以下特点：
+
+- 对象具有行为和属性；
+- 对象具有变化的状态；
+- 对象具有唯一性；
+- 对象都是某个类别的实例；
+- 一切皆为对象，真实世界中的所有事物都可以视为对象
+
+例如，在真实世界的学校里，会有学生和老师等实体，学生有学号、姓名、所在班级等属性（数据），学生还有学习、提问、吃饭和走路等操作。**学生只是抽象的描述，这个抽象的描述称为类**。在学校活动的是学生个体，即张同学、李同学等，这些具体的个体称为 **"对象"**。
+
+### 4.1.2 面向过程的思想和面向对象的思想：
+
+面向对象和面向过程的思想有着本质的区别：作为面向对象的思维来说，当你拿到一个问题时，你分析这个问题不再是第一步先做什么，第二步再做什么，这是面向过程的思维。作为面向对象来说，你应该如下分析：
+
+1. 分析这个问题有哪些类和对象
+2. 这些类和对象应该具有哪些属性和方法
+3. 分析类与对象之间有什么关系
+
+面向对象有一个非常重要的设计思想：**合适的方法出现在合适的类里面**。
+
+### 4.1.3 面向对象的设计思想：
+
+面向对象的基本思想是，从现实世界中客观存在的事物出发来构造软件系统，并在系统的构造中尽可能运用人类的自然思维方式。
+
+面向对象更加强调运用人类在日常生活的逻辑思维中经常采用的思想方法与原则，如抽象、分类、继承、聚合、多态等。
+
+### 4.1.4 类的概念：
+
+类是用于描述同一类的对象的一个抽象的概念，类中定义了这一类对象所具有的静态属性和动态属性。
+
+类可以看成一类对象的模板，对象可以看成该类的一个具体示例。
+
+
+
+## 4.2 封装、继承、多态
+
+### 4.2.1 封装：
+
+在面向对象程序设计中，封装（Encapsulation）是一种将抽象性函数式接口的实现细节部分包装、隐藏起来的办法。
+
+封装可以被认为是一个保护屏障，防止该类的代码和数据被外部类定义的代码随机访问。
+
+要访问该类的代码和数据，必须通过严格的接口控制。
+
+封装最主要的功能在于我们能够修改自己的代码实现，而不用修改那些调用我们代码的程序片段。
+
+适当的封装可以方程序代码更容易理解和维护，也增加了程序代码的安全性。
+
+**封装的优点：**
+
+1. 良好的封装能够减少耦合；
+2. 类内部的结构可以自由修改；
+3. 可以对成员变量进行更精确的控制；
+4. 隐藏信息，实现细节；
+
+**实现封装的步骤：**
+
+1. 修改属性的可见性来限制对属性的访问（一般限制为private），例如：
+
+   ```java
+   public class Person {
+       private String name;
+       private int age;
+   }
+   ```
+
+   这段代码中，将`name`和`age`属性设置为私有的，只能本类访问，其他类都访问不了，如此就对信息进行了隐藏。
+
+2. 对每个属性提供对外的公共访问方法，也就是创建一对赋值/取值方法，用于对私有属性的访问，例如：
+
+   ```java
+   public class Person{
+       private String name;
+       private int age;
+   
+       public int getAge(){
+         return age;
+       }
+   
+       public String getName(){
+         return name;
+       }
+   
+       public void setAge(int age){
+         this.age = age;
+       }
+   
+       public void setName(String name){
+         this.name = name;
+       }
+   }
+   ```
+
+### 4.2.2 继承：
+
+#### 4.2.2.1 继承的概念：
+
+继承是Java面向对象编程技术的一块基石，因为他允许创建分等级层次的类。
+
+继承就是子类继承父类的特征和行为，使得子类对象具有父类的属性和方法。
+
+#### 4.2.2.2 继承的特性：
+
+1. 子类继承父类非private的属性和方法；
+
+2. 子类可以拥有自己的属性和方法，即子类可以对父类进行拓展；
+
+3. 子类若是有和父类同名的成员变量，那么子类的成员变量会`隐藏`父类的成员变量（**并不是覆盖**）；
+
+4. 子类不继承父类的构造器；
+
+   关于 `"子类是否继承父类private的属性和方法"`，有两种不同的言论：	
+
+   - 子类没有继承父类private的属性和方法
+   - 子类继承了父类所有的属性和方法（包括private的），但是无法直接访问父类的private成员。
+
+   经过Java官方文档与网上多方验证，最终得出下面比较满意（但不一定正确）的结论：
+
+   - 父类的private成员，子类并不会继承；
+
+   - 每次创建子类对象的时候，都会创建一个父类对象，并且子类对象持有父类对象的引用，所以看起来就是继承，实际上更像是聚合
+
+     ![image-20210208103155298](images/JavaCore详解/image-20210208103155298.png)
+
+     如果是真正的继承，更应该是下面这张图：
+
+     ![image-20210208105738003](images/JavaCore详解/image-20210208105738003.png)
+
+   - 父类的访问权限，子类也继承了。
+
+   [参考]https://blog.csdn.net/weixin_43465312/article/details/101394740
+
+### 4.2.3 多态：
+
+#### 4.2.3.1 介绍：
+
+多态是同一个行为具有多个不同表现形式或形态的能力。
+
+多态就是同一个接口，使用不同的实例而执行不同操作，如图所示：
+
+![img](images/JavaCore详解/java-polymorphism-111.png)
+
+#### 4.2.3.2 多态的优点：
+
+- 消除类型之间的耦合关系；
+- 可替换性；
+- 可扩展性；
+- 接口性；
+- 灵活性；
+- 简化性；
+
+#### 4.2.3.3 多态存在的三个必要条件：
+
+- 继承
+- 重写
+- 父类引用指向子类对象：`Parent p = new Child();`
+
+![img](images/JavaCore详解/java-polymorphism-222.png)
+
+> 当使用多态调用方法时，首先在`编译期`检查父类中是否有该方法，如果没有则编译错误；如果有，则在`运行期`调用子类的重写方法。
+
+### 4.2.4 重写：
+
+#### 4.2.4.1 介绍：
+
+重写是子类对父类的允许访问的方法的实现（方法体）进行重写，返回值和形参都不能变。即**外壳不变，核心重写**。
+
+重写的好处在于子类可根据需要，定义自己的行为。
+
+重写方法不能抛出新的检查异常或者比被重写方法申明更加宽泛的异常。
+
+#### 4.2.4.2 重写的规则：
+
+- 参数列表必须与被重写方法的参数列表完全相同；
+- 返回类型与被重写方法的返回类型可以不同，但是必须是父类返回值的派生类（java5及更早版本返回类型要一样，java7及更高版本可以不同）；
+- 访问权限不能比父类中被重写的方法的访问权限更低。例如：如果父类的一个方法被声明为public，那么在子类中重写该方法就不能声明为protected，必须要与父类的相等或者更高。
+- 父类的成员方法只能被它的子类重写；
+- 声明为final的方法不能被重写；
+- 声明为static的方法不能被重写，但是能够被再次声明；
+- `子类可以不抛出异常，也可以抛出异常`，若是抛出异常，则要满足下面两点：
+  - 若子类抛出的是受检查异常（编译器异常、强制异常），那么子类抛出的受检查异常不能比父类更高层（或者更广泛，即子类抛出的异常只能是父类异常或者父类异常的子类）；
+  - 若子类抛出的是非受检查异常（运行期异常、非强制异常），那么子类可以任意抛出，不论父类是否有该异常；
+
+【例子1】子类不能抛出被父类更大的受检查异常
+
+```java
+public class Parent {
+    public void show() throws FileNotFoundException {
+    }
+}
+
+class Son extends Parent {
+    @Override
+    public void show() throws IOException {		// overridden method does not throw 'java.io.IOException'
+    }
+}
+```
+
+报错：overridden method does not throw 'java.io.IOException'
+
+【例子2】子类可以抛出任意的非受检查异常
+
+```java
+public class Parent {
+    public void show() throws FileNotFoundException {
+    }
+}
+
+class Son extends Parent {
+    @Override
+    public void show() throws FileNotFoundException,ClassCastException {
+    }
+}
+```
+
+不报错
+
+【例子3】父类抛出的非收检查异常，对于子类没有影响，也就是说子类可以不抛出父类的非受检查异常，也可以抛出父类的非受检查异常，甚至可以排除比父类更大的非受检查异常（这里RuntimeException比ArithmeticException大）
+
+```java
+public class Parent {
+    public void show() throws FileNotFoundException,ArithmeticException {
+    }
+}
+
+class Son extends Parent {
+    @Override
+    public void show() throws FileNotFoundException,RuntimeException {
+    }
+}
+```
+
+不报错
+
+【例子4】子类可以抛出任意的非受检查异常
+
+```java
+public class Parent {
+    public void show() throws FileNotFoundException {
+    }
+}
+
+class Son extends Parent {
+    @Override
+    public void show() throws FileNotFoundException,RuntimeException {
+    }
+}
+```
+
+不报错
+
+### 4.2.5 重载：
+
+> 如果两个方法的方法名相同，但参数不一致，那么两个方法就是重载方法
+
+#### 4.2.5.1 重载的规则：
+
+- 方法名相同；
+- 方法的参数列表（参数类型，参数个数，参数顺序）不一样；
+- 方法的返回类型可以不相同；
+- 方法的修饰符可以不相同；
+- main方法也可以被重载
+
+
+
+## 4.3 接口
+
+### 4.3.1 接口介绍：
+
+> 接口，在Java编程中是一个抽象类型，是抽象方法的集合，接口通常以interface来声明。一个类通过继承(实现)接口的方式，从而来继承接口中的抽象方法
+
+### 4.3.2 接口特性：
+
+- 接口中每一个方法都是隐式抽象的，接口中的方法会被隐式的指定为`public abstract` (只能是public abstract，其它修饰符都会报错)；
+- 接口中可以含有变量，但是接口中变量都会被隐式的指定为`public static final` 变量（并且只能是public）；
+
+- 接口中的方法是不能在接口中实现的，只能由实现接口的类来实现接口中的方法；
+
+### 4.3.3 抽象类和接口的区别：
+
+- 抽象类中的方法可以有方法体；
+- 抽象类中的成员变量可以是各种类型的，而接口中的成员变量只能是`public static final`修饰的；
+
+- 接口中不能含有静态代码块以及静态方法，而抽象类是可以有静态代码块和静态方法；
+- 一个类只能继承一个抽象类，而一个类可以实现多个接口；
+- 接口比抽象类更加抽象；
+
+### 4.3.4 标记接口：
+
+> 标记接口是没有任何方法和属性的接口
+
+### 4.3.5 疑惑问题：
+
+#### 4.3.5.1 一个类实现多个接口中的同名方法：
+
+> [参考]https://blog.csdn.net/rainbow702/article/details/50519167
+
+
+
+## 4.4 抽象类
+
+> 在面向对象的概念中，所有的对象都是通过类来描述的，但是反过来，并不是所有的类都是用来描述对象的，如果一个类中没有包含足够的信息来描述一个具体的对象，这样的类就是抽象类。
+
+抽象类除了不能实例化对象之外，类的其它功能依然存在，成员变量、成员方法和构造方法的访问方式和普通类一样。
+
+### 4.4.1 抽象类规定：
+
+- 抽象类不能被实例化；
+- 抽象类中不一定包含抽象方法，但是有抽象方法的类必定是抽象类；
+- 抽象类中的抽象方法只是声明，不包含方法体；
+- 构造方法，类方法（用static修饰的方法）不能声明为抽象方法；
+- 抽象类的子类必须给出抽象类中的抽象方法的具体实现，除非该子类也是抽象类；
+
+### 4.4.2 抽象类与接口的区别：
+
+[参考]https://www.runoob.com/java/java-abstraction.html
+
+#### 4.4.2.1 语法层面上的区别：
+
+1. 抽象类可以提供成员方法的实现细节，而接口中只能存在`public abstract`方法；
+2. 抽象类中的成员变量可以是各种类型的，而接口中的成员变量只能是`public static final`类型的；
+3. 接口中不能含有静态代码块以及静态方法，而抽象类中可以有静态代码块和静态方法；
+4. 一个类只能继承一个抽象类，而一个类却可以实现多个接口；
+
+#### 4.4.2.2 设计层面上的区别：
+
+1. 抽象类是对一种事物的抽象，即对类抽象，而接口是对行为的抽象。抽象类是对整个类整体进行抽象，包括属性、行为，但是接口却是对类局部（行为）进行抽象。举个简单的例子，飞机和鸟是不同的事物，但是它们都有一个共性，就是都会飞。那么在设计的时候，可以将飞机设计为一个类Airplane，将鸟设计为一个类Bird，但是不能将飞行这个特性也设计为类，因为它只是一个行为特性，并不是对一类事物的描述。然后至于有不同种类的飞机，比如战斗机、民用飞机等直接继承Airplane即可，对于鸟也是类似的，不同种类的鸟直接继承Bird类即可。从这里可以看出，继承是一个`“是不是”`的关系，而接口实现则是`“有没有”`的关系。如果一个类继承了某个抽象类，则子类必定是抽象类的子类，而接口实现则是有没有、具备不具备的关系，比如鸟是否能飞，能飞行则可以实现这个接口，不能飞行就不实现这个接口。
+2. 设计层面不同，抽象类作为很多子类的父类，它是一种模板设计模式。而接口是一种行为规范，它是一种辐射式设计。什么是模板设计模式？最简单的例子，大家都用过ppt里面的模板，如果用模板A设计了ppt B和ppt C，ppt B和ppt C公共的部分就是模板A了，如果它们的公共部分需要改动，则只需要改动模板A就可以了，不需要重新对ppt B和ppt C进行改动。而辐射式设计，比如某个电梯都装了某种报警器，一旦要更新报警器，就必须全部更新。也就是说对于抽象类，如果需要添加新的方法，可以直接在抽象类中添加具体的实现，子类可以不进行变更；而对于接口则不行，如果接口进行了变更，则所有实现这个接口的类都必须进行相应的改动。
+
+
+
+## 4.5 枚举
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# 6. 常用类
+
+## 6.1 Arrays类
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# 10. 解疑答惑
+
+## 10.1 访问修饰符
+
+
+
+
+
+
+
+## 10.2 重载，如果存在多态，怎么确定调用哪一个？
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

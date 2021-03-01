@@ -1,0 +1,14 @@
+java.lang.relect.Modifier中的常量字段值:
+public ---> 1
+private ---> 2
+protected ---> 4
+static ---> 8
+final ---> 16
+synchronized ---> 32
+volatile ---> 64
+transient ---> 128
+native ---> 256
+interface ---> 512
+abstract ---> 1024
+strict ---> 2048
+

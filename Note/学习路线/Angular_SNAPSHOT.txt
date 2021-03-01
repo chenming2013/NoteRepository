@@ -1,0 +1,1 @@
+学习AngularJS之前先学习TypeScript

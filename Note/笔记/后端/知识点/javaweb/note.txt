@@ -1,0 +1,616 @@
+一.如何在任意目录下启动Tomcat？
+  1).把 F:\Tomcat\apache-tomcat-7.0.72\bin 添加到Path目录下。
+  2).添加成功后，若在任意目录下通过 startup 命令启动Tomcat服务器，会有提示 The CATALINA_HOME environment varible is not defined correctly
+  3).即：要求设置catalina_home环境变量,指向F:\Tomcat\apache-tomcat-7.0.72(tomcat根目录)
+  4).此时，在命令行上输入catalina，提示如下：
+  	commands:
+	  debug             Start Catalina in a debugger
+	  debug -security   Debug Catalina with a security manager
+	  jpda start        Start Catalina under JPDA debugger
+	  run               Start Catalina in the current window(在当前命令行窗口下启动Tomcat服务器)
+	  run -security     Start in the current window with security manager
+	  start             Start Catalina in a separate window(开启一个新窗口启动Tomcat服务器)
+	  start -security   Start in a separate window with security manager
+	  stop              Stop Catalina(关闭Tomcat服务器)
+	  configtest        Run a basic syntax check on server.xml
+	  version           What version of tomcat are you running?
+	  
+	  
+二、Tomcat提供了一个管理程序：Manager，用于部署到Tomcat服务器中的web应用程序。
+      要访问manager web应用程序，需要添加具有管理员权限的账号，编辑conf目录下的Tomcat-user.xml文件，添加manger角色，设置用户名和密码。
+      
+    
+三、Servlet生命周期方法：
+	1).构造器：只被调用一次，只有第一次请求Servlet的时，创建Servlet实例，调用构造器。
+	2).init方法：只被调用一次，在创建好实例后立即被调用。用于初始化当前Servlet。
+	3).service方法：被多次调用，每次请求都会调用service方法，实际用于相应请求的。
+	4).destroy方法：只被调用一次，在当前Servlet所在的web应用被卸载前调用，用于释放当前Servlet所占用的资源。
+	
+	
+四、load-on-startup参数：
+	1).配置在servlet节点中
+	2).可以指定Servlet被创建的时机。若为负数，则在第一次访问该Servlet时才创建；若为0或者正数，则在当前web应用被Servlet容器加载时创建实例，且数值越小越早被创建。
+	
+	
+五、init-param：初始化参数书
+	<servlet>
+		<servlet-name></servlet-name>
+		<servlet-class></servlet-class>
+		<init-param>
+			<param-name></param-name>
+			<param-value></param-value>
+		</init-param>
+	</servlet>
+	
+	
+六、ServletConfig：封装了Servlet配置信息，并且可以获取ServletContext对象
+	1).public String getInitParameter(String name):获取指定参数名的初始化参数(若是ServletConfig对象调用该方法,那么只能获取Servlet的初始化参数)
+	2).public Enumeration getInitParameterNames():获取初始化参数名
+	3).public ServletContext getServletContext():获取ServletContext对象(ServletContext对象调用getInitParameter()方法可以获取当前web应用的初始化参数)
+	4).public String getServletName():获取Servlet配置名称
+
+	
+七、ServletContext接口
+	1).Servlet引擎为每个web应用程序都建立一个对应的ServletContext对象，ServletContext对象被包含在ServletConfig对象中，调用ServletConfig.getServletContext()方法可以返回ServletContext对象的引用。
+	2).由于一个web应用程序中的所有Servlet都共享同一个ServletContext对象，所以ServletContext对象被称之为application对象(web应用程序对象)
+	3).功能：
+		-获取web应用程序的初始化参数   【参考servlet/ServletContextTest.java】
+		-记录日志
+		-application域范围的属性
+		-获取虚拟路径所隐射的本地地址  【参考servlet/ServletContextTest2.java】
+		-web应用程序之间的访问
+		-获取当前web应用的某一个文件对应的输入流、访问资源文件    【参考servlet/ServletContextTest3.java】
+		 【ServletContext只能获取web根目录及WEB-INF目录下的文件】
+		-ServletContext的其他方法
+		
+		 
+八、HTTP：
+	1).浏览器与web服务器的连接过程是短暂的，每次连接只处理一个请求和响应。对每一个页面的访问，浏览器与web服务器都要建立一次单独的连接
+	2).浏览器到web服务器之间的所有通讯都是完全独立分开的请求和响应对。
+	
+	
+九、ServletRequest
+	1).获取参数的方法：
+		-getParameter(String name)
+		-getParameterNames()
+		-getParameterValues(String name)
+		-getParameterMap();
+		
+	
+十、JSP
+	1).在JSP页面编写的Java代码需要嵌套在 <% 和 %> 中，嵌套在 <% 和 %> 之间的Java代码被称之为脚本片段(Scriptlets)，没有嵌套在 <% 和 %> 之间的内容被称之为模板元素(静态HTML内容)
+	2).JSP文件就像普通的HTML文件一样，他们可以放置在web应用程序中除WEB-INF及其子目录外的其他任何目录中，JSP的访问路径与普通的HTML的访问路径形式也完全一样。
+	3).JSP运行原理：
+		-).web容器(Servlet引擎)接收到以.jsp为扩展名的url的访问请求时，它将该访问请求交给JSP引擎去处理
+		-).每个JSP页面在第一次被访问时，JSP引擎将它翻译成一个Servlet源程序，接着再把这个Servlet源程序编译成Servlet的class类文件，
+		      然后再由web容器像调用普通Servlet程序一样的方式来装载和解释执行这个由jsp页面翻译成的Servlet程序
+	4).JSP规范也没有明确规定jsp中的脚本语言必须采用Java，JSP中的脚本程序可以采用Java语言之外的其他脚本语言来写，但是JSP页面最终必须转化成Java Servlet程序。
+	5).可以在web应用程序正是发布之前，将其中的所有jsp页面预先编译成Servlet程序。
+	6).九大内置对象
+		-request: HttpServletRequest的一个对象
+		-response: HttpServletResponse的一个对象
+		-pageContext: 页面上下文,是PageContext的一个对象，可以从该对象中获取其它8个内置对象。也可以从中获取当前页面的信息(学习自定义标签时使用它)
+		-applocation: 代表当前web应用，是ServletContext的一个对象
+		-config: 当前JSP对应的Servlet的ServletConfig对象，若要访问当前JSP配置的参数，需要通过配置映射才可以   【参考ConfigTest.jsp】
+		-out: JspWriter对象。
+		-page: 指向当前JSP对应的Servlet对象的引用，但为Object类型，只能调用Object类的方法,此内置对象几乎不用。
+		-session: 代表浏览器和服务器的一次会话，是HttpSession的一个对象。
+		-exception: 异常对象，只有当声明了<%@page isErrorPage="true" %>这样的页面才能使用exception对象
+	7).注释
+		<%-- jsp注释 --%>: 可以组织Java代码的执行
+		<!-- HTML注释 -->
+	
+十一、和属性相关的方法   【参考AttributeTest.jsp、AttributeTest2.jsp】
+	1). setAttribute()、getAttribute()、removeAttribute()
+	2). 四个域对象:request、pageContext、session、application
+	3). 作用域：
+		request: 属性的作用范围仅限一次HTTP请求相应
+		pageContext: 属性的作用范围仅限于当前的JSP页面
+		session: 属性的作用范围限于一次会话：浏览器打开直到关闭称之为一次会话(在此期间会话不失效)
+		
+		
+十二、请求重定向与请求转发
+	1).请求重定向：sendRedirect(path),  请求转发：request.getRequestDispatcher(path).forward(request,response);
+	2).请求转发：/ 代表当前web应用的根目录 ；  请求重定向 ：/ 代表当前web站点的根目录(即：localhost:8088)
+	3).请求重定向可以重定向到任何资源，请求转向只能转发给当前web应用的资源
+	
+十三、JSP指令：
+	1).JSP指令是为JSP引擎而设计的，它们并不直接产生任何可见输出，而只是告诉引擎如何处理JSP页面中的其余部分。
+	2).JSP指令的基本语法格式
+		<%@ 指令 属性名="值" %>
+	3).在目前的JSP中定义了page、include、taglib这三种指令，每种指令中都定义了一些各自的属性
+	4).page指令用于定义JSP页面的各种属性，无论page指令出现在JSP指令的什么地方，它作用的都是整个JSP页面(建议放在JSP页面的起始位置)
+	5).pege指令常用属性：
+		-).import属性: 指定当前JSP页面对应的Servlet需要导入的类   
+						<%@page import="java.util.Date" %>
+		-).session属性: 取值为true或者false，指定当前的session内置对象是否可用，也可以说访问当前页面时是否一定生成HttpSession对象.
+						<%@page session="true"%>
+		-).errorPage属性: 指定若当前页面出现错误的实际响应页面是什么，即，当前页面出错时，跳转到哪个页面相应。其中跳转使用的请求转发.
+						<%@page errorPage="/error.jsp"%>      /代表的是当前web应用的根目录
+						此外还可以在web.xml中指定错误页面：有下面的两种方式
+						/* 方式一： */
+						<error-page>
+							<!-- 只要出了500错误，就跳转到/WEB-INF/error.jsp页面 -->
+							<error-code>500</error-code>            
+							<location>/WEB-INF/error.jsp</location>
+						</error-page>
+						/* 方式二: */
+						<error-page>
+							<!-- 只要发生了ArithmeticException异常，就跳转到hello.jsp页面 -->
+							<exception-type>java.lang.ArithmeticException</exception-type>
+							<location>/hello.jsp</location>
+						</error-page>
+		-).isErrorPage属性: 指定当前页面是否为错误处理页面，只有当此属性为true时，才可以使用exception内置对象
+						<%@page isErrorPage="true"%>
+						一般情况下，像这样的页面，我们都是不会让用户直接访问，那么如何让用户不直接访问某一个资源文件呢？
+						可以将资源文件放到WEB-INF及其子目录下。
+		-).contentType属性: 指定当前JSP页面的响应类型。实际调用的是response.setContentType("text/html;charset=utf-8");
+						<%@page contentType="text/html;charset=utf-8" %>    如果要查看更多的contentType，可以到Tomcat的web.xml文件中查看
+		-).pageEncoding属性: 指定当前JSP页面的字符编码。通常该值和 contentType 属性中 charset 一致
+						<%@page pageEncoding="utf-8"%>
+		-).isELIgnored属性: 指定当前页面是否可以使用 EL 表达式.通常取值为false(表示可以使用EL表达式)
+						<%@page isELIgnored="false"%>
+	6).include指令：include指令用于通知JSP引擎子在翻译当前JSP页面时，将其它文件中的内容合并进当前JSP页面转换成的Servlet源文件中。
+					这种在源文件级别进行引入的方式称之为静态引入。(当前JSP页面与静态引入的页面紧密结合为一个Servlet)
+					<%@include file="relativeURL" %>   file属性用于指定被引入文件的相对路径
+	7)include指定细节：   【参考IncludeTest.jsp、IncludeTest2.jsp】
+		-).被引入的文件必须遵循JSP语法，其中的内容可以包含静态HTML、JSP脚本元素、JSP指令和JSP行为元素等普通JSP页面所具有的一切内容
+		-).被引入的文件可以使用任意的拓展名，即使拓展名是html，JSP引擎也会按照处理JSP页面的方式处理它里面的内容，
+		      为了见名知义，jsp规范建议使用.jspf(JSP fragments)作为静态引入资源的拓展名。
+		-).在将JSP文件翻译成Servlet源文件时，JSP引擎将合并被引入的文件与当前JSP页面中的指令元素(设置pageEncoding属性的page指令除外)，
+		      所以除了 import 和 pageEncoding 属性之外，page指令的其他属性不能在这两个页面有不同的设置值。
+ 	8).JSP标签   【参考JSPTagTest.jsp、JSPTagTest2.jsp、JSPTagTest3.jsp、JSPTagTest4.jsp】
+ 		-).JSP还提供了一种称之为Action的元素，在JSP页面中使用Action元素可以完成各种通用的JSP页面功能，也可以实现一些处理复杂业务逻辑的专用功能。
+ 		-).Action元素采用XML元素的语法格式，即每个Action元素在JSP页面中都以XML标签的形式出现。
+ 		-).JSP规范中定义了一些标准的Action元素，这些元素的标签名都以jsp作为前缀，并且全部采用小写，例如：<jsp:include>、<jsp:forward>等等。
+ 		-).<jsp:include>标签：用于把另外一个资源的输出内容插入进当前页面的输出内容之中，这种在JSP页面执行时的引入方式称之为动态引入。
+ 			-->.语法：<jsp:include page="relativeURL" flush="true|false"></jsp:include>
+ 			-->.page属性用于指定被称之为引入资源的相对路径。它也可以通过执行一个表达式来获得
+ 			-->.flush属性指定在插入其他资源的输出内容时，是否先将当前JSP页面的已输出内容刷新到客户端。
+ 			【参考JSPTagTset.jsp、JSPTagTest2.jsp】
+ 			-->.<%@include file="..."%>与<jsp:include page="..."></jsp:include>的比较：
+ 				1.<jsp:include>标签是在当前JSP页面的执行期间插入被引入资源的输出内容，当前JSP页面与被动态引入的资源是两个彼此独立的执行实体，
+ 				    被动态引入的资源必须是一个能独立被web容器调用和执行的资源。而<%@include ...%>指令只能引入遵循JSP格式的文件，被引入文件与当前JSP文件共同结合被翻译成一个Servlet源文件
+ 				2.使用<jsp:include>标签和<%include ...%>都可以把一个页面的内容分成多个组件来生成，开发者不必再把页眉和页脚部分的相同HTML代码复制到每个JSP文件中，从而可以更轻松的完成维护工作，
+ 				    但是都应注意最终的输出结果内容应遵循HTML语法结构。例如：当前页面产生了<html></html>、<body></body>等标记，那么在被引入文件只能够就不能再输出<html></html>、<body></body>等标记。
+ 				3.<jsp:include>标签对JSP引擎翻译JSP页面的过程不起作用，它是在JSP页面的执行期间才被调用，因此不会影响两个页面的编译。由于<%@include ...%>指令是在JSP引擎翻译JSP页面的过程中被解释处理的，
+ 				    所以它对JSP引擎翻译JSP页面的过程起作用。如果多个JSP页面中都要用到一些相同的声明，那么就可以把这些声明语句放在一个单独的文件中编写，然后在每个JSP页面使用include指令将那个文件包含进来。
+ 				4.<%@include file="..."%>在Tomcat的work目录下生成一个Servlet文件，<jsp:include page="..."></jsp:include>在work目录下生成两个Servlet文件
+ 				5.使用<%@include ...%>指令，在JSPTagTest2.jsp页面可以使用JSPTagTest.jsp页面的参数变量等；而使用<jsp:include>标签两个页面的参数、变量是独立，不能相互使用
+ 			-->.可以使用<jsp:param>子标签传递参数
+ 		-).<jsp:forward>标签：把请求转发给另一个资源。
+ 			-->.可以使用<jsp:param>子标签传递参数
+ 		
+
+十四、WEB-INF目录：
+	1).对于Tomcat而言，WEB-INF下的文件是不能通过在浏览器直接输入url来访问的。但是通过请求转发是可以访问的。
+		<%@page errorPage="/WEB-INF/error.jsp"%>
+		
+		
+十五、中文乱码
+	1).对于POST请求：只要在获取请求信息之前，调用request.setCharacterEncoding("utf-8")即可
+	2).对于GET请求：前面的方式对于GET请求无效，可以通过修改Tomcat的server.xml文件的方式
+    	<Connector port="8088" protocol="HTTP/1.1"
+               connectionTimeout="20000" URIEncoding="utf-8"
+               redirectPort="8443" useBodyEncodingForURI="true" />
+               
+               
+十六、一个完整的操作数据库的案例  【参考】
+	1).步骤
+		-).加入C3P0数据源
+		-).编写DAO、JDBCUtils工具类和CustomerDAO接口
+		-).提供CustomerDAO接口的实现类
+		
+		
+十七、Cookie【参看CookieTest.jsp、CookieTest2.jsp、CookieTest3.jsp】
+	1).如果创建了一个cookie，并将它发送到浏览器，默认情况下是一个会话级别的cookie，此时的cookie是存储在浏览器的内存中，用户在退出浏览器后被删除。
+	      若希望浏览器将cookie存储在磁盘上，则需要调用setMaxAge()方法并给出一个以秒为时间的单位。在设置的这段时间内，该cookie会一直存储在磁盘上，该浏览器都可以访问到。
+		若是将时间设置为0，则是命令浏览器删除该cookie
+	2).发送cookie需要使用HttpServletResponse的addCookie()方法，将cookie插入到一个set-Cookie HTTP响应报头中。由于这个方法并不修改任何之前指定的set-Cookie报头，
+		而是创建新的报头，因此将这个方法称为addCookie，而非setCookie
+	3).利用Cookie实现自动登录  【参看CookieTest2.jsp、CookieTest3.jsp】
+	4).cookie是每一个浏览器独有的，不同浏览器之间cookie不能相互调用
+		
+		
+十八、Cookie的作用范围：可以作用当前目录和当前目录的子目录，但不能作用于当前目录的上一级目录。
+	  cookie.setPath(request.getContextPath)或者cookie.setPath("/");
+					
+						
+						
+十九、session
+	1).session通过JSESSIONID来区分不同的用户，session是以cookie或URL重写为基础的，默认使用cookie来实现，
+	     系统会创建一个名为JSESSIONID的输出cookie，这称之为session cookie，以区分persistent cookie(也就是我们常说的cookie)，
+	   session cookie是存储在浏览器内存中的，并不是写到磁盘上的，通常看不到JSESSIONID，但是当把浏览器的cookie禁止后，
+	   web浏览器会采用URL重写的方式床底SessionID，这是地址栏可以看到。
+	2).当程序需要为客户端的请求创建一个session时，服务器会首先检查这个客户端的请求里是否包含一个session表示(JSESSIONID),
+	     如果已经包含一个sessionID则说明已经为此用户创建session，服务器就按照sessionID把这个session检索出来(如果检索不到，可能会创建一个，这种情况可能出现在服务器已经删除该用户对应的session，但用户认为在请求的URL后附上一个JSESSIONID的参数)
+	     如果客户的请求不包含sessionID，则为此客户创建一个session并生成一个与此相关的sessionID，这个sessionID将在本次相应中返回给客户端保存。
+	3).表单的重复提交
+		-).调用RequestDispatcher.forward()方法，浏览器所保留的URL是先前的表单提交的URL，此时点击“刷新”，浏览器将再次提交用户之前输入的数据，引起重复提交
+		-).如果采用sendRedirect()方法将客户端重定向到另一个页面，将不会出现重复提交问题。
+	4).如何避免表单的重复提交
+		在表单中做一个标记，提交到Servlet时，检查标记是否存在且是否和预定义的标记一致，若一致则受理请求，并销毁标记；若不一致或没有标记，则响应 提示信息。
+	5).利用session实现验证码
+		
+		
+二十、关于 / :可以代表当前web应用的根目录，也可以web站点的根目录
+	1) / 如果交给浏览器解析，则代表web站点的根目录，如果交给服务器解析，则代表当前web应用的根目录。
+	2) 代表当前web应用的根目录：在web.xml文件中，映射路径；请求的转发。
+	      代表web站点的根目录：超链接的href属性，请求的重定向
+	      
+	      
+二十一、JavaBean
+	1、用作JavaBean的类必须只有一个公共的、无参数的构造方法
+	2、JavaBean的属性与普通的Java类的属性概念不一样，JavaBean的属性是以方法定义的形式出现的。
+	3、用于对属性赋值的方法称之为属性修改器或setter方法，用于读取属性值的方法称之为属性访问器或getter方法
+	4、属性修改器必须必须以小写的set前缀开始，后跟属性名，且属性名的第一个字母要大写。例如：nickName属性的
+	     修改器名称为setNickName,
+	5、属性访问器通常以小写的get前缀开始，后跟属性名，且属性名的第一个字母要改为大写。例如：nickName属性的
+	     访问器名称为getNickName,
+	6、JavaBean的属性名是根据setter方法和getter方法的名称来生成的
+	7、JavaBean在JSP中的应用(这三个标签几乎不用)
+		1).<jsp:useBean>标签：用于在某个指定的域范围(application、session、request、pageContext等)中查找
+		     一个指定名称的JavaBean对象，如果存在则直接返回该JavaBean对象的引用，如果不存在则实例化一个新的
+		   JavaBean对象并将他按指定的名称存储在指定的域范围中。
+		   <jsp:useBean	id="beanInstanceName" class="package.class" scope="page|request|session|application" />
+		2).<jsp:setProperty>标签:
+		3).<jsp:getPProperty>标签
+		
+		
+二十二、EL表达式 【参考ELTest.jsp、ELTest2.jsp、ELTest3.jsp】
+	1、EL全名Expression Language
+	2、EL语法：${...}
+	3、EL变量：${username}
+		1).它的意思是取出某一范围中名称为username的变量。因为我们并没有指定哪一个范围的username，所以他的默认值
+		     会先从page范围找，假如找不到，再依次到request、session、Application范围中查找。假如中途找到username，
+		     就直接回传，不再继续找下去，但是如果全部的范围都找不到，就传回null。
+	4、EL可以进行自动的类型转换
+	5、EL的隐含对象
+		隐含对象							类型					   			说明
+		PageContext			javax.servlet.ServletContext			表示此JSP的Context
+		PageScope			  		java.util.Map					取得Page范围的属性名称所对应的值
+		RequestScope				java.util.Map					取得Request范围的属性名称所对应的值
+		sessionScope				java.util.Map					取得session范围的属性名称所对应的值
+		applicationScope			java.util.Map					取得Application范围的属性名称所对应的值
+		param						java.util.Map					如同request.getParameter(name),回传String类型的值
+		paramValues					java.util.Map					如同request.getParameterValues(name),回传String[]类型的值
+		header						java.util.Map					如同request.getHeader(name),回传String类型的值
+		headerValues				java.util.Map					如同request.getHeaders(name),回传String[]类型的值
+		cookie						java.util.Map					如同request.getCookies()
+		initParam					java.util.Map					如同ServletContext.getInitParameter(name).回传String类型的值
+	6、EL原理
+		1、以pageContext对象为例：因为pageContext对象中有getRequest方法，所以可以这样写 pageContext.request,
+		     又因为HttpRequest对象中有很多get方法，如getParam,所以继续可以这样写 pageContext.request.param
+		2、只要是对象中，不管是父类还是子类，只要有 无参的get方法，都可以通过这样的方式 “点出来”  
+		
+		
+二十三、自定义标签
+	1、什么是自定义标签：
+	     是用户自定义的一种自定义的JSP标记。当一个含有自定义标签的JSP页面被JSP引擎翻译成Servlet的时候，tag标签被转化成了对一个称为 “标签处理类” 的对象的操作。
+	     于是，当JSP标签被JSP引擎转化为Servlet后，实际上tag标签被转化为了对tag处理类的操作。
+	2、自定义标签可以降低JSP开发的复杂度和维护量，从html角度来说，可以使html不用过多的去关注那些比较复杂的业务逻辑
+	3、利用自定义标签，可以软件开发人员和页面设计人员合理分工：页面设计人员可以把经理集中在使用标签(html、xml、jsp)创建网站上，
+	      而软件开发人员则可以将精力集中在底层功能上。
+	4、将具有共同特性的标签库应用于不同的项目中，体现软件复用的思想
+	5、自定义标签开发与应用步骤【很重要】
+		1).编写完成标签功能的Java类(标签处理器)
+		2).编写标签库描述(tld)文件，在tld文件中对自定义中进行描述
+		3).在JSP页面中导入和使用自定义标签
+	6、simpleTag接口
+		1).setJspContext()方法: 该方法把代表JSP页面的PageContext对象传递给标签处理器对象
+		2).setParent()方法: 该方法把父标签处理器对象传递给当前标签处理器对象
+		3).getParent()方法: 该方法用于获得标签的父标签处理器对象
+		4).setJspBody()方法: 该方法用于把标签体的JspFragment对象传递给标签处理器对象
+		5).doTag()方法: 该方法用于完成所有的标签逻辑。该方法可以抛出javax.servlet.jsp.SkipPageException异常，用于通知web容器不再执行jsp页面中位于结束标记后面的内容
+	7、开发自定义标签的注意事项
+		1).开发自定义标签，其核心就是要编写处理器类，一个标签对应一个标签处理器类，而一个标签库则是很多标签处理器的集合。
+		     所有的标签处理器类都要事先JSPTag接口，该接口中没有定义任何方法，主要作为Tag和SimpleTag接口的父接口
+		2).在JSP2.0之前，所有标签处理器类都必须实现Tag接口，这样的标签成为传统标签
+		3).JSP2.0规范又定义了一种新的类型的标签，称为简单标签，其对应的处理器类要实现SimpleTag接口
+	8、标签的形式
+		1).空标签：<hello/>
+		2).带有属性的标签
+			<max num1="3" num2="5" />
+		3).带有内容的标签
+			<greeting>
+				hello
+			</greeting>
+		4).带有内容和属性的标签
+			<greeting name="Tom">
+				hello
+			</greeting>
+	9、实现SimpleTag接口的标签处理器类的生命周期
+		1).setJspContext(): JSP引擎将代表JSP页面的PageContext对象传递给标签处理器类
+		2).setParent(): JSP引擎将父标签处理器对象传递给当前JSP处理器对象。只有存在父标签时，JSP引擎才会调用该方法
+		3).setXxx(): 设置标签属性，只有定义属性才调用该方法
+		4).setJspBody(): 若存在标签体，JSP引擎将标签体封装成一个JSPFragment对象，调用setJspBody()方法将JspFragment对象
+		                               传递给标签处理器对象。若标签体为空，这setJspBody()方法将不会被JSP引擎调用。
+		5).doTag(): 容器调用标签处理器对象的doTag()方法执行标签逻辑。	
+	10、空标签：编写一个简单的自定义标签【参考 tag/HelloSimpleTag.java、MyTag.tld、tag/MyTag.jsp】
+	11、带属性的自定义标签：自定义标签的属性是如何传递给标签处理器的呢？【参考tag/HelloSimpleTag2.java、MyTag.tld、tag/MyTag2.jsp】
+		【建议在标签处理器中将属性都设置为String类型】
+		练习1：定制一个带有两个属性的标签<max>,用于计算并输出两个数的最大值 【参考tag/MaxTag.java、MyTag.tld、tag/MaxTag.jsp】
+		练习2：定制一个带有一个属性的标签<chenming:redFile src="">，用于读取指定文件的内容  【参考tag/ReadFileTag.java、MyTag.tld、tag/ReadFile.jsp】
+	12、带标签体的自定义标签：【参考tag/HelloSimpleTag3.java、MyTag.tld、tag/HelloSimpleTag3.jsp】
+		1).<body-content>:指定标签体的类型。可能有三种,大部分情况下取值为 scriptless
+			--).empty: 没有标签体
+			--).scriptless: 标签体可以包含 EL 表达式和 JSP 动作元素，但不能包含 JSP 的脚本元素(java代码)
+			--).tagdependent: 表示标签体交由标签本身去解析处理。若指定 tagdependent ,在标签体中的所有代码会原封不动的交给标签处理器，而不是执行结果传递给标签处理器。
+		2).练习：自定义一个标签，将标签体中的内容输出10次。【参考tag/HelloSimpleTag3_2.java、MyTag.tld、tag/HelloSimpleTag3_2.jsp】
+		3).联系：模仿JSTL写一个foreach循环 【参考tag/HelloSimpleTag3_3.java、MyTag.tld、tag/HelloSimpleTag3_3.jsp】
+	13、带父标签的自定义标签 【参考tag/HelloSimpleTagOfSonTag、tag/HelloSimpleTagOfParentTag、MyTag.tld、tag/HelloSimpleTag4.jsp】
+		1).JspTag是一个空接口，是用来统一 SimpleTag 和 Tag 的。
+		2).开发一个标签，有 if...else if...else 的功能
+			--).步骤
+			--).开发3个标签: choose、when、otherwise
+			--).其中when标签有一个boolean类型的属性: test
+			--).choose是when和otherwise的父标签,when在otherwise之前使用
+			--).在父标签choose中定义一个 "全局" 的Boolean类型的flag：用于判断子标签在满足条件的情况下是否执行
+				--).若when的test为true,且when的父标签的flag也为true,则执行when的标签体，同时把flag设为false
+				--).若when的test为true,而when的父标签的flag为true,则不执行标签体
+				--).若flag为true，otherwise执行标签体	
+	14、EL自定义函数：【参考 tag/HelloSimpleTag6.java、MyTag.tld、tag/HelloSimpleTag6.jsp】
+		1).EL自定义函数：在EL表达式中调用的某个Java类的静态方法，这个静态方法需在web应用程序进行配置才可以被EL表达式调用
+		2).EL自定义函数可以扩展EL表达式的功能、让EL表达式完成普通Java程序代码所能完成的功能。
+		3).EL自定义函数开发步骤：
+			--).编写EL自定义函数映射的Java类中的静态方法：这个Java类必须带有public修饰符，方法必须是这个类的带有public修饰符的静态方法
+			--).编写标签库描述文件(tld文件)，在tld文件中描述自定义函数。
+			--).在JSP页面导入和使用自定义函数。
+			--).自定义一个contact()函数:拼接两个字符串
+	15、getJspBody.invoke(Writer): 把标签体的内容输出到Writer指定的字符流中
+	
+	
+二十四、JSTL
+	1、JSTL全名 javaServer Page Standard Tag Library(JSP标准标签库),
+	2、JSTL所提供的标签库主要分为五大类
+		1).核心标签库：		前置名称(c)		URI(http://java.sun.com/jsp/jstl/core)	
+		2).I18N格式标签库	前置名称(fmt)	URI(http://java.sun.com/jsp/jstl/fmt)
+		3).SQL标签库			前置名称(sql)	URI(http://java.sun.com/jsp/jstl/sql)
+		4).XML标签库			前置名称(xml)  	URI(http://java.sun.com/jsp/jstl/xml)
+		5).函数标签库		前置名称(fn)		URI(http://java.sun.com/jsp/jstl/functions)
+	3、表达式操作：【参考JSTLTest.jsp】
+		1).<c:out>:主要用来显示数据的内容，就像是 <%= scripting-language %> 一样，例如 ：hello<c:out value="${username}" />
+				   <c:out>能对特殊字符进行编译
+			属性：
+			名称			说明						EL			类型			必须			默认值
+			value		需要显示出来的值			Y			Object		是			无
+			default		如果value的值为null，	Y			Object		否			无
+						则显示default的值
+			escapeXml	是否转换特殊字符，		Y			Boolean		否			true
+						如：<转换成&lt;
+		2).<c:set>:主要用来将变量存储至JSP范围中或是JavaBean的属性中
+			属性：
+			名称			说明						EL			类型			必须			默认值
+			value		要被储存的值				Y			Object		否			无
+			var			欲存入的变量名称			N			String		否			无
+			scope		var变量的JSP范围			N			String		否			page
+			target		为一个JavaBean或Map对象	Y			Object  	否			无
+			property	制定个target对象的属性	Y			String		否			无
+		3).<c:remove>:主要用来移除指定的变量
+	4、流程控制操作：【参考JSTLTest2.jsp】
+		1).<c:if>:与Java程序中的if条件一样
+			属性：
+			名称			说明						EL			类型			必须			默认值
+			test		表达式为true则执行本体
+						内容，false则不执行		Y			Boolean		是			无
+			var 		用来存储test运算的结果	N			String		否			无
+			scope		var变量的JSP范围			N			String		否			Page
+		2).<c:choose>、<c:when>、<c:otherwise>:可以实现 if...else if...else if...else...的效果
+	5、迭代操作：【参考JSTLTest3.jsp】
+		1).<c:forEach>
+			属性：
+			名称			说明						EL			类型				必须			默认值
+			var			用来存放变量				N			String			否			无
+			items		被迭代的集合对象			Y		Arrays、Collection、	否			无
+														Iterator、String、
+														Enumeration、Map
+			varStatus							N			String			否			无
+			begin		开始的位置(下标)			Y			int				否			0
+			end			结束的位置(下标)			Y			int				否			最后一个成员
+			step		每次迭代的间隔数			Y			int				否			1
+		2).varStatus有四个属性：index、count、first、last
+			index: 当前元素的索引
+			count: 当前元素是第几个
+			first: 当前元素是不是第一个
+			last : 当前元素是不是最后一个
+		3).<c:forTokens>
+	6、JSTL包含三个与URL操作有关的标签<c:import>、<c:redirect>、<c:url>。  【参考JSTLTest.jsp】
+	     他们主要的功能是：用来将其它文件的内容包含起来、网页的导向、还有URL的产生。
+		1).<c:import>:可以把其它静态或动态文件包含至本身的JSP页面。它和<jsp:include>最大的差别在于：<jsp:includ>只能包含
+					    和自己同一个web应用下的文件；而<c:import>能包含同一个web应用及不同web应用的文件
+		2).<c:redirect>:使当前页面重定向到指定的页面
+		3).<c:url>:可以在cookie禁用的时候，进行URL重写，智能的在附加上JSESSIONID,还能对get请求的参数进行编码
+	7、empty操作符能判断是否为null  <c:if test="${empty param.age}" var="reslut"></c:if>
+				
+				
+				
+二十五、Filter(过滤器)
+	1、Filter的基本功能是对Servlet容器调用Servlet的过程进行拦截，从而在Servlet进行响应处理的前后实现一些特殊的功能
+	2、在Servlet API中定义了三个接口类来功开发人员编写Filter程序：Filter、FilterChain、FilterConfig
+	3、Filter程序是一个实现了Filter接口的Java类，与Servlet程序类似，它由Servlet容器进行调用和执行
+	4、Filter程序需要在web.xml文件中进行注册和设置他所能拦截的文件和静态HTML文件。
+	5、Filter的基本工作与原理：
+		1).挡在web.xml中注册了一个Filter来对某个Servlet程序进行拦截处理时，这个Filter就成了Servlet容器与该Servlet程序的通信线路上的一道关卡，
+		     该Filter可以对Servlet容器发送给Servlet程序的请求 和 Servlet回送给Servlet容器的响应进行拦截，可以决定是否将请求继续传递给Servlet程序，
+		     以及对请求和响应信息是佛进行修改。
+		2).在一个web应用程序中可以注册多个Filter程序，每个Filter程序都可以对一个或一组Servlet进行拦截
+		3).若有多个Filter程序对某个Servlet程序的访问过程进行拦截，当针对该Servlet的访问请求到达时，web容器将把多个Filter程序组合成一个Filter链(过滤器链)。
+		   Filter链中各个Filter的拦截顺序与它们在应用程序的web.xml中映射的顺序一致。
+		4).案例一、我们想要从 filter/HelloFilter1.jsp 跳转到 filter/HelloFilter2.jsp 的时候拦截一下【参考filter/HelloFilter.java、filter/HelloFilter1.jsp、filter/HelloFilter2.jsp】
+	           【注：Filter对象在Servlet容器加载当前web应用时即被创建】
+	    5).案例二、在案例一中我们成功的拦截了到 filter/HelloFilter2.jsp 的请求，那么在拦截之后怎么让这个请求继续进行呢？【参考filter/HelloFilter2.java、filter/HelloFilter2.jsp、filter/HelloFilter2.jsp】
+	6、FilterChain：Filter链。
+		1).多个 Filter 可以构成一个Filter链
+		2).FilterChain接口只定义了一个方法：doFilter(ServletRequest request, ServletResponse response)
+		     这个方法把请求传给 Filter 链的下一个 Filter 。若当前Filter是Filter链的最后一个Filter，将把请求给到目标servlet或JSP
+		    【参考：filter/HelloFilter3.java、filter/HelloFilter3_2.java、filter/HelloFilter3.jsp、filter/HelloFilter4.jsp】
+		3).多个Filter拦截的顺序和<filter-mapping>配置的顺序有关，考前的先被调用
+	7、映射Filter
+		1、<dispatcher>: 指定过滤器所拦截的资源被Servlet容器调用的方式，可以是request、include、Forward、error之一。默认是request。
+		     可以设置多个<dispatcher>子元素用来指定Filter对资源的多种调用方式进行拦截
+		2、<dispatcher>子元素可以设置的值及其意义(注意是大写)   【参考filter/HelloFilter5_1.java、filter/HelloFilter5.jsp、filter/HelloFilter6.jsp】
+			1).REQUEST:当用户直接访问页面时(post或get)，web容器将会调用过滤器。如果目标子元素是通过RequestDispatcher的include()或者Forward()方法访问时，那么该过滤器就不会被调用
+			2).INCLUDE:如果目标资源是通过RequestDispatch的include()方法访问时，那么过滤器将被调用。除此之外，该过滤器将不会被调用。
+			3).ERROR:如果目标资源是通过声明异常处理机制调用时，那么该过滤器将被调用。除此之外，过滤器将不会被调用。
+			     在web.xml中通过<error-page>节点进行生命的才会调用过滤器; 若是通过page指令<%@ page ErrorPage=""%>的话，这只能算是Forward方式.
+			4).FORWARD:如果目标资源是通过RequestDispatcher的forward()方法访问时，那么该过滤器将被调用，除此之外，该过滤器不会被调用 
+			     三种：request.getRequestDispatcher(path).forward(request,response)、<jsp:forward page=""></jsp:forward>、<%@ page ErrorPage=""%>
+			     当<dispatcher></dispatcher>设置为 FORWARD 的时候，这三种方式都会调用过滤器  
+	8、使浏览器不缓存页面的过滤器 【参考 filter/HelloFilter7.java、filter/HelloFilter7.jsp】
+	9、字符编码过滤器 【参考filter/HelloFilter8.java】
+	10、验证是否登录的过滤器
+		filter2目录下有6个JSP文件,在不登录的状态下我们可以访问list.jsp、a.jsp;而b.jsp、c.jsp、d.jsp、e.jsp必须在登录的状态下才能访问。
+		若是没有登录就访问b.jsp、c.jsp、d.jsp、e.jsp,那么就跳转到登录页面登录。
+	
+	
+二十六、Servlet监听
+	1、监听器：专门用于对其他对象身上发生的事件或状态改变进行监听和相应处理的对象，当被监听的对象发生情况时立即采取相应的行动
+	2、servlet监听器：Servlet规范中定义的一种特殊类，它用于监听web应用程序中的ServletContext、HttpSession和ServletRequest等域对象的创建和销毁事件，
+	     以及监听这些域对象中的属性发生修改的事件。
+	3、Servlet监听器的分类：按监听的事件类型，Servlet监听器可分为如下三种类型
+		1).监听域对象自身的创建和销毁的时间监听器
+											创建时机										销毁时机
+			ServletContext			web服务器启动，为每个web应用创建				web服务器关闭时，为每个web用用程序销毁
+									相应的ServletContext							相应的ServletContext对象		
+			HttpSession				浏览器开始与服务器会话时创建					1.调用invalidate()方法;2.超时;3.服务器进程被禁止
+			HttpRequest				每次请求开始时创建							每次访问结束后销毁
+		2).监听域对象中的属性的增加和删除的事件监听器
+			--).ServletContextAttrbuteListener
+			--).HttpSessionAttributeListener
+			--).ServletRequestAttributeListener
+			--).这三个接口都定义了三个方法来处理被监听对象中的属性的增加、删除和替换的事件。
+			--).三个监听域对象属性的方法：public void attributeAdded(ServletContextAttributeListener scae)、
+										 public void attributeReplaced(ServletContextAttributeListener scae)
+										 public void attributeRemoved(ServletContextAttributeListener scae)
+		3).监听绑定到HttpSession域中的某个对象的状态的事件监听器。
+			--).保存在Session域中的对象可以有多重状态：绑定到Session中、从Session域中解除绑定、随Session对象持久化到一个存储设备中、
+			       随Session对象从一个存储设备中恢复
+			--).Servlet规范中定义了两个特殊的监听器接口来帮助JavaBean对象了解自己在Session域中的这些状态：
+				HttpSessionBindingListener接口 和 HttpSessionActivationListener接口，实现这两个接口的类不需要在web.xml文件中注册
+	4、ServletContextListener接口
+		1).ServletContextListener接口用于监听ServletContext对象的创建和销毁
+		2).当ServletContext对象被创建时，激发contextInitialized(ServletContextEvent sce)方法
+		3).当ServletContext对象被销毁时，激发contextDestoryed(ServletContextEvent sce)方法
+		4).ServletContextListener是最常用的listener，可以在当前web应用被加载时对当前web应用的相关资源进行初始化操作：
+		     如：创建数据库连接池，创建Spring的 IOC 容器，读取当前web应用的初始化参数。
+	5、HttpSessionListener接口：
+		1).HttpSessionListener接口用于监听HttpSession对象的创建和销毁
+		2).创建一个Session时，激发sessionCreated(HttpSessionEvent sce)方法
+		3).销毁一个Session时，激发sessionDestoryed(HttpSessionEvent sce)方法
+	6、ServletRequestListener接口：
+		1).ServletRequestListener接口用于监听ServletRequest对象的创建和销毁
+		2).创建一个ServletRequest对象时，激发requestInitialized(ServletRequestEvent sre)方法
+		3).销毁一个ServletRequest对象时，激发requestDestoryed(ServletRequestEvent sre)方法
+	7、编写Servlet监听器
+		1).Servlet规范为每种事件监听器都定义了相应的接口，开发人员编写的事件监听程序只需实现这些接口，
+		   web服务器根据用户编写的事件监听器所实现的接口，把它注册到相应的被监听对象上
+		2).一些Servlet事件监听器需要在web应用程序的web.xml文件中进行注册，一个web.xml文件中可以注册多个Servlet事件监听器，
+		   web服务器按照他们在web.xml文件中的注册顺序来加载和注册这些Servlet事件监听器
+		3).Servlet事件监听器的注册和调用都是由web容器自动完成的，当发生被监听的对象被创建，修改，或销毁事件时，web容器将调用
+		     与之相关的Servlet事件监听器对象的相关方法，开发人员在这些方法中编写的事件处理代码即被执行
+		4).由于一个web应用程序只会为每个事件监听器创建一个对象，有可能出现多个线程同时调用一个时间监听器对象的情况，
+		     所以在编写事件监听器类时，应考虑多线程安全的问题。
+		【参考 ServletContextListener.java】
+	8、域对象的生命周期 【参考listener/a.jsp、listener/b.jsp、listener/c.jsp、listener/ListenerTest.java】
+	9、session: 当第一次访问web应用的一个JSP或者Servlet时，且该JSP或者Servlet中还需要存在session对象(jsp页面内置了session对象,Servlet必须要显式的调用request.getSession()方法)。
+	                     此时服务器会创建一个session对象
+		              注：关闭浏览器并不意味着session被销毁，因为这涉及到session持久化。此时会在 F:\Tomcat\apache-tomcat-7.0.72\work\Catalina\localhost\web2 目录下生成一个 SESSION.ser 文件
+		              可以通过sessionid找到服务器的session对象。
+	10、HttpSessionBindingListener接口
+		1).实现了 HttpSessionBindingListener 接口的JavaBean对象可以感知自己被绑定到Session中和从Session中删除的事件
+		2).当对象被绑定到HttpSession对象中时，web服务器调用该对象的valueBound(HttpSessionBindingEvent event)方法
+		3).当对象从HttpSession对象中解除绑定时，web服务器调用该对象的valueUnbound(HttpSessionBindingEvent event)方法
+	11、HttpSessionActivationListener接口：
+		1).实现了HttpSessionActivationListener接口和Serializable接口的JavaBean对象可以感知自己被活化和钝化的事件。
+		     活化：从硬盘中读取session对象
+		     钝化：向磁盘中写入session对象
+		   session对象存储在Tomcat服务器的  F:\Tomcat\apache-tomcat-7.0.72\work\Catalina\localhost\web2 目录下的 SESSION.ser 文件
+		2).当绑定到HttpSession对象中的对象将要随HttpSession对象被钝化之前，web服务器调用该对象的sessionWillPassivate(HttpSessionBindingEvent event)方法
+		3).当绑定到HttpSession对象中的对象将要随HttpSession对象被活化之后，web服务器调用该对象的sessionDidActive(HttpSessionBindingEvent event)方法
+		4).该监听不需要在web.xml文件中进行配置
+		              
+		              
+二十七、文件上传和下载
+	1、进行文件上传，表单需要做的准备
+		1).请求方式必须为POST
+		2).使用file表单域  <input type="file" />
+		3).使用multipart/form-data 的请求编码方式 <form enctype="multipart/form-data" />
+		4).enctype 可以取值：
+		   > application/x-www-form-urlencoded : 
+			  这种编码方式使用有限的字符集，当使用了非字母和数字时，必须用"%HH"代替(H代表十六进制数字)。
+			  对于大容量的二进制数据或包含非ASCII字符的文本来说，这种编码不能满足需求。
+		   > multipart/form-data : 表单以二进制数据传输           
+		5).服务端
+			--).不能再使用request.getParameter()等方式获取请求信息，获取不到。因为请求的编码方式已经改成 multipart/form-data,以二进制的方式来提交请求信息
+			--).可以使用输入流的方式来获取
+		【参考upload/UploadServlet.java、upload/upload.jsp、UploadAndDownload.jsp】
+	2、commons-fileupload组件
+		1).环境搭建：加入 commons-fileupload.jar、commons-io.jar 包
+		2).基本思想：
+			--).commons-fileupload 可以解析请求，得到一个FileItem对象组成的List
+			--).commons-fileupload 把所有的请求信息都解析为FileItem对象，无论是一般的文本还是文件域
+			--).可以调用FileItem的isFormField()方法来判断是一个表单域还是文本域
+			--).再来进一步获取信息
+		3).参考：upload/upload2.java、upload/upload2.jsp、UploadAndDownload.jsp
+	3、下载 【参考 download/download.jsp、test.jsp】
+					    
+					    
+二十八、国际化
+	1、Locale类 【参考 international/InternationalTest.java】
+	2、DateFormat类
+		1).DateFormat类可以将一个日期/时间对象格式化为表示某个国家地区的日期/时间，也可以将表示某个本地的日期/时间的字符串
+		     解析为相应的日期/时间对象
+		2).DateFormat类定义了一些用于描述日期/时间的显示模式的int型常量，包括FULL,LONG,MEDIUM,SHORT,
+		     这些常量用于描述表示日期/时间字符串的长度。这些常量说明表示的日期/时间的确切格式取决于具体的国家和地区
+		    【参考 InternationalTest2.java】
+	3、NumberFormat：【参考 InternationalTest3.java】
+	4、MessageFormat：
+		1).MessageFormat类提供了一种参数替换字符串中的占位符的方式，它将根据模式字符串中包含的占位符产生一系列的格式化对象，
+		     然后调用这些格式化对象对参数进行格式化，并利用格式化后的结果字符串替换模式字符串中的相应的占位符。
+		    【参考 InternationalTest4.java】
+	5、ResourceBundle:
+		1).ResourceBundle类用于描述一个资源包，一个资源包用于包含一组与某个本地环境相关的对象，可以从一个资源包中获取
+		     特定于本地环境的对象。对于不同的本地环境，可以有不同的ResourceBundle对象与之关联，关联的ResourceBundle对象中
+		     包含该本地环境下转悠的对象。
+		              
+		              
+		              
+		              
+		              
+		              
+特别注意：
+	1、session：
+		1).对于JSP，因为JSP内置了一个session内置对象，所以当我们第一次访问JSP的时候，服务器会创建一个session对象
+		2).对于Servlet，我们只有显式的声明session(调用request.getSession()方法)，而且是第一次访问该Servlet的时候，服务器回传件一个session对象
+	2、Cookie
+		1).当用户访问过一个域名之后，会生成一个存放cookie的临时文件，改文件中有访问的域名(必须的,比如www.baidu.com)、JSESSIONIID等信息。
+		     当用户以后再次访问该域名的,会先找到带有该域名的cookie文件，然后将cookie信息附加在请求头中。
+	3、如果是使用cookie或者session实现购物车，那么换一个浏览器就无法获取购物车中的商品，而想要让任何浏览器都可以获取特定用户的购物车数据，
+	     这就需要将购物车数据存放到数据库中。
+	     所以现在最常用的方法就是使用cookie和session来维持与服务器的会话、跟踪用户，而数据库中存放购物车中的数据。
+	
+	
+	
+	
+	
+	
+	
+			
+			
+			
+	           
+	           
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+				
+				

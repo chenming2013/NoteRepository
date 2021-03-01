@@ -1,0 +1,19 @@
+https://www.zhihu.com/question/23078046（憨豆2333的回答）【时时查看】
+
+step0：JavaScript高级程序设计（书籍）
+
+step1： W3Cschool/菜鸟教程 的 JavaScript教程
+
+step2： 廖雪峰JavaScript教程
+
+step3： 《JavaScript高级程序设计》
+
+step4:  《JavaScript DOM高级程序设计》
+
+step4： 《JavaScript权威指南》
+
+step5： 菜鸟教程jQuery
+
+step6： 专项突破
+
+step7： JS库与JS框架

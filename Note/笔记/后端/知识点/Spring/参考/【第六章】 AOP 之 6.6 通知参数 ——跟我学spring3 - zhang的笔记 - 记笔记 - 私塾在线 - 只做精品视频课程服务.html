@@ -1,0 +1,653 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+
+        <meta name="keywords" content="私塾在线,java视频,java教程,java学习视频,android视频,maven视频,hadoop视频,hibernate,spring,struts2,设计模式,">
+        <meta name="description" content="java学习教程,java学习视频,java框架技术,深入浅出struts,hibernate,spring,企业架构,设计模式,数据库技术,oracle,mysql,jquery学习视频,,.net学习视频,移动编程,android,">
+
+        <title>【第六章】 AOP 之 6.6 通知参数 ——跟我学spring3 - zhang的笔记 - 记笔记 - 私塾在线 - 只做精品视频课程服务</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+     
+
+<link href="%E3%80%90%E7%AC%AC%E5%85%AD%E7%AB%A0%E3%80%91%20AOP%20%E4%B9%8B%206.6%20%E9%80%9A%E7%9F%A5%E5%8F%82%E6%95%B0%20%E2%80%94%E2%80%94%E8%B7%9F%E6%88%91%E5%AD%A6spring3%20-%20zhang%E7%9A%84%E7%AC%94%E8%AE%B0%20-%20%E8%AE%B0%E7%AC%94%E8%AE%B0%20-%20%E7%A7%81%E5%A1%BE%E5%9C%A8%E7%BA%BF%20-%20%E5%8F%AA%E5%81%9A%E7%B2%BE%E5%93%81%E8%A7%86%E9%A2%91%E8%AF%BE%E7%A8%8B%E6%9C%8D%E5%8A%A1_files/css-min.css" rel="stylesheet" type="text/css" media="all">
+<link href="%E3%80%90%E7%AC%AC%E5%85%AD%E7%AB%A0%E3%80%91%20AOP%20%E4%B9%8B%206.6%20%E9%80%9A%E7%9F%A5%E5%8F%82%E6%95%B0%20%E2%80%94%E2%80%94%E8%B7%9F%E6%88%91%E5%AD%A6spring3%20-%20zhang%E7%9A%84%E7%AC%94%E8%AE%B0%20-%20%E8%AE%B0%E7%AC%94%E8%AE%B0%20-%20%E7%A7%81%E5%A1%BE%E5%9C%A8%E7%BA%BF%20-%20%E5%8F%AA%E5%81%9A%E7%B2%BE%E5%93%81%E8%A7%86%E9%A2%91%E8%AF%BE%E7%A8%8B%E6%9C%8D%E5%8A%A1_files/style.css" rel="stylesheet" type="text/css">
+<script src="%E3%80%90%E7%AC%AC%E5%85%AD%E7%AB%A0%E3%80%91%20AOP%20%E4%B9%8B%206.6%20%E9%80%9A%E7%9F%A5%E5%8F%82%E6%95%B0%20%E2%80%94%E2%80%94%E8%B7%9F%E6%88%91%E5%AD%A6spring3%20-%20zhang%E7%9A%84%E7%AC%94%E8%AE%B0%20-%20%E8%AE%B0%E7%AC%94%E8%AE%B0%20-%20%E7%A7%81%E5%A1%BE%E5%9C%A8%E7%BA%BF%20-%20%E5%8F%AA%E5%81%9A%E7%B2%BE%E5%93%81%E8%A7%86%E9%A2%91%E8%AF%BE%E7%A8%8B%E6%9C%8D%E5%8A%A1_files/osd.js"></script><script src="%E3%80%90%E7%AC%AC%E5%85%AD%E7%AB%A0%E3%80%91%20AOP%20%E4%B9%8B%206.6%20%E9%80%9A%E7%9F%A5%E5%8F%82%E6%95%B0%20%E2%80%94%E2%80%94%E8%B7%9F%E6%88%91%E5%AD%A6spring3%20-%20zhang%E7%9A%84%E7%AC%94%E8%AE%B0%20-%20%E8%AE%B0%E7%AC%94%E8%AE%B0%20-%20%E7%A7%81%E5%A1%BE%E5%9C%A8%E7%BA%BF%20-%20%E5%8F%AA%E5%81%9A%E7%B2%BE%E5%93%81%E8%A7%86%E9%A2%91%E8%AF%BE%E7%A8%8B%E6%9C%8D%E5%8A%A1_files/show_ads_impl.js" id="google_shimpl"></script><script src="%E3%80%90%E7%AC%AC%E5%85%AD%E7%AB%A0%E3%80%91%20AOP%20%E4%B9%8B%206.6%20%E9%80%9A%E7%9F%A5%E5%8F%82%E6%95%B0%20%E2%80%94%E2%80%94%E8%B7%9F%E6%88%91%E5%AD%A6spring3%20-%20zhang%E7%9A%84%E7%AC%94%E8%AE%B0%20-%20%E8%AE%B0%E7%AC%94%E8%AE%B0%20-%20%E7%A7%81%E5%A1%BE%E5%9C%A8%E7%BA%BF%20-%20%E5%8F%AA%E5%81%9A%E7%B2%BE%E5%93%81%E8%A7%86%E9%A2%91%E8%AF%BE%E7%A8%8B%E6%9C%8D%E5%8A%A1_files/ca-pub-5014907946493114.js"></script><script type="text/javascript">
+    var ctx = 'http://sishuok.com';
+    var forumCtx = '/forum';
+	var ssonlineUrl='http://sishuok.com';
+</script>
+<script language="javascript" src="%E3%80%90%E7%AC%AC%E5%85%AD%E7%AB%A0%E3%80%91%20AOP%20%E4%B9%8B%206.6%20%E9%80%9A%E7%9F%A5%E5%8F%82%E6%95%B0%20%E2%80%94%E2%80%94%E8%B7%9F%E6%88%91%E5%AD%A6spring3%20-%20zhang%E7%9A%84%E7%AC%94%E8%AE%B0%20-%20%E8%AE%B0%E7%AC%94%E8%AE%B0%20-%20%E7%A7%81%E5%A1%BE%E5%9C%A8%E7%BA%BF%20-%20%E5%8F%AA%E5%81%9A%E7%B2%BE%E5%93%81%E8%A7%86%E9%A2%91%E8%AF%BE%E7%A8%8B%E6%9C%8D%E5%8A%A1_files/jquery-1.js"></script>
+<script language="javascript" src="%E3%80%90%E7%AC%AC%E5%85%AD%E7%AB%A0%E3%80%91%20AOP%20%E4%B9%8B%206.6%20%E9%80%9A%E7%9F%A5%E5%8F%82%E6%95%B0%20%E2%80%94%E2%80%94%E8%B7%9F%E6%88%91%E5%AD%A6spring3%20-%20zhang%E7%9A%84%E7%AC%94%E8%AE%B0%20-%20%E8%AE%B0%E7%AC%94%E8%AE%B0%20-%20%E7%A7%81%E5%A1%BE%E5%9C%A8%E7%BA%BF%20-%20%E5%8F%AA%E5%81%9A%E7%B2%BE%E5%93%81%E8%A7%86%E9%A2%91%E8%AF%BE%E7%A8%8B%E6%9C%8D%E5%8A%A1_files/application.js"></script>
+    <link rel="preload" href="%E3%80%90%E7%AC%AC%E5%85%AD%E7%AB%A0%E3%80%91%20AOP%20%E4%B9%8B%206.6%20%E9%80%9A%E7%9F%A5%E5%8F%82%E6%95%B0%20%E2%80%94%E2%80%94%E8%B7%9F%E6%88%91%E5%AD%A6spring3%20-%20zhang%E7%9A%84%E7%AC%94%E8%AE%B0%20-%20%E8%AE%B0%E7%AC%94%E8%AE%B0%20-%20%E7%A7%81%E5%A1%BE%E5%9C%A8%E7%BA%BF%20-%20%E5%8F%AA%E5%81%9A%E7%B2%BE%E5%93%81%E8%A7%86%E9%A2%91%E8%AF%BE%E7%A8%8B%E6%9C%8D%E5%8A%A1_files/integrator.js" as="script"><script type="text/javascript" src="%E3%80%90%E7%AC%AC%E5%85%AD%E7%AB%A0%E3%80%91%20AOP%20%E4%B9%8B%206.6%20%E9%80%9A%E7%9F%A5%E5%8F%82%E6%95%B0%20%E2%80%94%E2%80%94%E8%B7%9F%E6%88%91%E5%AD%A6spring3%20-%20zhang%E7%9A%84%E7%AC%94%E8%AE%B0%20-%20%E8%AE%B0%E7%AC%94%E8%AE%B0%20-%20%E7%A7%81%E5%A1%BE%E5%9C%A8%E7%BA%BF%20-%20%E5%8F%AA%E5%81%9A%E7%B2%BE%E5%93%81%E8%A7%86%E9%A2%91%E8%AF%BE%E7%A8%8B%E6%9C%8D%E5%8A%A1_files/integrator.js"></script><link rel="preload" href="%E3%80%90%E7%AC%AC%E5%85%AD%E7%AB%A0%E3%80%91%20AOP%20%E4%B9%8B%206.6%20%E9%80%9A%E7%9F%A5%E5%8F%82%E6%95%B0%20%E2%80%94%E2%80%94%E8%B7%9F%E6%88%91%E5%AD%A6spring3%20-%20zhang%E7%9A%84%E7%AC%94%E8%AE%B0%20-%20%E8%AE%B0%E7%AC%94%E8%AE%B0%20-%20%E7%A7%81%E5%A1%BE%E5%9C%A8%E7%BA%BF%20-%20%E5%8F%AA%E5%81%9A%E7%B2%BE%E5%93%81%E8%A7%86%E9%A2%91%E8%AF%BE%E7%A8%8B%E6%9C%8D%E5%8A%A1_files/show_ads_impl.js" as="script"><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><style type="text/css">.dp-j .annotation { color: #646464; }.dp-j .number { color: #C00000; }</style><script src="%E3%80%90%E7%AC%AC%E5%85%AD%E7%AB%A0%E3%80%91%20AOP%20%E4%B9%8B%206.6%20%E9%80%9A%E7%9F%A5%E5%8F%82%E6%95%B0%20%E2%80%94%E2%80%94%E8%B7%9F%E6%88%91%E5%AD%A6spring3%20-%20zhang%E7%9A%84%E7%AC%94%E8%AE%B0%20-%20%E8%AE%B0%E7%AC%94%E8%AE%B0%20-%20%E7%A7%81%E5%A1%BE%E5%9C%A8%E7%BA%BF%20-%20%E5%8F%AA%E5%81%9A%E7%B2%BE%E5%93%81%E8%A7%86%E9%A2%91%E8%AF%BE%E7%A8%8B%E6%9C%8D%E5%8A%A1_files/bsStatic.js" type="text/javascript" charset="utf-8"></script><script src="%E3%80%90%E7%AC%AC%E5%85%AD%E7%AB%A0%E3%80%91%20AOP%20%E4%B9%8B%206.6%20%E9%80%9A%E7%9F%A5%E5%8F%82%E6%95%B0%20%E2%80%94%E2%80%94%E8%B7%9F%E6%88%91%E5%AD%A6spring3%20-%20zhang%E7%9A%84%E7%AC%94%E8%AE%B0%20-%20%E8%AE%B0%E7%AC%94%E8%AE%B0%20-%20%E7%A7%81%E5%A1%BE%E5%9C%A8%E7%BA%BF%20-%20%E5%8F%AA%E5%81%9A%E7%B2%BE%E5%93%81%E8%A7%86%E9%A2%91%E8%AF%BE%E7%A8%8B%E6%9C%8D%E5%8A%A1_files/fingerprint2.js" type="text/javascript" charset="utf-8"></script><script src="%E3%80%90%E7%AC%AC%E5%85%AD%E7%AB%A0%E3%80%91%20AOP%20%E4%B9%8B%206.6%20%E9%80%9A%E7%9F%A5%E5%8F%82%E6%95%B0%20%E2%80%94%E2%80%94%E8%B7%9F%E6%88%91%E5%AD%A6spring3%20-%20zhang%E7%9A%84%E7%AC%94%E8%AE%B0%20-%20%E8%AE%B0%E7%AC%94%E8%AE%B0%20-%20%E7%A7%81%E5%A1%BE%E5%9C%A8%E7%BA%BF%20-%20%E5%8F%AA%E5%81%9A%E7%B2%BE%E5%93%81%E8%A7%86%E9%A2%91%E8%AF%BE%E7%A8%8B%E6%9C%8D%E5%8A%A1_files/bs-engine.js" type="text/javascript" charset="utf-8"></script><style type="text/css">a.bshareDiv,#bsPanel,#bsMorePanel,#bshareF{border:none;background:none;padding:0;margin:0;font:12px Helvetica,Calibri,Tahoma,Arial,宋体,sans-serif;line-height:14px;}#bsPanel div,#bsMorePanel div,#bshareF div{display:block;}.bsRlogo .bsPopupAwd,.bsRlogoSel .bsPopupAwd,.bsLogo .bsPopupAwd,.bsLogoSel .bsPopupAwd{line-height:16px !important;}a.bshareDiv div,#bsFloatTab div{*display:inline;zoom:1;display:inline-block;}a.bshareDiv img,a.bshareDiv div,a.bshareDiv span,a.bshareDiv a,#bshareF table,#bshareF tr,#bshareF td{text-decoration:none;background:none;margin:0;padding:0;border:none;line-height:1.2}a.bshareDiv span{display:inline;float:none;}div.buzzButton{cursor:pointer;font-weight:bold;}.buzzButton .shareCount a{color:#333}.bsStyle1 .shareCount a{color:#fff}span.bshareText{white-space:nowrap;}span.bshareText:hover{text-decoration:underline;}a.bshareDiv .bsPromo,div.bshare-custom .bsPromo{display:none;position:absolute;z-index:100;}a.bshareDiv .bsPromo.bsPromo1,div.bshare-custom .bsPromo.bsPromo1{width:51px;height:18px;top:-18px;left:0;line-height:16px;font-size:12px !important;font-weight:normal !important;color:#fff;text-align:center;background:url(//static.bshare.cn/frame/images/bshare_box_sprite2.gif) no-repeat 0 -606px;}div.bshare-custom .bsPromo.bsPromo2{background:url(//static.bshare.cn/frame/images/bshare_promo_sprite.gif) no-repeat;cursor:pointer;}</style><style type="text/css">.bsBox{display:none;z-index:100000001;font-size:12px;background:url(//static.bshare.cn/frame/images//background-opaque-dark.gif) !important;padding:6px !important;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;}.bsClose{_overflow:hidden;cursor:pointer;position:absolute;z-index:10000000;color:#666;font-weight:bold;font-family:Helvetica,Arial;font-size:14px;line-height:20px;}.bsTop{color:#666;background:#f2f2f2;height:24px;line-height:24px;border-bottom:1px solid #e8e8e8;}.bsTop span{float:left;}.bsFrameDiv,#bsMorePanel{border:none;background:#fff;}.bsReturn{float:right;*margin-right:20px;margin-right:36px;text-align:right;cursor:pointer;line-height:24px;color:#666;opacity:0.5;}#bsReturn:hover{text-decoration:underline;opacity:1;}</style><script src="%E3%80%90%E7%AC%AC%E5%85%AD%E7%AB%A0%E3%80%91%20AOP%20%E4%B9%8B%206.6%20%E9%80%9A%E7%9F%A5%E5%8F%82%E6%95%B0%20%E2%80%94%E2%80%94%E8%B7%9F%E6%88%91%E5%AD%A6spring3%20-%20zhang%E7%9A%84%E7%AC%94%E8%AE%B0%20-%20%E8%AE%B0%E7%AC%94%E8%AE%B0%20-%20%E7%A7%81%E5%A1%BE%E5%9C%A8%E7%BA%BF%20-%20%E5%8F%AA%E5%81%9A%E7%B2%BE%E5%93%81%E8%A7%86%E9%A2%91%E8%AF%BE%E7%A8%8B%E6%9C%8D%E5%8A%A1_files/bsMore.js" type="text/javascript" charset="utf-8"></script><script src="%E3%80%90%E7%AC%AC%E5%85%AD%E7%AB%A0%E3%80%91%20AOP%20%E4%B9%8B%206.6%20%E9%80%9A%E7%9F%A5%E5%8F%82%E6%95%B0%20%E2%80%94%E2%80%94%E8%B7%9F%E6%88%91%E5%AD%A6spring3%20-%20zhang%E7%9A%84%E7%AC%94%E8%AE%B0%20-%20%E8%AE%B0%E7%AC%94%E8%AE%B0%20-%20%E7%A7%81%E5%A1%BE%E5%9C%A8%E7%BA%BF%20-%20%E5%8F%AA%E5%81%9A%E7%B2%BE%E5%93%81%E8%A7%86%E9%A2%91%E8%AF%BE%E7%A8%8B%E6%9C%8D%E5%8A%A1_files/bshareS3.js" type="text/javascript" charset="utf-8"></script><style type="text/css">div.bsClear{clear:both;height:0;line-height:0;overflow:hidden;font-size:0;}.bsSearchDiv{padding:5px 15px;background-color:#fafafa;}.bFind-wrapper-top{background:#fff;border-color:#ccc #aaa #aaa #ccc;border-style:solid;border-width:1px;height:16px;padding:4px;margin:0;}.bFind-wrapper-top input{padding:0 !important;border:none !important;box-shadow:none !important;line-height:16px !important;}.bFind-placeholder{background:url("//static.bshare.cn/css/images/search-icon.gif") no-repeat;display:block;float:left;height:16px;width:16px;}.bFind{background:none;border:none;float:left;font-size:11px !important;height:16px !important;margin-left:3px;outline:none;padding:0;width:400px;}.bsPlatDiv{height:322px;background:#fff;overflow:auto;padding:0 15px;}#bsLogoList{display:block;list-style:none;overflow:hidden;margin:0;padding:0;}#bsLogoList li{float:left;display:inline-block;width:71px;text-align:center;font-size:12px;height:80px;margin:0 !important;}#bsLogoList .bsPlatIcon{cursor:pointer;display:block !important;text-align:center;}#bsLogoList .bsPlatImg{width:32px;height:32px;border:none !important;display:inline-block;}#bsLogoList .bsPlatImg:hover{-moz-border-radius:7px;-webkit-border-radius:7px;border-radius:7px;box-shadow:0 0 15px #a7a8ac;}#bsLogoList .bsPlatName{white-space:nowrap;text-overflow:ellipsis;overflow:hidden;text-align:center;color:#333 !important;margin-top:2px;line-height:140%;*width:70px;}#bsLogoList .bsPromoM{text-align:center;}.bsFooterDiv{height:24px;line-height:24px;padding:0 15px;border-top:1px solid #e8e8e8;background:#f2f2f2;text-align:right;}a.bsLogoLink{color:#666;}.bsLogoLink:hover{text-decoration:underline;}.bsPromoM{background:url(//static.bshare.cn/frame/images//bshare_box_sprite2.gif) no-repeat top left;}.bsNew,.bsHot,.bsRec,.bsAwd{background-position:0 -552px;width:19px;margin:5px auto 1px;line-height:16px;height:18px;font-size:12px;color:#fff;overflow:hidden;}.bsNew{background-position:0 -570px;}.bsRec{width:30px;background-position:0 -588px;}.bsAwd{background:url(//static.bshare.cn/frame/images//promot/promote.gif) no-repeat;}</style><script src="%E3%80%90%E7%AC%AC%E5%85%AD%E7%AB%A0%E3%80%91%20AOP%20%E4%B9%8B%206.6%20%E9%80%9A%E7%9F%A5%E5%8F%82%E6%95%B0%20%E2%80%94%E2%80%94%E8%B7%9F%E6%88%91%E5%AD%A6spring3%20-%20zhang%E7%9A%84%E7%AC%94%E8%AE%B0%20-%20%E8%AE%B0%E7%AC%94%E8%AE%B0%20-%20%E7%A7%81%E5%A1%BE%E5%9C%A8%E7%BA%BF%20-%20%E5%8F%AA%E5%81%9A%E7%B2%BE%E5%93%81%E8%A7%86%E9%A2%91%E8%AF%BE%E7%A8%8B%E6%9C%8D%E5%8A%A1_files/bshare_view.json" type="text/javascript" charset="utf-8"></script><style type="text/css">.bs-xtop,.bs-xbottom{display:block;background:transparent !important;font-size:1px;width:100%;}.bs-xb1,.bs-xb2,.bs-xb3,.bs-xb4{display:block; overflow:hidden;}.bs-xb1,.bs-xb2,.bs-xb3{height:1px;}.bs-xb2,.bs-xb3,.bs-xb4{background-color:#DDD;}.bs-xb1{margin-left:5px;background-color:#DDD;}.bs-xb2{margin-left:3px;border-width:0 2px;}.bs-xb3{margin-left:2px;}.bs-xb4{height:2px;margin-left:1px;}.bs-lb1,.bs-lb2,.bs-lb3,.bs-lb4 {display:block;overflow:hidden;}.bs-lb1,.bs-lb2,.bs-lb3{height:1px;}.bs-lb2,.bs-lb3,.bs-lb4{background-color:#DDD;}.bs-lb1{margin-right:5px;background-color:#DDD;}.bs-lb2{margin-right:3px;border-width:0 2px;}.bs-lb3{margin-right:2px;}.bs-lb4{height:2px;margin-right:1px;}.bs-verticaltext{writing-mode:tb-rl;filter:fliph fliph;-webkit-transform:rotate(90deg);-moz-transform:rotate(90deg);}a.bsSiteLink{text-decoration:none;color:#666;}a.bsSiteLink:hover{text-decoration:underline;}div.bsTitle{padding:0 8px;border-bottom:1px solid #e8e8e8;color:#666;background:#f2f2f2;text-align:left;}div.buzzButton{cursor:pointer;}div.bsRlogo,div.bsRlogoSel{width:68px;float:left;margin:0;padding:2px 0;}div.bsRlogo a,div.bsRlogoSel a{float:left;}div.bsLogo,div.bsLogoSel{float:left;width:111px;text-align:left;height:auto;padding:2px 4px;margin:2px 0;white-space:nowrap;overflow:hidden;}div.bsLogoSel,div.bsRlogoSel{border:1px solid #ddd;background:#f1f1f1;}div.bsLogo,div.bsRlogo{border:1px solid #fff;background:#fff;}div.bsLogo a,div.bsLogoSel a{display:block;height:16px;line-height:16px;padding:0 0 0 24px;text-decoration:none;float:left;overflow:hidden;}div.bsLogoSel a,div.bsRlogoSel a{color:#000;border:none;}div.bsLogo a,div.bsRlogo a{color:#666;border:none;}div.bsLogoLink{width:121px;overflow:hidden;background:#FFF;float:left;margin:3px 0;}#bsPanel{z-index:100000000;font-size:12px;width:258px;background:url(//static.bshare.cn/frame/images/background-opaque-dark.png);padding:6px;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;}div.bsClear{clear:both;height:0;line-height:0;font-size:0;overflow:hidden;}div.bsPopupAwd{background: url(//static.bshare.cn/frame/images//bshare_box_sprite2.gif) no-repeat top left;background-position:0 -624px;width:18px;padding-left:3px;text-align:center;float:left;margin-left: 2px;height:15px;font-size:12px;color:#fff;overflow:hidden;}div.bsRlogo .bsPopupAwd,div.bsRlogoSel .bsPopupAwd{float:left;margin:5px 0 0 -14px;}</style><style type="text/css">.bs-xtop,.bs-xbottom{display:block;background:transparent !important;font-size:1px;width:100%;}.bs-xb1,.bs-xb2,.bs-xb3,.bs-xb4{display:block; overflow:hidden;}.bs-xb1,.bs-xb2,.bs-xb3{height:1px;}.bs-xb2,.bs-xb3,.bs-xb4{background-color:#DDD;}.bs-xb1{margin-left:5px;background-color:#DDD;}.bs-xb2{margin-left:3px;border-width:0 2px;}.bs-xb3{margin-left:2px;}.bs-xb4{height:2px;margin-left:1px;}.bs-lb1,.bs-lb2,.bs-lb3,.bs-lb4 {display:block;overflow:hidden;}.bs-lb1,.bs-lb2,.bs-lb3{height:1px;}.bs-lb2,.bs-lb3,.bs-lb4{background-color:#DDD;}.bs-lb1{margin-right:5px;background-color:#DDD;}.bs-lb2{margin-right:3px;border-width:0 2px;}.bs-lb3{margin-right:2px;}.bs-lb4{height:2px;margin-right:1px;}.bs-verticaltext{writing-mode:tb-rl;filter:fliph fliph;-webkit-transform:rotate(90deg);-moz-transform:rotate(90deg);}a.bsSiteLink{text-decoration:none;color:#666;}a.bsSiteLink:hover{text-decoration:underline;}div.bsTitle{padding:0 8px;border-bottom:1px solid #e8e8e8;color:#666;background:#f2f2f2;text-align:left;}div.buzzButton{cursor:pointer;}div.bsRlogo,div.bsRlogoSel{width:68px;float:left;margin:0;padding:2px 0;}div.bsRlogo a,div.bsRlogoSel a{float:left;}div.bsLogo,div.bsLogoSel{float:left;width:111px;text-align:left;height:auto;padding:2px 4px;margin:2px 0;white-space:nowrap;overflow:hidden;}div.bsLogoSel,div.bsRlogoSel{border:1px solid #ddd;background:#f1f1f1;}div.bsLogo,div.bsRlogo{border:1px solid #fff;background:#fff;}div.bsLogo a,div.bsLogoSel a{display:block;height:16px;line-height:16px;padding:0 0 0 24px;text-decoration:none;float:left;overflow:hidden;}div.bsLogoSel a,div.bsRlogoSel a{color:#000;border:none;}div.bsLogo a,div.bsRlogo a{color:#666;border:none;}div.bsLogoLink{width:121px;overflow:hidden;background:#FFF;float:left;margin:3px 0;}#bsPanel{z-index:100000000;font-size:12px;width:258px;background:url(//static.bshare.cn/frame/images/background-opaque-dark.png);padding:6px;-moz-border-radius:5px;-webkit-border-radius:5px;border-radius:5px;}div.bsClear{clear:both;height:0;line-height:0;font-size:0;overflow:hidden;}div.bsPopupAwd{background: url(//static.bshare.cn/frame/images//bshare_box_sprite2.gif) no-repeat top left;background-position:0 -624px;width:18px;padding-left:3px;text-align:center;float:left;margin-left: 2px;height:15px;font-size:12px;color:#fff;overflow:hidden;}div.bsRlogo .bsPopupAwd,div.bsRlogoSel .bsPopupAwd{float:left;margin:5px 0 0 -14px;}</style></head>
+
+    <body topmargin="0" marginwidth="0" marginheight="0" leftmargin="0">
+        <div id="main">
+            <div class="index">
+<div id="top_tit">
+    <a href="javascript:void(0)" class="top_menu_a2" onclick="addToFavorite()">
+    <div class="favorite"></div>
+    <div style="float: left;">&nbsp;收藏私塾在线</div>
+</a>
+            <div style="padding-left: 550px;float: left;display: inline;">&nbsp;</div>
+            <p class="top_p">欢迎您来到私塾在线网！&nbsp;&nbsp;&nbsp;</p>
+            <p class="top_p"><a href="http://sishuok.com/login">请登录!</a>&nbsp;</p>
+            <p class="top_p"><a href="http://sishuok.com/register">免费注册</a>&nbsp;</p>
+</div>
+
+<div class="banner_div"><a href="http://sishuok.com/"><div class="logo"></div></a>
+	<div class="menu_div_title">只做精品视频课程服务</div>
+    <div id="menu_div">
+        <a href="http://sishuok.com/">找课程</a><div class="menu_g"></div>
+        <a href="http://sishuok.com/learn">去学习</a><div class="menu_g"></div>
+        <!--<a href="http://sishuok.com/qa">知识问答</a><div class="menu_g"></div>-->
+        <a href="http://sishuok.com/forum/forums/list.html">要交流</a><div class="menu_g"></div>
+        <a href="http://sishuok.com/forum/blog/index.html" class="current">记笔记</a><div class="menu_g"></div>
+        <a href="http://sishuok.com/forum/forums/show/32.html">有问题</a><div class="menu_g"></div>
+        <!--<a href="http://sishuok.com/resource">共享资源</a><div class="menu_g"></div>-->
+
+    </div>
+    <div class="right_align" style="margin-top: 37px;*margin-top: 38px;">
+
+            <div class="me_div2" style="float: right;"><p>
+			    <iframe style="float: left;margin-top: 5px;" allowtransparency="true" marginwidth="0" marginheight="0" scrolling="no" border="0" src="%E3%80%90%E7%AC%AC%E5%85%AD%E7%AB%A0%E3%80%91%20AOP%20%E4%B9%8B%206.6%20%E9%80%9A%E7%9F%A5%E5%8F%82%E6%95%B0%20%E2%80%94%E2%80%94%E8%B7%9F%E6%88%91%E5%AD%A6spring3%20-%20zhang%E7%9A%84%E7%AC%94%E8%AE%B0%20-%20%E8%AE%B0%E7%AC%94%E8%AE%B0%20-%20%E7%A7%81%E5%A1%BE%E5%9C%A8%E7%BA%BF%20-%20%E5%8F%AA%E5%81%9A%E7%B2%BE%E5%93%81%E8%A7%86%E9%A2%91%E8%AF%BE%E7%A8%8B%E6%9C%8D%E5%8A%A1_files/followbutton.html" width="110" height="20" frameborder="0"></iframe>
+                <a title="点击此处签到拿积分" class="btn-img btn-s1" style="border: 0px;padding: 6px;" onclick="checkin();">签到</a>
+                <a title="点击此处获取帮助" onclick="document.location.href='http://sishuok.com/help/index.jsp'" class="btn-img btn-s1" style="border: 0px;padding: 6px;">帮助</a>
+            </p></div>
+     </div>
+</div>
+<div style="border-top:2px solid #ff7b01;width: 100%;"></div>
+
+<script type="text/javascript" src="%E3%80%90%E7%AC%AC%E5%85%AD%E7%AB%A0%E3%80%91%20AOP%20%E4%B9%8B%206.6%20%E9%80%9A%E7%9F%A5%E5%8F%82%E6%95%B0%20%E2%80%94%E2%80%94%E8%B7%9F%E6%88%91%E5%AD%A6spring3%20-%20zhang%E7%9A%84%E7%AC%94%E8%AE%B0%20-%20%E8%AE%B0%E7%AC%94%E8%AE%B0%20-%20%E7%A7%81%E5%A1%BE%E5%9C%A8%E7%BA%BF%20-%20%E5%8F%AA%E5%81%9A%E7%B2%BE%E5%93%81%E8%A7%86%E9%A2%91%E8%AF%BE%E7%A8%8B%E6%9C%8D%E5%8A%A1_files/pagination.js"></script>
+<table width="99%" cellspacing="0" cellpadding="0" border="0" align="center">
+	<tbody><tr>
+		<td width="17%" valign="top" align="left">
+		    <br>
+<table width="200px" cellspacing="0" cellpadding="4" border="0" align="center">
+	<tbody><tr>
+		<td align="center">
+			<table class="blog_forumline" style="text-align: left;" width="100%" cellspacing="1" cellpadding="4" border="0">
+				<tbody><tr class="blog_con">
+					<td class="thhead blog_title" height="25" align="center">
+                        <a href="http://sishuok.com/forum/blogAdmin/list.html?customer_id=10000001" target="_parent">zhang的笔记</a></td>
+				</tr>
+				<tr>
+					<td class="row1" align="center">
+					<div class="div_block">
+                            <a title="看看ta的笔记" href="http://sishuok.com/forum/blogAdmin/list.html?customer_id=10000001"><img class="img_border" src="%E3%80%90%E7%AC%AC%E5%85%AD%E7%AB%A0%E3%80%91%20AOP%20%E4%B9%8B%206.6%20%E9%80%9A%E7%9F%A5%E5%8F%82%E6%95%B0%20%E2%80%94%E2%80%94%E8%B7%9F%E6%88%91%E5%AD%A6spring3%20-%20zhang%E7%9A%84%E7%AC%94%E8%AE%B0%20-%20%E8%AE%B0%E7%AC%94%E8%AE%B0%20-%20%E7%A7%81%E5%A1%BE%E5%9C%A8%E7%BA%BF%20-%20%E5%8F%AA%E5%81%9A%E7%B2%BE%E5%93%81%E8%A7%86%E9%A2%91%E8%AF%BE%E7%A8%8B%E6%9C%8D%E5%8A%A1_files/download" alt="[头像]" width="100px" height="100px" border="0"></a><br>
+
+                <a id="customer_btn_10000001" style="font-size: 14px;" href="javascript:void(0)" onmouseover="triggerCustomerBar('10000001', 'http://sishuok.com/download?filename=2012/12/8/d43228b0ee3d70e8e219a180a36fa9b1__-63376972.jpg', this)">zhang</a>
+					</div>
+					</td>
+				</tr>
+				<tr>
+					<td class="row1">
+						<span class="cattitle">状态：							<span class="offline">离线 </span>
+						</span><br>
+					    <span class="cattitle">人气：4813161</span><br>
+					    <span class="cattitle">访问用户量：4180</span><br>
+                        <span class="cattitle">
+                            笔记经验：<!--user.point.experience.bbsExperience+user.point.experience.blogExperience--> <br>
+                            总积分：261656 <br>
+                            级别：VIP5
+                        </span>
+                    </td>
+				</tr>
+				<tr class="blog_con">
+					<td style="float: left;padding-left: 8px;" height="28"><span class="blog_title">搜索本笔记</span></td>
+				</tr>
+				<tr>
+					<td>
+						<form action="/forum/blogAdmin/list.html" method="get">
+				            <input type="text" name="search_keywords" style="width: 130px; height: 25px;font-size: 14px;">
+				            <input type="hidden" name="search_author" value="2">
+				            <input type="hidden" name="user_id" value="2">
+				            <input type="submit" class="btn-img btn-s1" value="搜">
+				        </form>
+                    </td>
+				</tr>
+				<tr class="blog_con">
+					<td style="float: left;padding-left: 8px;" height="28"><span class="blog_title">ta的交流分类</span></td>
+				</tr>
+				<tr>
+					<td class="row1"><a class="genmed" href="http://sishuok.com/forum/blogRecentTopics/showTopicsByUser/2.html" title="ta的交流主题贴">ta的交流主题贴(544)</a></td>
+				</tr>
+				<tr>
+					<td class="row1"><a class="genmed" href="http://sishuok.com/forum/blogPost/listByUser/2.html" title="ta的所有交流贴">ta的所有交流贴(1049)</a></td>
+				</tr>
+
+				<tr class="blog_con">
+					<td style="float: left;padding-left: 8px;" height="28"><span class="blog_title">ta的全部笔记</span></td>
+				</tr>
+				<tr>
+					<td class="row1"><a class="genmed" href="http://sishuok.com/forum/blogCategory/show.html?user_id=2" title="全部笔记">全部笔记(255)</a></td>
+				</tr>
+				<tr>
+					<td class="row1"><a class="genmed" href="http://sishuok.com/forum/blogCategory/showByCategory.html?categories_id=0&amp;user_id=2" title="未分类笔记">未分类笔记(1)</a></td>
+				</tr>
+    				<tr>
+	    				<td class="row1"><a class="genmed" href="http://sishuok.com/forum/blogCategory/showByCategory.html?categories_id=14&amp;user_id=2" title="Java Web"> Java Web(9)</a></td>
+		    		</tr>
+    				<tr>
+	    				<td class="row1"><a class="genmed" href="http://sishuok.com/forum/blogCategory/showByCategory.html?categories_id=15&amp;user_id=2" title="并发实践"> 并发实践(1)</a></td>
+		    		</tr>
+    				<tr>
+	    				<td class="row1"><a class="genmed" href="http://sishuok.com/forum/blogCategory/showByCategory.html?categories_id=-2&amp;user_id=2" title="课程问题"> 课程问题(0)</a></td>
+		    		</tr>
+    				<tr>
+	    				<td class="row1"><a class="genmed" href="http://sishuok.com/forum/blogCategory/showByCategory.html?categories_id=16&amp;user_id=2" title="Java"> Java(22)</a></td>
+		    		</tr>
+    				<tr>
+	    				<td class="row1"><a class="genmed" href="http://sishuok.com/forum/blogCategory/showByCategory.html?categories_id=17&amp;user_id=2" title="架构"> 架构(1)</a></td>
+		    		</tr>
+    				<tr>
+	    				<td class="row1"><a class="genmed" href="http://sishuok.com/forum/blogCategory/showByCategory.html?categories_id=18&amp;user_id=2" title="缓存"> 缓存(5)</a></td>
+		    		</tr>
+    				<tr>
+	    				<td class="row1"><a class="genmed" href="http://sishuok.com/forum/blogCategory/showByCategory.html?categories_id=19&amp;user_id=2" title="JavaEE"> JavaEE(0)</a></td>
+		    		</tr>
+    				<tr>
+	    				<td class="row1"><a class="genmed" href="http://sishuok.com/forum/blogCategory/showByCategory.html?categories_id=22&amp;user_id=2" title="JVM"> JVM(12)</a></td>
+		    		</tr>
+    				<tr>
+	    				<td class="row1"><a class="genmed" href="http://sishuok.com/forum/blogCategory/showByCategory.html?categories_id=49&amp;user_id=2" title="跟我学spring3"> 跟我学spring3(68)</a></td>
+		    		</tr>
+    				<tr>
+	    				<td class="row1"><a class="genmed" href="http://sishuok.com/forum/blogCategory/showByCategory.html?categories_id=77&amp;user_id=2" title="Spring Security 3"> Spring Sec……(43)</a></td>
+		    		</tr>
+    				<tr>
+	    				<td class="row1"><a class="genmed" href="http://sishuok.com/forum/blogCategory/showByCategory.html?categories_id=95&amp;user_id=2" title="Spring 3.x企业实用开发实战"> Spring 3.x……(25)</a></td>
+		    		</tr>
+    				<tr>
+	    				<td class="row1"><a class="genmed" href="http://sishuok.com/forum/blogCategory/showByCategory.html?categories_id=96&amp;user_id=2" title="Spring Security3源码分析"> Spring Sec……(20)</a></td>
+		    		</tr>
+    				<tr>
+	    				<td class="row1"><a class="genmed" href="http://sishuok.com/forum/blogCategory/showByCategory.html?categories_id=101&amp;user_id=2" title="跟开涛学SpringMVC"> 跟开涛学Spring……(17)</a></td>
+		    		</tr>
+    				<tr>
+	    				<td class="row1"><a class="genmed" href="http://sishuok.com/forum/blogCategory/showByCategory.html?categories_id=106&amp;user_id=2" title=" 深入剖析Spring Web源码[转]"> 深入剖析Spring……(18)</a></td>
+		    		</tr>
+    				<tr>
+	    				<td class="row1"><a class="genmed" href="http://sishuok.com/forum/blogCategory/showByCategory.html?categories_id=119&amp;user_id=2" title="性能调优"> 性能调优(10)</a></td>
+		    		</tr>
+    				<tr>
+	    				<td class="row1"><a class="genmed" href="http://sishuok.com/forum/blogCategory/showByCategory.html?categories_id=121&amp;user_id=2" title="前端"> 前端(2)</a></td>
+		    		</tr>
+    				<tr>
+	    				<td class="row1"><a class="genmed" href="http://sishuok.com/forum/blogCategory/showByCategory.html?categories_id=135&amp;user_id=2" title="Tomcat源码解读"> Tomcat源码解读(1)</a></td>
+		    		</tr>
+    				<tr>
+	    				<td class="row1"><a class="genmed" href="http://sishuok.com/forum/blogCategory/showByCategory.html?categories_id=160&amp;user_id=2" title="spring security权限管理手册"> spring sec……(0)</a></td>
+		    		</tr>
+				<tr class="blog_con">
+					<td style="float: left;padding-left: 8px;" height="28"><span class="blog_title">存档</span></td>
+				</tr>
+    				<tr>
+	    				<td class="row1"><a class="genmed" href="http://sishuok.com/forum/blogCategory/showByDate.html?category_date=2014-01&amp;user_id=2" title="2014-01">2014-01(7)</a></td>
+		    		</tr>
+    				<tr>
+	    				<td class="row1"><a class="genmed" href="http://sishuok.com/forum/blogCategory/showByDate.html?category_date=2013-12&amp;user_id=2" title="2013-12">2013-12(10)</a></td>
+		    		</tr>
+    				<tr>
+	    				<td class="row1"><a class="genmed" href="http://sishuok.com/forum/blogCategory/showByDate.html?category_date=2012-10&amp;user_id=2" title="2012-10">2012-10(4)</a></td>
+		    		</tr>
+    				<tr>
+	    				<td class="row1"><a class="genmed" href="http://sishuok.com/forum/blogCategory/showByDate.html?category_date=2012-09&amp;user_id=2" title="2012-09">2012-09(2)</a></td>
+		    		</tr>
+    				<tr>
+	    				<td class="row1"><a class="genmed" href="http://sishuok.com/forum/blogCategory/showByDate.html?category_date=2012-08&amp;user_id=2" title="2012-08">2012-08(31)</a></td>
+		    		</tr>
+    				<tr>
+	    				<td class="row1"><a class="genmed" href="http://sishuok.com/forum/blogCategory/showByDate.html?category_date=2012-07&amp;user_id=2" title="2012-07">2012-07(10)</a></td>
+		    		</tr>
+    				<tr>
+	    				<td class="row1"><a class="genmed" href="http://sishuok.com/forum/blogCategory/showByDate.html?category_date=2012-06&amp;user_id=2" title="2012-06">2012-06(5)</a></td>
+		    		</tr>
+    				<tr>
+	    				<td class="row1"><a class="genmed" href="http://sishuok.com/forum/blogCategory/showByDate.html?category_date=2012-05&amp;user_id=2" title="2012-05">2012-05(41)</a></td>
+		    		</tr>
+    				<tr>
+	    				<td class="row1"><a class="genmed" href="http://sishuok.com/forum/blogCategory/showByDate.html?category_date=2012-04&amp;user_id=2" title="2012-04">2012-04(3)</a></td>
+		    		</tr>
+    				<tr>
+	    				<td class="row1"><a class="genmed" href="http://sishuok.com/forum/blogCategory/showByDate.html?category_date=2012-03&amp;user_id=2" title="2012-03">2012-03(41)</a></td>
+		    		</tr>
+    				<tr>
+	    				<td class="row1"><a class="genmed" href="http://sishuok.com/forum/blogCategory/showByDate.html?category_date=2012-02&amp;user_id=2" title="2012-02">2012-02(54)</a></td>
+		    		</tr>
+    				<tr>
+	    				<td class="row1"><a class="genmed" href="http://sishuok.com/forum/blogCategory/showByDate.html?category_date=2011-11&amp;user_id=2" title="2011-11">2011-11(17)</a></td>
+		    		</tr>
+    				<tr>
+	    				<td class="row1"><a class="genmed" href="http://sishuok.com/forum/blogCategory/showByDate.html?category_date=2011-10&amp;user_id=2" title="2011-10">2011-10(30)</a></td>
+		    		</tr>
+				
+			</tbody></table>
+		</td>
+	</tr>
+</tbody></table>
+		</td>
+		<td style="padding-left: 20px;" width="80%" valign="top" align="left">
+		    <br>
+<script type="text/javascript">
+<!--
+
+function quote(username, textId) {
+	var quoteContent = document.getElementById(textId).innerHTML;
+	quoteContent = "<font>&nbsp;</font><div style='border: 1px solid #aabbcc;'><span class='bold' style='font-size: medium; font-family: arial black,avant garde;'>"+username+"写</span><blockquote class='"+username+"引用'>"+quoteContent+"</blockquote></div><font>&nbsp;</font>";
+	var content = tinyMCE.get('content').getContent();
+	tinyMCE.get('content').setContent(content+quoteContent);
+	
+}
+//-->
+</script>
+
+				<!-- TOPICS LISTING -->
+
+
+
+
+<!--script>
+    var ad_id = 0;
+	var blog_ad = new Array();
+
+	blog_ad.push("<a href='http://sishuok.com/presentcourse?fromblog' title='视频课程免费赠送了，还等什么，前往领取吧！！' style='color:red;font-size: 18px;' target='_blank'>视频课程免费赠送了，还等什么，前往领取吧！！</a><br/><br/><a href='http://sishuok.com/board/161?fromblog' title='独家Android4就业经典视频课程，2012年首发！！' style='color:red;font-size: 18px;' target='_blank'>独家Android4就业经典视频课程，2012年首发！！</a><br/><br/><a href='http://javass.cn/javapeixunxinwen/08.html?fromblog' title='2012 最给力的Java就业解决方案——Java私塾首推：远程学习+地面冲刺=高薪就业' style='color:red;font-size: 18px;' target='_blank'>2012 最给力的Java就业解决方案——Java私塾首推：远程学习+地面冲刺=高薪就业</a>");
+	var adLength = blog_ad.length - 1; 
+	function update(pre) {if(pre) {ad_id = ad_id - 1;if(ad_id < 0) {ad_id=0;}} else {ad_id = ad_id + 1;if(ad_id > adLength) {ad_id=adLength;}};document.getElementById("ad_first").innerHTML = blog_ad[ad_id];}
+</script>
+<div style="border: 1px dotted #00A0EF; padding: 10px;margin-bottom: 10px; width: 700px;" class="blue">
+  <span id="ad_first"><script type="text/javascript">document.write(blog_ad[ad_id]);</script></span>
+  
+</div-->
+
+                    <div class="div_content_all">
+                        <span class="postdetails">2012-02-21 16:34:14<br></span>
+                        <span class="topictitle">
+							<a href="http://sishuok.com/forum/blogPost/list/2473.html" title="【第六章】 AOP 之 6.6 通知参数 ——跟我学spring3" class="blogtitle">
+							
+								【第六章】 AOP 之 6.6 通知参数 ——跟我学spring3
+							</a>
+						</span>
+						<br>
+						<span>
+<strong>浏览(31204)|<a href="#comments">评论</a>(0)
+&nbsp;&nbsp;<strong>交流分类：<a href="http://sishuok.com/forum/blog/index/0/26.html" target="_blank">Java</a></strong>|笔记分类: <a href="http://sishuok.com/forum/blogCategory/showByCategory.html?categories_id=49&amp;user_id=2">跟我学spring3</a>
+</strong>						</span><br><br>
+
+
+
+						   <div class="div_content_text_all">
+							   <p>&nbsp; &nbsp; &nbsp; &nbsp;前边章节已经介绍了声明通知，但如果想获取被被通知方法参数并传递给通知方法，该如何实现呢？接下来我们将介绍两种获取通知参数的方式。</p> 
+<ul> 
+ <li><strong>使用JoinPoint</strong><strong>获取</strong>：Spring 
+AOP提供使用org.aspectj.lang.JoinPoint类型获取连接点数据，任何通知方法的第一个参数都可以是JoinPoint(环绕通
+知是ProceedingJoinPoint，JoinPoint子类)，当然第一个参数位置也可以是JoinPoint.StaticPart类型，这
+个只返回连接点的静态部分。</li> 
+</ul> 
+<p><strong>1) JoinPoint</strong><strong>：</strong>提供访问当前被通知方法的目标对象、代理对象、方法参数等数据：</p> 
+<p>&nbsp;</p> 
+<div style="border: 1px solid #aabbcc;">
+ <span class="bold" style="font-size: medium; font-family: arial black,avant garde;">java代码：</span> 
+ <div class="dp-highlighter"><div class="bar"><div class="tools"><a href="#" onclick="dp.sh.Toolbar.Command('ViewSource',this);return false;">查看</a><a href="#" onclick="dp.sh.Toolbar.Command('CopyToClipboard',this);return false;">复制到剪贴板</a><a href="#" onclick="dp.sh.Toolbar.Command('PrintSource',this);return false;">打印</a></div></div><ol start="1" class="dp-j"><li class="alt"><span><span class="keyword">package</span><span>&nbsp;org.aspectj.lang;&nbsp;&nbsp;</span></span></li><li class=""><span><span class="keyword">import</span><span>&nbsp;org.aspectj.lang.reflect.SourceLocation;&nbsp;&nbsp;</span></span></li><li class="alt"><span><span class="keyword">public</span><span>&nbsp;</span><span class="keyword">interface</span><span>&nbsp;JoinPoint&nbsp;{&nbsp;&nbsp;</span></span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;String&nbsp;toString();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">//连接点所在位置的相关信息</span><span>&nbsp;&nbsp;</span></span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;String&nbsp;toShortString();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">//连接点所在位置的简短相关信息</span><span>&nbsp;&nbsp;</span></span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;String&nbsp;toLongString();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">//连接点所在位置的全部相关信息</span><span>&nbsp;&nbsp;</span></span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;Object&nbsp;getThis();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">//返回AOP代理对象</span><span>&nbsp;&nbsp;</span></span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;Object&nbsp;getTarget();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">//返回目标对象</span><span>&nbsp;&nbsp;</span></span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;Object[]&nbsp;getArgs();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">//返回被通知方法参数列表</span><span>&nbsp;&nbsp;</span></span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;Signature&nbsp;getSignature();&nbsp;&nbsp;<span class="comment">//返回当前连接点签名</span><span>&nbsp;&nbsp;</span></span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;SourceLocation&nbsp;getSourceLocation();<span class="comment">//返回连接点方法所在类文件中的位置</span><span>&nbsp;&nbsp;</span></span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;String&nbsp;getKind();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">//连接点类型</span><span>&nbsp;&nbsp;</span></span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;StaticPart&nbsp;getStaticPart();&nbsp;<span class="comment">//返回连接点静态部分</span><span>&nbsp;&nbsp;</span></span></li><li class=""><span>}&nbsp;&nbsp;</span></li></ol></div><pre name="code" class="java" style="display: none;">package org.aspectj.lang;
+import org.aspectj.lang.reflect.SourceLocation;
+public interface JoinPoint {
+    String toString();         //连接点所在位置的相关信息
+    String toShortString();     //连接点所在位置的简短相关信息
+    String toLongString();     //连接点所在位置的全部相关信息
+    Object getThis();         //返回AOP代理对象
+    Object getTarget();       //返回目标对象
+    Object[] getArgs();       //返回被通知方法参数列表
+    Signature getSignature();  //返回当前连接点签名
+    SourceLocation getSourceLocation();//返回连接点方法所在类文件中的位置
+    String getKind();        //连接点类型
+    StaticPart getStaticPart(); //返回连接点静态部分
+}</pre> 
+</div> 
+<p>&nbsp;</p> 
+<p><strong>2</strong><strong>）</strong>ProceedingJoinPoint：用于环绕通知，使用proceed()方法来执行目标方法：</p> 
+<div style="border: 1px solid #aabbcc;">
+ <span class="bold" style="font-size: medium; font-family: arial black,avant garde;">java代码：</span> 
+ <div class="dp-highlighter"><div class="bar"><div class="tools"><a href="#" onclick="dp.sh.Toolbar.Command('ViewSource',this);return false;">查看</a><a href="#" onclick="dp.sh.Toolbar.Command('CopyToClipboard',this);return false;">复制到剪贴板</a><a href="#" onclick="dp.sh.Toolbar.Command('PrintSource',this);return false;">打印</a></div></div><ol start="1" class="dp-j"><li class="alt"><span><span class="keyword">public</span><span>&nbsp;</span><span class="keyword">interface</span><span>&nbsp;ProceedingJoinPoint&nbsp;</span><span class="keyword">extends</span><span>&nbsp;JoinPoint&nbsp;{&nbsp;&nbsp;</span></span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span><span>&nbsp;Object&nbsp;proceed()&nbsp;</span><span class="keyword">throws</span><span>&nbsp;Throwable;&nbsp;&nbsp;</span></span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span><span>&nbsp;Object&nbsp;proceed(Object[]&nbsp;args)&nbsp;</span><span class="keyword">throws</span><span>&nbsp;Throwable;&nbsp;&nbsp;</span></span></li><li class=""><span>}&nbsp;&nbsp;</span></li></ol></div><pre name="code" class="java" style="display: none;">public interface ProceedingJoinPoint extends JoinPoint {
+    public Object proceed() throws Throwable;
+    public Object proceed(Object[] args) throws Throwable;
+}</pre> 
+</div> 
+<p>&nbsp;</p> 
+<p><strong>3) JoinPoint.StaticPart</strong><strong>：</strong>提供访问连接点的静态部分，如被通知方法签名、连接点类型等：</p> 
+<p>&nbsp;</p> 
+<div style="border: 1px solid #aabbcc;">
+ <span class="bold" style="font-size: medium; font-family: arial black,avant garde;">java代码：</span> 
+ <div class="dp-highlighter"><div class="bar"><div class="tools"><a href="#" onclick="dp.sh.Toolbar.Command('ViewSource',this);return false;">查看</a><a href="#" onclick="dp.sh.Toolbar.Command('CopyToClipboard',this);return false;">复制到剪贴板</a><a href="#" onclick="dp.sh.Toolbar.Command('PrintSource',this);return false;">打印</a></div></div><ol start="1" class="dp-j"><li class="alt"><span><span class="keyword">public</span><span>&nbsp;</span><span class="keyword">interface</span><span>&nbsp;StaticPart&nbsp;{&nbsp;&nbsp;</span></span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;Signature&nbsp;getSignature();&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">//返回当前连接点签名</span><span>&nbsp;&nbsp;</span></span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;String&nbsp;getKind();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">//连接点类型</span><span>&nbsp;&nbsp;</span></span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">int</span><span>&nbsp;getId();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="comment">//唯一标识</span><span>&nbsp;&nbsp;</span></span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;String&nbsp;toString();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">//连接点所在位置的相关信息</span><span>&nbsp;&nbsp;</span></span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;String&nbsp;toShortString();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">//连接点所在位置的简短相关信息</span><span>&nbsp;&nbsp;</span></span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;String&nbsp;toLongString();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">//连接点所在位置的全部相关信息</span><span>&nbsp;&nbsp;</span></span></li><li class=""><span>}&nbsp;&nbsp;</span></li></ol></div><pre name="code" class="java" style="display: none;">public interface StaticPart {
+    Signature getSignature();    //返回当前连接点签名
+    String getKind();          //连接点类型
+    int getId();               //唯一标识
+    String toString();         //连接点所在位置的相关信息
+    String toShortString();     //连接点所在位置的简短相关信息
+    String toLongString();     //连接点所在位置的全部相关信息
+}</pre> 
+</div> 
+<p>&nbsp;</p> 
+<p>使用如下方式在通知方法上声明，必须是在第一个参数，然后使用jp.getArgs()就能获取到被通知方法参数：</p> 
+<p>&nbsp;</p> 
+<div style="border: 1px solid #aabbcc;">
+ <span class="bold" style="font-size: medium; font-family: arial black,avant garde;">java代码：</span> 
+ <div class="dp-highlighter"><div class="bar"><div class="tools"><a href="#" onclick="dp.sh.Toolbar.Command('ViewSource',this);return false;">查看</a><a href="#" onclick="dp.sh.Toolbar.Command('CopyToClipboard',this);return false;">复制到剪贴板</a><a href="#" onclick="dp.sh.Toolbar.Command('PrintSource',this);return false;">打印</a></div></div><ol start="1" class="dp-j"><li class="alt"><span><span class="annotation">@Before</span><span>(value=</span><span class="string">"execution(*&nbsp;sayBefore(*))"</span><span>)&nbsp;&nbsp;</span></span></li><li class=""><span><span class="keyword">public</span><span>&nbsp;</span><span class="keyword">void</span><span>&nbsp;before(JoinPoint&nbsp;jp)&nbsp;{}&nbsp;&nbsp;</span></span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;</span></li><li class=""><span><span class="annotation">@Before</span><span>(value=</span><span class="string">"execution(*&nbsp;sayBefore(*))"</span><span>)&nbsp;&nbsp;</span></span></li><li class="alt"><span><span class="keyword">public</span><span>&nbsp;</span><span class="keyword">void</span><span>&nbsp;before(JoinPoint.StaticPart&nbsp;jp)&nbsp;{}&nbsp;&nbsp;</span></span></li></ol></div><pre name="code" class="java" style="display: none;">@Before(value="execution(* sayBefore(*))")
+public void before(JoinPoint jp) {}
+ 
+@Before(value="execution(* sayBefore(*))")
+public void before(JoinPoint.StaticPart jp) {}</pre> 
+</div> 
+<p>&nbsp;</p> 
+<ul> 
+ <li><strong>自动获取：</strong>通过切入点表达式可以将相应的参数自动传递给通知方法，例如前边章节讲过的返回值和异常是如何传递给通知方法的。</li> 
+</ul> 
+<p>在Spring AOP中，除了execution和bean指示符不能传递参数给通知方法，其他指示符都可以将匹配的相应参数或对象自动传递给通知方法。</p> 
+<p>&nbsp;</p> 
+<div style="border: 1px solid #aabbcc;">
+ <span class="bold" style="font-size: medium; font-family: arial black,avant garde;">java代码：</span> 
+ <div class="dp-highlighter"><div class="bar"><div class="tools"><a href="#" onclick="dp.sh.Toolbar.Command('ViewSource',this);return false;">查看</a><a href="#" onclick="dp.sh.Toolbar.Command('CopyToClipboard',this);return false;">复制到剪贴板</a><a href="#" onclick="dp.sh.Toolbar.Command('PrintSource',this);return false;">打印</a></div></div><ol start="1" class="dp-j"><li class="alt"><span><span class="annotation">@Before</span><span>(value=</span><span class="string">"execution(*&nbsp;test(*))&nbsp;&amp;&amp;&nbsp;args(param)"</span><span>,&nbsp;argNames=</span><span class="string">"param"</span><span>)&nbsp;&nbsp;</span></span></li><li class=""><span><span class="keyword">public</span><span>&nbsp;</span><span class="keyword">void</span><span>&nbsp;before1(String&nbsp;param)&nbsp;{&nbsp;&nbsp;</span></span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"===param:"</span><span>&nbsp;+&nbsp;param);&nbsp;&nbsp;</span></span></li><li class=""><span>}&nbsp;&nbsp;</span></li></ol></div><pre name="code" class="java" style="display: none;">@Before(value="execution(* test(*)) &amp;&amp; args(param)", argNames="param")
+public void before1(String param) {
+    System.out.println("===param:" + param);
+}</pre> 
+</div> 
+<p>&nbsp;</p> 
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 切入点表达式execution(* test(*)) &amp;&amp; args(param) ：</p> 
+<p>1）首先execution(* test(*))匹配任何方法名为test，且有一个任何类型的参数；</p> 
+<p>2）args(param)将首先查找通知方法上同名的参数，并在方法执行时（运行时）匹配传入的参数是使用该同名参数类型，即java.lang.String；如果匹配将把该被通知参数传递给通知方法上同名参数。</p> 
+<p>其他指示符（除了execution和bean指示符）都可以使用这种方式进行参数绑定。</p> 
+<p>在此有一个问题，即前边提到的类似于【3.1.2构造器注入】中的参数名注入限制：<strong>在</strong><strong>class</strong><strong>文件中没生成变量调试信息是获取不到方法参数名字的。</strong></p> 
+<p>所以我们可以使用策略来确定参数名：</p> 
+<p>&nbsp;</p> 
+<p>&nbsp;</p> 
+<p>&nbsp;</p> 
+<p>1、如果我们通过“argNames”属性指定了参数名，那么就是要我们指定的；</p> 
+<div style="border: 1px solid #aabbcc;">
+ <span class="bold" style="font-size: medium; font-family: arial black,avant garde;">java代码：</span> 
+ <div class="dp-highlighter"><div class="bar"><div class="tools"><a href="#" onclick="dp.sh.Toolbar.Command('ViewSource',this);return false;">查看</a><a href="#" onclick="dp.sh.Toolbar.Command('CopyToClipboard',this);return false;">复制到剪贴板</a><a href="#" onclick="dp.sh.Toolbar.Command('PrintSource',this);return false;">打印</a></div></div><ol start="1" class="dp-j"><li class="alt"><span><span class="annotation">@Before</span><span>(value=</span><span class="string">"&nbsp;args(param)"</span><span>,&nbsp;argNames=</span><span class="string">"param"</span><span>)&nbsp;</span><span class="comment">//明确指定了</span><span>&nbsp;&nbsp;</span></span></li><li class=""><span><span class="keyword">public</span><span>&nbsp;</span><span class="keyword">void</span><span>&nbsp;before1(String&nbsp;param)&nbsp;{&nbsp;&nbsp;</span></span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"===param:"</span><span>&nbsp;+&nbsp;param);&nbsp;&nbsp;</span></span></li><li class=""><span>}&nbsp;&nbsp;</span></li></ol></div><pre name="code" class="java" style="display: none;">@Before(value=" args(param)", argNames="param") //明确指定了
+public void before1(String param) {
+    System.out.println("===param:" + param);
+}</pre> 
+</div> 
+<p>&nbsp;</p> 
+<p>2、如果第一个参数类型是JoinPoint、ProceedingJoinPoint或JoinPoint.StaticPart类型，应该从“argNames”属性省略掉该参数名（可选，写上也对），这些类型对象会自动传入的，但必须作为第一个参数；</p> 
+<div style="border: 1px solid #aabbcc;">
+ <span class="bold" style="font-size: medium; font-family: arial black,avant garde;">java代码：</span> 
+ <div class="dp-highlighter"><div class="bar"><div class="tools"><a href="#" onclick="dp.sh.Toolbar.Command('ViewSource',this);return false;">查看</a><a href="#" onclick="dp.sh.Toolbar.Command('CopyToClipboard',this);return false;">复制到剪贴板</a><a href="#" onclick="dp.sh.Toolbar.Command('PrintSource',this);return false;">打印</a></div></div><ol start="1" class="dp-j"><li class="alt"><span><span class="annotation">@Before</span><span>(value=</span><span class="string">"&nbsp;args(param)"</span><span>,&nbsp;argNames=</span><span class="string">"param"</span><span>)&nbsp;</span><span class="comment">//明确指定了</span><span>&nbsp;&nbsp;</span></span></li><li class=""><span><span class="keyword">public</span><span>&nbsp;</span><span class="keyword">void</span><span>&nbsp;before1(JoinPoint&nbsp;jp,&nbsp;String&nbsp;param)&nbsp;{&nbsp;&nbsp;</span></span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"===param:"</span><span>&nbsp;+&nbsp;param);&nbsp;&nbsp;</span></span></li><li class=""><span>}&nbsp;&nbsp;</span></li></ol></div><pre name="code" class="java" style="display: none;">@Before(value=" args(param)", argNames="param") //明确指定了
+public void before1(JoinPoint jp, String param) {
+    System.out.println("===param:" + param);
+}</pre> 
+</div> 
+<p>&nbsp;</p> 
+<p>&nbsp;3、如果“<strong>class</strong><strong>文件中含有变量调试信息</strong>”将使用这些方法签名中的参数名来确定参数名；</p> 
+<p>&nbsp;</p> 
+<div style="border: 1px solid #aabbcc;">
+ <span class="bold" style="font-size: medium; font-family: arial black,avant garde;">java代码：</span> 
+ <div class="dp-highlighter"><div class="bar"><div class="tools"><a href="#" onclick="dp.sh.Toolbar.Command('ViewSource',this);return false;">查看</a><a href="#" onclick="dp.sh.Toolbar.Command('CopyToClipboard',this);return false;">复制到剪贴板</a><a href="#" onclick="dp.sh.Toolbar.Command('PrintSource',this);return false;">打印</a></div></div><ol start="1" class="dp-j"><li class="alt"><span><span class="annotation">@Before</span><span>(value=</span><span class="string">"&nbsp;args(param)"</span><span>)&nbsp;</span><span class="comment">//不需要argNames了</span><span>&nbsp;&nbsp;</span></span></li><li class=""><span><span class="keyword">public</span><span>&nbsp;</span><span class="keyword">void</span><span>&nbsp;before1(JoinPoint&nbsp;jp,&nbsp;String&nbsp;param)&nbsp;{&nbsp;&nbsp;</span></span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"===param:"</span><span>&nbsp;+&nbsp;param);&nbsp;&nbsp;</span></span></li><li class=""><span>}&nbsp;&nbsp;</span></li></ol></div><pre name="code" class="java" style="display: none;">@Before(value=" args(param)") //不需要argNames了
+public void before1(JoinPoint jp, String param) {
+    System.out.println("===param:" + param);
+}</pre> 
+</div> 
+<p>&nbsp;</p> 
+<p>&nbsp;4、如果没有“<strong>class</strong><strong>文件中含有变量调试信息</strong>”，将尝试自己的参数匹配算法，如果发现参数绑定有二义性将抛出AmbiguousBindingException异常；对于只有一个绑定变量的切入点表达式，而通知方法只接受一个参数，说明绑定参数是明确的，从而能配对成功。</p> 
+<p>&nbsp;</p> 
+<div style="border: 1px solid #aabbcc;">
+ <span class="bold" style="font-size: medium; font-family: arial black,avant garde;">java代码：</span> 
+ <div class="dp-highlighter"><div class="bar"><div class="tools"><a href="#" onclick="dp.sh.Toolbar.Command('ViewSource',this);return false;">查看</a><a href="#" onclick="dp.sh.Toolbar.Command('CopyToClipboard',this);return false;">复制到剪贴板</a><a href="#" onclick="dp.sh.Toolbar.Command('PrintSource',this);return false;">打印</a></div></div><ol start="1" class="dp-j"><li class="alt"><span><span class="annotation">@Before</span><span>(value=</span><span class="string">"&nbsp;args(param)"</span><span>)&nbsp;&nbsp;</span></span></li><li class=""><span><span class="keyword">public</span><span>&nbsp;</span><span class="keyword">void</span><span>&nbsp;before1(JoinPoint&nbsp;jp,&nbsp;String&nbsp;param)&nbsp;{&nbsp;&nbsp;</span></span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;System.out.println(<span class="string">"===param:"</span><span>&nbsp;+&nbsp;param);&nbsp;&nbsp;</span></span></li><li class=""><span>}&nbsp;&nbsp;</span></li></ol></div><pre name="code" class="java" style="display: none;">@Before(value=" args(param)")
+public void before1(JoinPoint jp, String param) {
+    System.out.println("===param:" + param);
+}</pre> 
+</div> 
+<p>5、以上策略失败将抛出IllegalArgumentException。</p> 
+<p>&nbsp;</p> 
+<p>接下来让我们示例一下组合情况吧：</p> 
+<p>&nbsp;</p> 
+<div style="border: 1px solid #aabbcc;">
+ <span class="bold" style="font-size: medium; font-family: arial black,avant garde;">java代码：</span> 
+ <div class="dp-highlighter"><div class="bar"><div class="tools"><a href="#" onclick="dp.sh.Toolbar.Command('ViewSource',this);return false;">查看</a><a href="#" onclick="dp.sh.Toolbar.Command('CopyToClipboard',this);return false;">复制到剪贴板</a><a href="#" onclick="dp.sh.Toolbar.Command('PrintSource',this);return false;">打印</a></div></div><ol start="1" class="dp-j"><li class="alt"><span><span class="annotation">@Before</span><span>(args(param)&nbsp;&amp;&amp;&nbsp;target(bean)&nbsp;&amp;&amp;&nbsp;</span><span class="annotation">@annotation</span><span>(secure)",&nbsp;&nbsp;</span></span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;argNames=<span class="string">"jp,param,bean,secure"</span><span>)&nbsp;&nbsp;</span></span></li><li class="alt"><span><span class="keyword">public</span><span>&nbsp;</span><span class="keyword">void</span><span>&nbsp;before5(JoinPoint&nbsp;jp,&nbsp;String&nbsp;param,&nbsp;&nbsp;</span></span></li><li class=""><span>&nbsp;IPointcutService&nbsp;pointcutService,&nbsp;Secure&nbsp;secure)&nbsp;{&nbsp;&nbsp;</span></li><li class="alt"><span>……&nbsp;&nbsp;</span></li><li class=""><span>}&nbsp;&nbsp;</span></li></ol></div><pre name="code" class="java" style="display: none;">@Before(args(param) &amp;&amp; target(bean) &amp;&amp; @annotation(secure)",
+        argNames="jp,param,bean,secure")
+public void before5(JoinPoint jp, String param,
+ IPointcutService pointcutService, Secure secure) {
+……
+}</pre> 
+</div> 
+<p>&nbsp;</p> 
+<p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 该示例的执行步骤如图6-5所示。</p> 
+<p align="center"><img src="%E3%80%90%E7%AC%AC%E5%85%AD%E7%AB%A0%E3%80%91%20AOP%20%E4%B9%8B%206.6%20%E9%80%9A%E7%9F%A5%E5%8F%82%E6%95%B0%20%E2%80%94%E2%80%94%E8%B7%9F%E6%88%91%E5%AD%A6spring3%20-%20zhang%E7%9A%84%E7%AC%94%E8%AE%B0%20-%20%E8%AE%B0%E7%AC%94%E8%AE%B0%20-%20%E7%A7%81%E5%A1%BE%E5%9C%A8%E7%BA%BF%20-%20%E5%8F%AA%E5%81%9A%E7%B2%BE%E5%93%81%E8%A7%86%E9%A2%91%E8%AF%BE%E7%A8%8B%E6%9C%8D%E5%8A%A1_files/488418d955ff2627fa9d2600f651af59__1.JPG" alt="">&nbsp;</p> 
+<p align="center">图6-5 参数自动获取流程</p> 
+<p align="center">&nbsp;</p> 
+<p>&nbsp;</p> 
+<p>除了上边介绍的普通方式，也可以对使用命名切入点自动获取参数：&nbsp;</p> 
+<p align="center">&nbsp;</p> 
+<div style="border: 1px solid #aabbcc;">
+ <span class="bold" style="font-size: medium; font-family: arial black,avant garde;">java代码：</span> 
+ <div class="dp-highlighter"><div class="bar"><div class="tools"><a href="#" onclick="dp.sh.Toolbar.Command('ViewSource',this);return false;">查看</a><a href="#" onclick="dp.sh.Toolbar.Command('CopyToClipboard',this);return false;">复制到剪贴板</a><a href="#" onclick="dp.sh.Toolbar.Command('PrintSource',this);return false;">打印</a></div></div><ol start="1" class="dp-j"><li class="alt"><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></span></li><li class=""><span><span class="annotation">@Pointcut</span><span>(value=</span><span class="string">"args(param)"</span><span>,&nbsp;argNames=</span><span class="string">"param"</span><span>)&nbsp;&nbsp;</span></span></li><li class="alt"><span><span class="keyword">private</span><span>&nbsp;</span><span class="keyword">void</span><span>&nbsp;pointcut1(String&nbsp;param){}&nbsp;&nbsp;</span></span></li><li class=""><span><span class="annotation">@Pointcut</span><span>(value=</span><span class="string">"@annotation(secure)"</span><span>,&nbsp;argNames=</span><span class="string">"secure"</span><span>)&nbsp;&nbsp;</span></span></li><li class="alt"><span><span class="keyword">private</span><span>&nbsp;</span><span class="keyword">void</span><span>&nbsp;pointcut2(Secure&nbsp;secure){}&nbsp;&nbsp;</span></span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></li><li class="alt"><span><span class="annotation">@Before</span><span>(value&nbsp;=&nbsp;</span><span class="string">"pointcut1(param)&nbsp;&amp;&amp;&nbsp;pointcut2(secure)"</span><span>,&nbsp;&nbsp;</span></span></li><li class=""><span>&nbsp;argNames=<span class="string">"param,&nbsp;secure"</span><span>)&nbsp;&nbsp;</span></span></li><li class="alt"><span><span class="keyword">public</span><span>&nbsp;</span><span class="keyword">void</span><span>&nbsp;before6(JoinPoint&nbsp;jp,&nbsp;String&nbsp;param,&nbsp;Secure&nbsp;secure)&nbsp;{&nbsp;&nbsp;</span></span></li><li class=""><span>……&nbsp;&nbsp;</span></li><li class="alt"><span>}&nbsp;&nbsp;</span></li></ol></div><pre name="code" class="java" style="display: none;">	
+@Pointcut(value="args(param)", argNames="param")
+private void pointcut1(String param){}
+@Pointcut(value="@annotation(secure)", argNames="secure")
+private void pointcut2(Secure secure){}
+   
+@Before(value = "pointcut1(param) &amp;&amp; pointcut2(secure)",
+ argNames="param, secure")
+public void before6(JoinPoint jp, String param, Secure secure) {
+……
+}</pre> 
+</div> 
+<p>&nbsp;</p> 
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 自此给通知传递参数已经介绍完了，示例代码在cn.javass.spring.chapter6.ParameterTest文件中。</p> 
+<p>&nbsp;</p> 
+<p>&nbsp;</p> 
+<p>原创内容，转载请注明出处【<a href="http://sishuok.com/forum/blogPost/list/0/2473.html#7145">http://sishuok.com/forum/blogPost/list/0/2473.html</a>】</p>
+						   </div>
+
+<!-- Attachments -->
+
+
+							  <div style="width:100%;height: 20px;"></div>
+
+
+                                 <div style="border: 1px dotted #00A0EF;padding: 8px;margin: 5px;background:    #FFFCE7;">
+                                 <div style="color: blue;font-size: 20px;font-weight: bold;margin-bottom: 10px;line-height: 25px;">相关笔记推荐</div>
+
+                                     <div style="margin: 0 20px 5px 0;width: 310px;float: left;">
+                                         <a href="http://sishuok.com/forum/blogPost/list/2471.html" target="_blank" title="【第六章】 AOP 之 6.4 基于@AspectJ的AOP ——跟我学spring3">
+                                                【第六章】 AOP 之 6.4 基于@AspectJ的AOP ——跟我学spring3
+                                        </a>
+                                     </div>
+
+                                     <div style="margin: 0 20px 5px 0;width: 310px;float: left;">
+                                         <a href="http://sishuok.com/forum/blogPost/list/2469.html" target="_blank" title="【第六章】 AOP 之 6.3 基于Schema的AOP ——跟我学spring3">
+                                                【第六章】 AOP 之 6.3 基于Schema的AOP ——跟我学spring3
+                                        </a>
+                                     </div>
+
+                                     <div style="margin: 0 20px 5px 0;width: 310px;float: left;">
+                                         <a href="http://sishuok.com/forum/blogPost/list/2467.html" target="_blank" title="【第六章】 AOP 之 6.2 AOP的HelloWorld ——跟我学spring3">
+                                                【第六章】 AOP 之 6.2 AOP的HelloWorld ——跟我学spring3
+                                        </a>
+                                     </div>
+
+                                     <div style="margin: 0 20px 5px 0;width: 310px;float: left;">
+                                         <a href="http://sishuok.com/forum/blogPost/list/2466.html" target="_blank" title="【第六章】 AOP 之 6.1 AOP基础 ——跟我学spring3">
+                                                【第六章】 AOP 之 6.1 AOP基础 ——跟我学spring3
+                                        </a>
+                                     </div>
+
+                                     <div style="margin: 0 20px 5px 0;width: 310px;float: left;">
+                                         <a href="http://sishuok.com/forum/blogPost/list/2464.html" target="_blank" title="【第五章】Spring表达式语言 之 5.4在Bean定义中使用EL—跟我学spring3">
+                                                【第五章】Spring表达式语言 之 5.4在Bean定义中使用EL—跟我学spring3
+                                        </a>
+                                     </div>
+
+                                     <div style="margin: 0 20px 5px 0;width: 310px;float: left;">
+                                         <a href="http://sishuok.com/forum/blogPost/list/2463.html" target="_blank" title="【第五章】Spring表达式语言 之 5.3 SpEL语法 ——跟我学spring3">
+                                                【第五章】Spring表达式语言 之 5.3 SpEL语法 ——跟我学spring3
+                                        </a>
+                                     </div>
+
+                                     <div style="margin: 0 20px 5px 0;width: 310px;float: left;">
+                                         <a href="http://sishuok.com/forum/blogPost/list/2462.html" target="_blank" title="【第五章】Spring表达式语言 之 5.1 概述 5.2 SpEL基础 ——跟我学spring3">
+                                                【第五章】Spring表达式语言 之 5.1 概述 5.2 SpEL基础 ——跟我学spring3
+                                        </a>
+                                     </div>
+
+                                     <div style="margin: 0 20px 5px 0;width: 310px;float: left;">
+                                         <a href="http://sishuok.com/forum/blogPost/list/2458.html" target="_blank" title="【第四章】 资源 之 4.4 Resource通配符路径 ——跟我学spring3">
+                                                【第四章】 资源 之 4.4 Resource通配符路径 ——跟我学spring3
+                                        </a>
+                                     </div>
+
+                                     <div style="margin: 0 20px 5px 0;width: 310px;float: left;">
+                                         <a href="http://sishuok.com/forum/blogPost/list/2457.html" target="_blank" title="【第四章】 资源 之 4.3 访问Resource ——跟我学spring3">
+                                                【第四章】 资源 之 4.3 访问Resource ——跟我学spring3
+                                        </a>
+                                     </div>
+
+                                     <div style="margin: 0 20px 5px 0;width: 310px;float: left;">
+                                         <a href="http://sishuok.com/forum/blogPost/list/2456.html" target="_blank" title="【第四章】 资源 之 4.2 内置Resource实现 ——跟我学spring3">
+                                                【第四章】 资源 之 4.2 内置Resource实现 ——跟我学spring3
+                                        </a>
+                                     </div>
+                                 </div>
+                        
+
+                                 <div style="border: 1px dotted #00A0EF;padding: 8px;margin: 5px;background:    #FFFCE7;">
+                                 <div style="color: blue;font-size: 20px;font-weight: bold;margin-bottom: 10px;line-height: 25px;">精品视频课程推荐</div>
+
+                                     <p style="margin: 0 0 15px 0;">
+                                     <a style="font-size: 16px;color: red;font-weight: bold;" href="http://sishuok.com/product/385?ad" target="_blank">透彻理解JavaBean视频教程</a>
+                                     <br>深入浅出的讲解JavaBen的写法、JavaBean的用法、JavaBean的实现机制、JavaBean对应翻译的代码理解。
+                                     </p>
+
+
+                                     <p style="margin: 0 0 15px 0;">
+                                     <a style="font-size: 16px;color: red;font-weight: bold;" href="http://sishuok.com/product/423?ad" target="_blank">ssh+jbpm项目（某集团OA）视频教程</a>
+                                     <br>达到能综合使用
+Struts2+Spring3+Hibernate3+Jbpm4来进行实际项目开发的能力。
+包括：ssh和jbpm的整合;数据字典;通用DAO（Spring+Hibernate+泛型+反射+SpEL+模板方法模式）;自动生成UUID的加
+强版;分层开发、SSH联合的基本开发;翻页的taglib;示范真实值和表现值，数据参照的实现;文件上传下载;主子表操;登录验证码;登录控制的拦截
+器
+                                     </p>
+
+
+                                     <p style="margin: 0 0 15px 0;">
+                                     <a style="font-size: 16px;color: red;font-weight: bold;" href="http://sishuok.com/product/364?ad" target="_blank">XML基础视频教程</a>
+                                     <br>创建规范的XML文档，DTD的作用，并且可以根据要求创建私用的DTD，通过JavaScript解析XML DOM
+                                     </p>
+
+
+                                     <p style="margin: 0 0 15px 0;">
+                                     <a style="font-size: 16px;color: red;font-weight: bold;" href="http://sishuok.com/product/701?ad" target="_blank">深入浅出学Spring Web MVC视频教程</a>
+                                     <br>系统、完整的学习Spring Web 
+MVC开发的知识。包括：Spring Web 
+MVC入门；理解DispatcherServlet；注解式控制器开发详解；数据类型转换；数据格式化；数据验证； 
+拦截器；对Ajax的支持；文件上传下载；表单标签等内容；最后以一个综合的CRUD带翻页的应用示例来综合所学的知识 
+                                     </p>
+
+
+                                     <p style="margin: 0 0 15px 0;">
+                                     <a style="font-size: 16px;color: red;font-weight: bold;" href="http://sishuok.com/product/781?ad" target="_blank">高级软件架构师实战培训阶段一</a>
+                                     <br><b>内容概述：</b>本课程专注于构建：高可扩展性、高性能、大数据量、高并发、分布式的系统架构。
+从零开始、全面系统、成体系的软件架构课程，循序渐进的讲述构建上述系统架构所需要的各种技术知识和技能。
+					<br>
+<b>技术要点：</b>
+				1：构建基本的业务功能块，基于Maven+Git+Spring mvc+spring+mybatis+ehcache+mysql+X-gen代码生成
+				<br>
+        &nbsp;2：高扩展性的分布式体系架构（基于Nginx+Varnish+Memcache+ActiveMQ）
+        <br>
+        &nbsp;3：NoSQL的合理使用和架构优化（基于MongoDB）
+        <br>
+        &nbsp;4：分布式文件存储和架构优化（基于MogileFS）
+                                     </p>
+
+                                 </div>
+
+						<script type="text/javascript"><!--
+							google_ad_client = "ca-pub-5014907946493114";
+							/* 私塾在线 */
+							google_ad_slot = "5445862139";
+							google_ad_width = 690;
+							google_ad_height = 90;
+							//-->
+							</script>
+							<script type="text/javascript" src="%E3%80%90%E7%AC%AC%E5%85%AD%E7%AB%A0%E3%80%91%20AOP%20%E4%B9%8B%206.6%20%E9%80%9A%E7%9F%A5%E5%8F%82%E6%95%B0%20%E2%80%94%E2%80%94%E8%B7%9F%E6%88%91%E5%AD%A6spring3%20-%20zhang%E7%9A%84%E7%AC%94%E8%AE%B0%20-%20%E8%AE%B0%E7%AC%94%E8%AE%B0%20-%20%E7%A7%81%E5%A1%BE%E5%9C%A8%E7%BA%BF%20-%20%E5%8F%AA%E5%81%9A%E7%B2%BE%E5%93%81%E8%A7%86%E9%A2%91%E8%AF%BE%E7%A8%8B%E6%9C%8D%E5%8A%A1_files/show_ads.js">
+						</script><ins id="aswift_0_expand" style="display:inline-table;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:690px;background-color:transparent;" data-ad-slot="5445862139"><ins id="aswift_0_anchor" style="display:block;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:690px;background-color:transparent;"><iframe marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_0" name="aswift_0" style="left:0;position:absolute;top:0;border:0px;width:690px;height:90px;" width="690" height="90" frameborder="0"></iframe></ins></ins>
+
+								
+						<div style="float: left; width: 100%; margin-top: 10px;">
+<strong>浏览(31204)|<a href="#comments">评论</a>(0)
+&nbsp;&nbsp;<strong>交流分类：<a href="http://sishuok.com/forum/blog/index/0/26.html" target="_blank">Java</a></strong>|笔记分类: <a href="http://sishuok.com/forum/blogCategory/showByCategory.html?categories_id=49&amp;user_id=2">跟我学spring3</a>
+</strong>						</div>
+
+						
+						<hr style="margin-top:20px;">
+	                    <a name="comments"></a>
+                        <div style="padding: 10px 0 10px 0;">
+                            <strong>评论(0)</strong><br>
+                        </div>
+		                <!-- POST LISTING -->
+
+						
+						<div class="nav" align="left"></div>
+		                    <div class="div_block_comment_user"><strong>请登录后评论 <a href="http://sishuok.com/login">登录</a></strong></div>
+                    </div>
+				<!-- END OF TOPICS LISTING -->
+<!-- SyntaxHighlighter 1.5.1 -->
+<script language="javascript" src="%E3%80%90%E7%AC%AC%E5%85%AD%E7%AB%A0%E3%80%91%20AOP%20%E4%B9%8B%206.6%20%E9%80%9A%E7%9F%A5%E5%8F%82%E6%95%B0%20%E2%80%94%E2%80%94%E8%B7%9F%E6%88%91%E5%AD%A6spring3%20-%20zhang%E7%9A%84%E7%AC%94%E8%AE%B0%20-%20%E8%AE%B0%E7%AC%94%E8%AE%B0%20-%20%E7%A7%81%E5%A1%BE%E5%9C%A8%E7%BA%BF%20-%20%E5%8F%AA%E5%81%9A%E7%B2%BE%E5%93%81%E8%A7%86%E9%A2%91%E8%AF%BE%E7%A8%8B%E6%9C%8D%E5%8A%A1_files/editor.js"></script>
+<script language="javascript" src="%E3%80%90%E7%AC%AC%E5%85%AD%E7%AB%A0%E3%80%91%20AOP%20%E4%B9%8B%206.6%20%E9%80%9A%E7%9F%A5%E5%8F%82%E6%95%B0%20%E2%80%94%E2%80%94%E8%B7%9F%E6%88%91%E5%AD%A6spring3%20-%20zhang%E7%9A%84%E7%AC%94%E8%AE%B0%20-%20%E8%AE%B0%E7%AC%94%E8%AE%B0%20-%20%E7%A7%81%E5%A1%BE%E5%9C%A8%E7%BA%BF%20-%20%E5%8F%AA%E5%81%9A%E7%B2%BE%E5%93%81%E8%A7%86%E9%A2%91%E8%AF%BE%E7%A8%8B%E6%9C%8D%E5%8A%A1_files/shCore.js"></script>
+<script type="text/javascript">
+highlightAll();
+</script>
+<a class="bshareDiv" href="http://www.bshare.cn/share" style="display: block; text-decoration: none; padding: 0px; margin: 0px;"></a><script type="text/javascript" charset="utf-8" src="%E3%80%90%E7%AC%AC%E5%85%AD%E7%AB%A0%E3%80%91%20AOP%20%E4%B9%8B%206.6%20%E9%80%9A%E7%9F%A5%E5%8F%82%E6%95%B0%20%E2%80%94%E2%80%94%E8%B7%9F%E6%88%91%E5%AD%A6spring3%20-%20zhang%E7%9A%84%E7%AC%94%E8%AE%B0%20-%20%E8%AE%B0%E7%AC%94%E8%AE%B0%20-%20%E7%A7%81%E5%A1%BE%E5%9C%A8%E7%BA%BF%20-%20%E5%8F%AA%E5%81%9A%E7%B2%BE%E5%93%81%E8%A7%86%E9%A2%91%E8%AF%BE%E7%A8%8B%E6%9C%8D%E5%8A%A1_files/buttonLite.js"></script>		</td>
+	</tr>
+</tbody></table>
+
+
+<div class="big_box7">
+    <p><a href="http://sishuok.com/help/about_us.jsp">关于我们</a> | <a href="http://sishuok.com/help/contact.jsp">联系我们</a> | <a href="http://sishuok.com/help/agreement.jsp">用户协议</a> | <a href="http://sishuok.com/help/fee.jsp">私塾在线服务协议</a> | <a href="http://sishuok.com/help/copyright.jsp">版权声明</a> | <a href="http://sishuok.com/help/privacy.jsp">隐私保护</a></p>
+    <p>版权所有 Copyright(C)2009-2012 私塾在线学习网</p>
+</div>
+
+    <div id="user_tip" class="customer_bar customer_bar_container blue" style="display: none;">
+      <div style="width: 40px">
+          <a id="customer_btn_index"><img style="float: left;" src="%E3%80%90%E7%AC%AC%E5%85%AD%E7%AB%A0%E3%80%91%20AOP%20%E4%B9%8B%206.6%20%E9%80%9A%E7%9F%A5%E5%8F%82%E6%95%B0%20%E2%80%94%E2%80%94%E8%B7%9F%E6%88%91%E5%AD%A6spring3%20-%20zhang%E7%9A%84%E7%AC%94%E8%AE%B0%20-%20%E8%AE%B0%E7%AC%94%E8%AE%B0%20-%20%E7%A7%81%E5%A1%BE%E5%9C%A8%E7%BA%BF%20-%20%E5%8F%AA%E5%81%9A%E7%B2%BE%E5%93%81%E8%A7%86%E9%A2%91%E8%AF%BE%E7%A8%8B%E6%9C%8D%E5%8A%A1_files/none_1_1.gif" width="40px" height="40px"></a>
+      </div>
+      <div>
+
+
+          <div>
+              <!--<span class="customer_bar_item w_70">&nbsp;<a id="customer_btn_question">ta的问题</a></span>-->
+              <span class="customer_bar_item w_70">&nbsp;<a id="customer_btn_blog">ta的笔记</a></span>
+              <span class="customer_bar_item" style="padding-right: 0;">&nbsp;<a id="customer_btn_bbs">ta的交流</a></span>
+              <span class="customer_bar_item w_70">&nbsp;<a id="customer_btn_index2">ta的资料</a></span>
+          </div>
+          <div>
+
+              <span class="customer_bar_item w_70">&nbsp;<a id="customer_btn_msg">发消息</a></span>
+              <span class="customer_bar_item w_70" style="padding-right: 0;">&nbsp;<a id="customer_btn_ask">问问题</a></span>
+          </div>
+      </div>
+
+
+	</div>
+</div>
+</div>
+<a href="#top"></a>
+
+
+
+<script type="text/javascript" src="%E3%80%90%E7%AC%AC%E5%85%AD%E7%AB%A0%E3%80%91%20AOP%20%E4%B9%8B%206.6%20%E9%80%9A%E7%9F%A5%E5%8F%82%E6%95%B0%20%E2%80%94%E2%80%94%E8%B7%9F%E6%88%91%E5%AD%A6spring3%20-%20zhang%E7%9A%84%E7%AC%94%E8%AE%B0%20-%20%E8%AE%B0%E7%AC%94%E8%AE%B0%20-%20%E7%A7%81%E5%A1%BE%E5%9C%A8%E7%BA%BF%20-%20%E5%8F%AA%E5%81%9A%E7%B2%BE%E5%93%81%E8%A7%86%E9%A2%91%E8%AF%BE%E7%A8%8B%E6%9C%8D%E5%8A%A1_files/ad.js"></script>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script src="%E3%80%90%E7%AC%AC%E5%85%AD%E7%AB%A0%E3%80%91%20AOP%20%E4%B9%8B%206.6%20%E9%80%9A%E7%9F%A5%E5%8F%82%E6%95%B0%20%E2%80%94%E2%80%94%E8%B7%9F%E6%88%91%E5%AD%A6spring3%20-%20zhang%E7%9A%84%E7%AC%94%E8%AE%B0%20-%20%E8%AE%B0%E7%AC%94%E8%AE%B0%20-%20%E7%A7%81%E5%A1%BE%E5%9C%A8%E7%BA%BF%20-%20%E5%8F%AA%E5%81%9A%E7%B2%BE%E5%93%81%E8%A7%86%E9%A2%91%E8%AF%BE%E7%A8%8B%E6%9C%8D%E5%8A%A1_files/ga.js" type="text/javascript"></script>
+<script type="text/javascript">
+try{
+var pageTracker = _gat._getTracker("UA-25378051-1");
+pageTracker._trackPageview();
+} catch(err) {}
+</script>
+<div style="width: 0px;height: 0px;display: none;">
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F280074a10bea1abe79ad6d6dc08e4736' type='text/javascript'%3E%3C/script%3E"));
+</script><script src="%E3%80%90%E7%AC%AC%E5%85%AD%E7%AB%A0%E3%80%91%20AOP%20%E4%B9%8B%206.6%20%E9%80%9A%E7%9F%A5%E5%8F%82%E6%95%B0%20%E2%80%94%E2%80%94%E8%B7%9F%E6%88%91%E5%AD%A6spring3%20-%20zhang%E7%9A%84%E7%AC%94%E8%AE%B0%20-%20%E8%AE%B0%E7%AC%94%E8%AE%B0%20-%20%E7%A7%81%E5%A1%BE%E5%9C%A8%E7%BA%BF%20-%20%E5%8F%AA%E5%81%9A%E7%B2%BE%E5%93%81%E8%A7%86%E9%A2%91%E8%AF%BE%E7%A8%8B%E6%9C%8D%E5%8A%A1_files/h.js" type="text/javascript"></script><a href="http://tongji.baidu.com/hm-web/welcome/ico?s=280074a10bea1abe79ad6d6dc08e4736" target="_blank"><img src="%E3%80%90%E7%AC%AC%E5%85%AD%E7%AB%A0%E3%80%91%20AOP%20%E4%B9%8B%206.6%20%E9%80%9A%E7%9F%A5%E5%8F%82%E6%95%B0%20%E2%80%94%E2%80%94%E8%B7%9F%E6%88%91%E5%AD%A6spring3%20-%20zhang%E7%9A%84%E7%AC%94%E8%AE%B0%20-%20%E8%AE%B0%E7%AC%94%E8%AE%B0%20-%20%E7%A7%81%E5%A1%BE%E5%9C%A8%E7%BA%BF%20-%20%E5%8F%AA%E5%81%9A%E7%B2%BE%E5%93%81%E8%A7%86%E9%A2%91%E8%AF%BE%E7%A8%8B%E6%9C%8D%E5%8A%A1_files/21.gif" width="20" height="20" border="0"></a>
+</div>
+<div id="topcontrol" style="position: fixed; bottom: 5px; right: 5px; opacity: 0; cursor: pointer;" title="返回顶部"><div class="scroll_to_top" style="width:48px; height:48px;float: left;"></div></div><div id="bsBox" class="bsBox"><div class="bsClose">X</div><div class="bsTop"><div class="bsReturn">选择其他平台 &gt;&gt;</div><span style="margin-left:15px;">分享到</span><span class="bsPlatName"></span></div><div class="bsFrameDiv"><iframe class="bShareFrame" name="bsFrame605" scrolling="no" allowtransparency="true" frameborder="0"></iframe></div><div id="bsMorePanel" style="display: none;"></div></div><iframe id="google_osd_static_frame_7415561064349" name="google_osd_static_frame" style="display: none; width: 0px; height: 0px;"></iframe><div id="ads"></div><div id="bshareF" style="position: fixed; z-index: 100000000; top: 215.333px; background: rgba(0, 0, 0, 0) none repeat scroll 0% 0%; border: medium none; margin: 0px -270px 0px 0px; padding: 0px; right: 0px;"><div class="bshareF2" style="margin:0;padding:0;width:28px;"><div id="bshareF3" style="float:right;"><table cellspacing="0" cellpadding="0"><tbody><tr><td style="vertical-align:middle;"><div><b class="bs-xtop"><b class="bs-xb1"></b><b class="bs-xb2"></b><b class="bs-xb3"></b><b class="bs-xb4"></b></b><div id="bsFloatTab" style="padding:10px 0;font:1em Helvetica,Calibri,Tahoma,Arial,宋体,sans-serif;width:28px;background-color:#DDD;color:#000;"><div style="text-align:center;line-height:20px;height:20px;font-size:16px;font-weight:bold;margin:0 6px;">分</div><div style="text-align:center;line-height:20px;height:20px;font-size:16px;font-weight:bold;margin:0 6px;">享</div><div style="text-align:center;line-height:20px;height:20px;font-size:16px;font-weight:bold;margin:0 6px;">到</div><div style="text-align:center;line-height:10px;height:10px;font-size:16px;font-weight:bold;margin:0 6px;">.</div><div style="text-align:center;line-height:10px;height:10px;font-size:16px;font-weight:bold;margin:0 6px;">.</div><div style="text-align:center;line-height:10px;height:10px;font-size:16px;font-weight:bold;margin:0 6px;">.</div></div><b class="bs-xbottom"><b class="bs-xb4"></b><b class="bs-xb3"></b><b class="bs-xb2"></b><b class="bs-xb1"></b></b></div></td><td><div id="bsPanel"><div class="bsTitle"><a style="float:left;height:20px;line-height:20px;font-weight:bold;" class="bsSiteLink" target="_blank" href="http://www.bshare.cn/intro">分享到...</a><a class="bsSiteLink" style="cursor:pointer;float:right;height:20px;line-height:20px;font-weight:bold;" onclick="if(confirm(window.bShare.iL8n.confirmClose)){var date=new Date();date.setTime(date.getTime()+1800000);document.cookie='bshare_off=true;expires='+date.toGMTString()+';path=/';document.getElementById('bshareF').style.display='none';}return false;">X</a><div class="bsClear"></div><div class="bsClear"></div></div><div style="padding-left:8px;background:#fff;*height:244px;"><div style="height:47px;border-bottom:1px #ccc solid;padding:4px 0 4px 16px;margin-right:8px;_padding-left:12px;"><div class="bsRlogo" onmouseover="javascript:this.className='bsRlogoSel'" onmouseout="javascript:this.className='bsRlogo'"><a href="javascript:;" onclick="javascript:bShare.share(event,'weixin');return false;" style="text-decoration:none;line-height:120%;"><div style="cursor:pointer;width:24px;height:24px;margin:0 18px 2px;background:url(//static.bshare.cn/frame/images//logos/m2/weixin.gif) no-repeat;"></div><div style="cursor:pointer;text-align:center;width:60px;height:16px !important;overflow:hidden;color:inherit;white-space:nowrap;line-height:120% !important">微信</div></a></div><div class="bsRlogo" onmouseover="javascript:this.className='bsRlogoSel'" onmouseout="javascript:this.className='bsRlogo'"><a href="javascript:;" onclick="javascript:bShare.share(event,'qqmb');return false;" style="text-decoration:none;line-height:120%;"><div style="cursor:pointer;width:24px;height:24px;margin:0 18px 2px;background:url(//static.bshare.cn/frame/images//logos/m2/qqmb.gif) no-repeat;"></div><div style="cursor:pointer;text-align:center;width:60px;height:16px !important;overflow:hidden;color:inherit;white-space:nowrap;line-height:120% !important">腾讯微博</div></a></div><div class="bsRlogo" onmouseover="javascript:this.className='bsRlogoSel'" onmouseout="javascript:this.className='bsRlogo'"><a href="javascript:;" onclick="javascript:bShare.share(event,'bsharesync');return false;" style="text-decoration:none;line-height:120%;"><div style="cursor:pointer;width:24px;height:24px;margin:0 18px 2px;background:url(//static.bshare.cn/frame/images//logos/m2/bsharesync.gif) no-repeat;"></div><div style="cursor:pointer;text-align:center;width:60px;height:16px !important;overflow:hidden;color:inherit;white-space:nowrap;line-height:120% !important">一键通</div></a></div></div><div class="bsLogoLink"><div class="bsLogo" onmouseover="javascript:this.className='bsLogoSel'" onmouseout="javascript:this.className='bsLogo'"><a href="javascript:;" title="新浪微博" onclick="javascript:bShare.share(event,'sinaminiblog');return false;" style="background:url(//static.bshare.cn/frame/images//slogos_sprite8.png) no-repeat 0 -1728px;">新浪微博</a></div><div class="bsLogo" onmouseover="javascript:this.className='bsLogoSel'" onmouseout="javascript:this.className='bsLogo'"><a href="javascript:;" title="手机快传" onclick="javascript:bShare.share(event,'189share');return false;" style="background:url(//static.bshare.cn/frame/images//logos/s4/189share.png) no-repeat;">手机快传</a></div><div class="bsLogo" onmouseover="javascript:this.className='bsLogoSel'" onmouseout="javascript:this.className='bsLogo'"><a href="javascript:;" title="人人网" onclick="javascript:bShare.share(event,'renren');return false;" style="background:url(//static.bshare.cn/frame/images//slogos_sprite8.png) no-repeat 0 -1674px;">人人网</a></div><div class="bsLogo" onmouseover="javascript:this.className='bsLogoSel'" onmouseout="javascript:this.className='bsLogo'"><a href="javascript:;" title="天涯" onclick="javascript:bShare.share(event,'tianya');return false;" style="background:url(//static.bshare.cn/frame/images//slogos_sprite8.png) no-repeat 0 -1890px;">天涯</a></div><div class="bsLogo" onmouseover="javascript:this.className='bsLogoSel'" onmouseout="javascript:this.className='bsLogo'"><a href="javascript:;" title="凤凰微博" onclick="javascript:bShare.share(event,'ifengmb');return false;" style="background:url(//static.bshare.cn/frame/images//slogos_sprite8.png) no-repeat 0 -918px;">凤凰微博</a></div><div class="bsLogo" onmouseover="javascript:this.className='bsLogoSel'" onmouseout="javascript:this.className='bsLogo'"><a href="javascript:;" title="朋友网" onclick="javascript:bShare.share(event,'qqxiaoyou');return false;" style="background:url(//static.bshare.cn/frame/images//slogos_sprite8.png) no-repeat 0 -1548px;">朋友网</a></div><div class="bsLogo" onmouseover="javascript:this.className='bsLogoSel'" onmouseout="javascript:this.className='bsLogo'"><a href="javascript:;" title="豆瓣网" onclick="javascript:bShare.share(event,'douban');return false;" style="background:url(//static.bshare.cn/frame/images//slogos_sprite8.png) no-repeat 0 -540px;">豆瓣网</a></div></div><div class="bsLogoLink"><div class="bsLogo" onmouseover="javascript:this.className='bsLogoSel'" onmouseout="javascript:this.className='bsLogo'"><a href="javascript:;" title="QQ空间" onclick="javascript:bShare.share(event,'qzone');return false;" style="background:url(//static.bshare.cn/frame/images//slogos_sprite8.png) no-repeat 0 -1566px;">QQ空间</a></div><div class="bsLogo" onmouseover="javascript:this.className='bsLogoSel'" onmouseout="javascript:this.className='bsLogo'"><a href="javascript:;" title="搜狐微博" onclick="javascript:bShare.share(event,'sohuminiblog');return false;" style="background:url(//static.bshare.cn/frame/images//slogos_sprite8.png) no-repeat 0 -1800px;">搜狐微博</a></div><div class="bsLogo" onmouseover="javascript:this.className='bsLogoSel'" onmouseout="javascript:this.className='bsLogo'"><a href="javascript:;" title="新华微博" onclick="javascript:bShare.share(event,'xinhuamb');return false;" style="color: red;background:url(//static.bshare.cn/frame/images//logos/s4/xinhuamb.png) no-repeat;">新华微博</a></div><div class="bsLogo" onmouseover="javascript:this.className='bsLogoSel'" onmouseout="javascript:this.className='bsLogo'"><a href="javascript:;" title="手机" onclick="javascript:bShare.share(event,'shouji');return false;" style="background:url(//static.bshare.cn/frame/images//slogos_sprite8.png) no-repeat 0 -1710px;">手机</a></div><div class="bsLogo" onmouseover="javascript:this.className='bsLogoSel'" onmouseout="javascript:this.className='bsLogo'"><a href="javascript:;" title="网易微博" onclick="javascript:bShare.share(event,'neteasemb');return false;" style="background:url(//static.bshare.cn/frame/images//slogos_sprite8.png) no-repeat 0 -1332px;">网易微博</a></div><div class="bsLogo" onmouseover="javascript:this.className='bsLogoSel'" onmouseout="javascript:this.className='bsLogo'"><a href="javascript:;" title="开心网" onclick="javascript:bShare.share(event,'kaixin001');return false;" style="background:url(//static.bshare.cn/frame/images//slogos_sprite8.png) no-repeat 0 -1008px;">开心网</a></div><div class="bsLogo" onmouseover="javascript:this.className='bsLogoSel'" onmouseout="javascript:this.className='bsLogo'"><a href="javascript:;" title="QQ好友" onclick="javascript:bShare.share(event,'qqim');return false;" style="background:url(//static.bshare.cn/frame/images//logos/s4/qqim.png) no-repeat;">QQ好友</a></div></div><div class="bsClear"></div></div><div style="height:20px;line-height:20px;padding:0 8px;border-top:1px solid #e8e8e8;color:#666;background:#f2f2f2;"><div class="buzzButton" style="float:left;">更多平台... <font style="font-weight:normal;">(133)</font></div><div id="bsPower" style="float:right;text-align:right;overflow:hidden;height:100%;"><a class="bsSiteLink" style="font-size:10px;vertical-align:text-bottom;line-height:24px;cursor:pointer;" href="http://www.bshare.cn/" target="_blank"><span style="font-size:10px;vertical-align:text-bottom;"><span style="color:#f60;">b</span>Share</span></a></div></div></div></td></tr></tbody></table></div><div class="bsClear"></div></div></div></body><iframe id="google_esf" name="google_esf" src="%E3%80%90%E7%AC%AC%E5%85%AD%E7%AB%A0%E3%80%91%20AOP%20%E4%B9%8B%206.6%20%E9%80%9A%E7%9F%A5%E5%8F%82%E6%95%B0%20%E2%80%94%E2%80%94%E8%B7%9F%E6%88%91%E5%AD%A6spring3%20-%20zhang%E7%9A%84%E7%AC%94%E8%AE%B0%20-%20%E8%AE%B0%E7%AC%94%E8%AE%B0%20-%20%E7%A7%81%E5%A1%BE%E5%9C%A8%E7%BA%BF%20-%20%E5%8F%AA%E5%81%9A%E7%B2%BE%E5%93%81%E8%A7%86%E9%A2%91%E8%AF%BE%E7%A8%8B%E6%9C%8D%E5%8A%A1_files/zrt_lookup.html" style="display: none;" data-ad-client="ca-pub-5014907946493114"></iframe></html>

@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="zh-cn"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="origin">
+<title>javascript运算符——位运算符 - 小火柴的蓝色理想 - 博客园</title>
+<meta property="og:description" content="[1]二进制
+[2]非
+[3]与
+[4]或
+[5]异或
+[6]左移
+[7]右移
+[8]&gt;&gt;&gt;
+[9]应用">
+<link type="text/css" rel="stylesheet" href="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/bundle-BlueSky.css">
+<link type="text/css" rel="stylesheet" href="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/221787.css">
+<link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/bundle-BlueSky-mobile.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/xiaohuochai/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/xiaohuochai/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/xiaohuochai/wlwmanifest.xml">
+<script src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/osd.js"></script><script src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/pubads_impl_rendering_285.js"></script><script async="" src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/analytics.js"></script><script type="text/javascript" src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/encoder.js"></script><script src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/jquery-2.js"></script>
+<script type="text/javascript">var currentBlogApp = 'xiaohuochai', cb_enable_mathjax=true;var isLogined=false;</script>
+<script type="text/x-mathjax-config;executed=true">
+    MathJax.Hub.Config({
+        tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']], processClass: 'math', processEscapes: true },
+        TeX: { 
+            equationNumbers: { autoNumber: ['AMS'], useLabelIds: true }, extensions: ['extpfeil.js'] 
+        },
+        'HTML-CSS': { linebreaks: { automatic: true } },
+        SVG: { linebreaks: { automatic: true } }
+        });
+    </script><script src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/MathJax.js"></script>
+<script src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/blog-common.js" type="text/javascript"></script>
+<style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Menu_Button .MathJax_Hover_Arrow {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px; font-family: 'Courier New',Courier; font-size: 9px; color: #F0F0F0}
+.MathJax_Menu_Button .MathJax_Hover_Arrow span {display: block; background-color: #AAA; border: 1px solid; border-radius: 3px; line-height: 0; padding: 4px}
+.MathJax_Hover_Arrow:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_Hover_Arrow:hover span {background-color: #CCC!important}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_About.MathJax_MousePost {outline: none}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 2px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 2px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; padding-top: .25em; color: #666666; font-size: .75em}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: 1em}
+.MathJax_MenuRadioCheck.RTL {right: 1em; left: auto}
+.MathJax_MenuLabel {padding: 2px 2em 4px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #CCCCCC; margin: 4px 1px 0px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: Highlight; color: HighlightText}
+.MathJax_MenuDisabled:focus, .MathJax_MenuLabel:focus {background-color: #E8E8E8}
+.MathJax_ContextMenu:focus {outline: none}
+.MathJax_ContextMenu .MathJax_MenuItem:focus {outline: none}
+#MathJax_AboutClose {top: .2em; right: .2em}
+.MathJax_Menu .MathJax_MenuClose {top: -10px; left: -10px}
+.MathJax_MenuClose {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; font-family: 'Courier New',Courier; font-size: 24px; color: #F0F0F0}
+.MathJax_MenuClose span {display: block; background-color: #AAA; border: 1.5px solid; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; line-height: 0; padding: 8px 0 6px}
+.MathJax_MenuClose:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_MenuClose:hover span {background-color: #CCC!important}
+.MathJax_MenuClose:hover:focus {outline: none}
+</style><style type="text/css">.MathJax_Preview .MJXf-math {color: inherit!important}
+</style><style type="text/css">.MJX_Assistive_MathML {position: absolute!important; top: 0; left: 0; clip: rect(1px, 1px, 1px, 1px); padding: 1px 0 0 0!important; border: 0!important; height: 1px!important; width: 1px!important; overflow: hidden!important; display: block!important; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none}
+.MJX_Assistive_MathML.MJX_Assistive_MathML_Block {width: 100%!important}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1px; bottom: 2px; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><style type="text/css">#list{margin: 0!important;	padding: 0!important;	width: 120px;	text-align: center;	cursor: pointer;	font:20px/40px  '宋体';	background-color: #eee;	position:fixed;	display:none;}	#list li{list-style:none!important;}#list li:hover{background-color: lightblue;color: white;font-weight:bold;}</style><style type="text/css">.MJXp-script {font-size: .8em}
+.MJXp-right {-webkit-transform-origin: right; -moz-transform-origin: right; -ms-transform-origin: right; -o-transform-origin: right; transform-origin: right}
+.MJXp-bold {font-weight: bold}
+.MJXp-italic {font-style: italic}
+.MJXp-scr {font-family: MathJax_Script,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-frak {font-family: MathJax_Fraktur,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-sf {font-family: MathJax_SansSerif,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-cal {font-family: MathJax_Caligraphic,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-mono {font-family: MathJax_Typewriter,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-largeop {font-size: 150%}
+.MJXp-largeop.MJXp-int {vertical-align: -.2em}
+.MJXp-math {display: inline-block; line-height: 1.2; text-indent: 0; font-family: 'Times New Roman',Times,STIXGeneral,serif; white-space: nowrap; border-collapse: collapse}
+.MJXp-display {display: block; text-align: center; margin: 1em 0}
+.MJXp-math span {display: inline-block}
+.MJXp-box {display: block!important; text-align: center}
+.MJXp-box:after {content: " "}
+.MJXp-rule {display: block!important; margin-top: .1em}
+.MJXp-char {display: block!important}
+.MJXp-mo {margin: 0 .15em}
+.MJXp-mfrac {margin: 0 .125em; vertical-align: .25em}
+.MJXp-denom {display: inline-table!important; width: 100%}
+.MJXp-denom > * {display: table-row!important}
+.MJXp-surd {vertical-align: top}
+.MJXp-surd > * {display: block!important}
+.MJXp-script-box > *  {display: table!important; height: 50%}
+.MJXp-script-box > * > * {display: table-cell!important; vertical-align: top}
+.MJXp-script-box > *:last-child > * {vertical-align: bottom}
+.MJXp-script-box > * > * > * {display: block!important}
+.MJXp-mphantom {visibility: hidden}
+.MJXp-munderover {display: inline-table!important}
+.MJXp-over {display: inline-block!important; text-align: center}
+.MJXp-over > * {display: block!important}
+.MJXp-munderover > * {display: table-row!important}
+.MJXp-mtable {vertical-align: .25em; margin: 0 .125em}
+.MJXp-mtable > * {display: inline-table!important; vertical-align: middle}
+.MJXp-mtr {display: table-row!important}
+.MJXp-mtd {display: table-cell!important; text-align: center; padding: .5em 0 0 .5em}
+.MJXp-mtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-mlabeledtr {display: table-row!important}
+.MJXp-mlabeledtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mlabeledtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MJXp-scale0 {-webkit-transform: scaleX(.0); -moz-transform: scaleX(.0); -ms-transform: scaleX(.0); -o-transform: scaleX(.0); transform: scaleX(.0)}
+.MJXp-scale1 {-webkit-transform: scaleX(.1); -moz-transform: scaleX(.1); -ms-transform: scaleX(.1); -o-transform: scaleX(.1); transform: scaleX(.1)}
+.MJXp-scale2 {-webkit-transform: scaleX(.2); -moz-transform: scaleX(.2); -ms-transform: scaleX(.2); -o-transform: scaleX(.2); transform: scaleX(.2)}
+.MJXp-scale3 {-webkit-transform: scaleX(.3); -moz-transform: scaleX(.3); -ms-transform: scaleX(.3); -o-transform: scaleX(.3); transform: scaleX(.3)}
+.MJXp-scale4 {-webkit-transform: scaleX(.4); -moz-transform: scaleX(.4); -ms-transform: scaleX(.4); -o-transform: scaleX(.4); transform: scaleX(.4)}
+.MJXp-scale5 {-webkit-transform: scaleX(.5); -moz-transform: scaleX(.5); -ms-transform: scaleX(.5); -o-transform: scaleX(.5); transform: scaleX(.5)}
+.MJXp-scale6 {-webkit-transform: scaleX(.6); -moz-transform: scaleX(.6); -ms-transform: scaleX(.6); -o-transform: scaleX(.6); transform: scaleX(.6)}
+.MJXp-scale7 {-webkit-transform: scaleX(.7); -moz-transform: scaleX(.7); -ms-transform: scaleX(.7); -o-transform: scaleX(.7); transform: scaleX(.7)}
+.MJXp-scale8 {-webkit-transform: scaleX(.8); -moz-transform: scaleX(.8); -ms-transform: scaleX(.8); -o-transform: scaleX(.8); transform: scaleX(.8)}
+.MJXp-scale9 {-webkit-transform: scaleX(.9); -moz-transform: scaleX(.9); -ms-transform: scaleX(.9); -o-transform: scaleX(.9); transform: scaleX(.9)}
+.MathJax_PHTML .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style><link rel="preload" href="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/integrator.js" as="script"><script type="text/javascript" src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/integrator.js"></script><script src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/pubads_impl_285.js" async=""></script><style type="text/css">h6{margin:0;padding:0;}	    	.box{position: fixed; left: 10px;top: 60px;font:16px/30px '宋体'; border: 2px solid #ccc;padding: 4px; border-radius:5px;min-width:80px;max-width:118px;overflow:hidden;cursor:default;background:rgba(0,0,0,0.1);}	    	.boxHide{border:none;width:60px;height:30px;padding:0;}	    	.box-title{text-align:center;font-size:20px;color:#444;}	    	.box-quit{position: absolute;text-align:center; right: 0;top: 4px;cursor:pointer;font-weight:bold;}	    	.box-quitAnother{background:#3399ff;left:0;top:0;}	    	a.box-anchor{display:block;text-decoration:none;color:black; border-left: 3px solid transparent;padding:0 3px;margin-bottom: 3px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;}	    	a.box-anchor:hover{color:#3399ff;}	    	a.box-anchorActive{color:#3399ff;text-decoration:underline;border-color:#2175bc};</style></head>
+<body><div id="MathJax_Message" style="display: none;"></div>
+<a name="top"></a>
+<div id="page_begin_html"><!--[if lte IE 8]>
+<div style="display: none" id="__document_write_ajax_div-1"></div><script>window['__document_write_ajax_callbacks__']['1']();</script>
+<![endif]--></div><script>load_page_begin_html();</script>
+
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+	<a id="lnkBlogLogo" href="https://www.cnblogs.com/xiaohuochai/"><img id="blogLogo" src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/logo.gif" alt="返回主页"></a>			
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle" href="https://www.cnblogs.com/xiaohuochai/">小火柴的蓝色理想</a></h1>
+<h2></h2>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">博客园</a></li>
+<li><a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/xiaohuochai/">首页</a></li>
+<li><a id="blog_nav_newpost" class="menu" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+<li><a id="blog_nav_contact" class="menu" rel="nofollow" href="https://msg.cnblogs.com/send/%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3">联系</a></li>
+<li><a id="blog_nav_rss" class="menu" href="https://www.cnblogs.com/xiaohuochai/rss">订阅</a>
+<!--<a id="blog_nav_rss_image" class="aHeaderXML" href="https://www.cnblogs.com/xiaohuochai/rss"><img src="//www.cnblogs.com/images/xml.gif" alt="订阅" /></a>--></li>
+<li><a id="blog_nav_admin" class="menu" rel="nofollow" href="https://i.cnblogs.com/">管理</a></li>
+</ul>
+		<div class="blogStats">
+			
+			<div id="blog_stats">
+<span id="stats_post_count">随笔 - 698&nbsp; </span>
+<span id="stats_article_count">文章 - 0&nbsp; </span>
+<span id="stats-comment_count">评论 - 1166</span>
+</div>
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle" style="padding-right: 0px;">
+			<a id="cb_post_title_url" class="postTitle2" href="https://www.cnblogs.com/xiaohuochai/p/5668004.html">javascript运算符——位运算符</a>
+		<div style="position: absolute; margin-left: 6px; display: inline-block; vertical-align: middle;"><img id="oImg" style="cursor: pointer; margin: 0px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAoklEQVQ4T+2T4Q2CMBCFv27CBjgCG+gIjAAbOAIjOIJs4Ai6gRvIBpjXXCOp19T/8pJLoTneXcj3Ah91wAV4bu68xwXoAZ2EzEAmE9AWTB6AelRDyaAx9zgh0wE4ATczcTdIE7wl0oe7wX/8RMHigfQTB3fDdM1IEvYyONdIVEOSqDwCY2Z2NaS/UNbqMSQmvauUPlfbNKpBSdTUVyXSs/XyBlRCNBG20I28AAAAAElFTkSuQmCC"><div id="qrcode" style="display: none; position: absolute; left: 20px; top: -40px;" title="http://www.cnblogs.com/xiaohuochai/p/5668004.html"><canvas width="80" height="80" style="display: none;"></canvas><img style="display: block;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAADOUlEQVR4nO2XUa7CMAwEe/9L8/5QeY29s3YAAbbUjyaOdz2pkTiO47i5z//4v+7mZesqlDflIapjPFqUitMmd1yaq13tDfQ0AJ28RU/xSNHRjPbpuKh1okW90N5o/gBs5m8BWB03Uk/V6AJS7wMQar8F4C7QWX6hIfRE3gbgOwGqiMS7TUb7jkYVKO0t8TEASW+JD+/Tz0Sf8f5KreIzAFsAb42IwLp5ar0zeup8NwZgMx4q0Ua7eRSko6G0aZ7yePFBTFHRrrmPBLhjTAgAUjfT6Y6u8kS9LZ4B+DSArnh0rhpOQwqk2m9cyABsAayYc8WqwDuXqoKOrKyTHR6ATYC0IVeU1svOuLWr9eTFrYoMQF3nAaArGuVXxyzLr2pSQLTH0Edmjhb/eYCqYWrGPefWq/xcuB9FVD+8NJJcbVid+xqASsx9V024gHeAUqNf9kZMDMC0nv9XLSquPvvIBF0nQHbUJucHoIgWQFXsVeYzDZJLzlMvyf4AJF7C/ZWJ6HB1tHeYdUGqmtWLueQ54gNQAKTFqWkXNNHdPZLU4wCEmiWAyiT93KnJKE+tO966o4x1SDEarhnVbOXrJzU703J5HFMqfhJgRVyJqWY79dyGo3cFluYNwB0A6RiocJsgTalGKHwXvFFnALYAlg6Zpt2gejvBuV7u+6ukakPROTc+CmBlxKog3HU3p3Kp7gUs1gdgC2Cn8e4YkaZoozSqXsI6RESJ/zTAzghTgLT+ztF0PdMLW7wPwBZA0ohrMhTzxwNruJcdrdsjnjU2AE2A7ni441UZcbeGiu5PwOUcMTcA03r+j74L3B6L07urofKoR7V+2h+AK49q/b6/Kuo27JqqwNh1WdVew/1OUbeZKD4eYHc0VZ4yT88RD/SdPvJctumapyC+DmA1SMOO6eycq9n1PgCb3o0v1/uknfGo5q2aq4LsegTnBmAbIA01am445xzYJN8d4SRvAHa8HY5IFRQ1R5smPy+7akf5p/UB+DaA7jvVyfJcIK43VW/xDMC3A6w2p8DtrKXyXNAD8BkAVShxakKBJ4BoTdcT9Xh6H4AVj6d3bdodEwUkMrOKHTWyOnS0I70B2AT4B/VPMzVetokyAAAAAElFTkSuQmCC"></div></div></h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body" class="blogpost-body"><h2>前面的话</h2>
+<p><span class="Apple-tab-span"> 　　位运算符是非常底层的运算，由于其很不直观，所以并不常用。但是，其速度极快，且合理使用</span>能<span class="Apple-tab-span">达到很好的效果。本文将介绍javascript中常常被忽视的运算符——位运算符</span></p>
+<p>&nbsp;</p>
+<h3 id="anchor1"><span class="Apple-tab-span">二进制表示</span></h3>
+<p><span class="Apple-tab-span">　　ECMAScript中的所有数值都以IEEE-754 64位格式存储，但位操作符并不直接操作64位的值，而是以32位带符号的整数进行运算的，并且返回值也是一个32位带符号的整数</span></p>
+<p><span class="Apple-tab-span">　　这种位数转换使得在对特殊的NaN和Infinity值应用位操作时，这两个值都会被当成0来处理</span></p>
+<p><span class="Apple-tab-span">　　如果对非数值应用位操作符，会先使用Number()将该值转换成数值再应用位操作，得到的结果是一个数值</span></p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre>//'|'表示按位或，一个整数与0按位或运算可以得到它本身，一个小数与0按位或运算可以得到取整效果
+console.log( 1.3 | 0);<span style="color: #008000;">//</span><span style="color: #008000;">1</span>
+console.log( 1.8 | 0);<span style="color: #008000;">//</span><span style="color: #008000;">1</span>
+console.log( Infinity | 0);<span style="color: #008000;">//</span><span style="color: #008000;">0</span>
+console.log( -Infinity | 0);<span style="color: #008000;">//</span><span style="color: #008000;">0</span>
+console.log( NaN | 0);<span style="color: #008000;">//</span><span style="color: #008000;">0</span>
+console.log('12px' | 0);<span style="color: #008000;">//</span><span style="color: #008000;">0</span>
+console.log('12' | 0);<span style="color: #008000;">//</span><span style="color: #008000;">12</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p><span class="Apple-tab-span" style="line-height: 1.5;">　　有符号整数使用32位中的
+前31位表示整数数值，用第32位表示整数符号，0表示正数，1表示负数。表示符号的位叫做符号位，符号位的值决定了其他位数值的格式。其中，正数以纯二
+进制格式存储，31位中的每一位都表示2的幂。第一位(叫做位0)表示2的0次，第二位表示2的1次，以此类推。没有用到的位以0填充，即忽略不计</span></p>
+<p><span class="Apple-tab-span">　　例如，数值18的二进制表示是00000000000000000000000000010010，或者更简洁的10010。这是5个有效位，这5位本身就决定了实际的值</span></p>
+<div><img src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/740839-20160713192305467-192171536.gif" alt=""></div>
+<div class="cnblogs_code">
+<pre>console.log((18).toString(2));<span style="color: #008000;">//</span><span style="color: #008000;">"10010"</span>
+console.log(0b00000000000000000000000000010010);<span style="color: #008000;">//</span><span style="color: #008000;">18</span></pre>
+</div>
+<div><img src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/740839-20160713192446826-351396600.gif" alt=""></div>
+<p>　　负数同样以二进制存储，但使用的格式是二进制补码。计算一个数值的二进制补码，需要经过下列3个步骤：</p>
+<p>　　【1】求这个数值绝对值的二进制码</p>
+<p>　　【2】求二进制反码，即将0替换成1，将1替换成0</p>
+<p>　　【3】得到的二进制反码加1</p>
+<p>　　例如，要确定-18的二进制表示，首先必须得到18的二进制表示，如下所示：</p>
+<div class="cnblogs_code">
+<pre>0000 0000 0000 0000 0000 0000 0001 0010</pre>
+</div>
+<p>　　接下来，计算二进制反码，如下所示：</p>
+<div class="cnblogs_code">
+<pre>1111 1111 1111 1111 1111 1111 1110 1101</pre>
+</div>
+<p>　　最后，在二进制反码上加 1，如下所示：</p>
+<div class="cnblogs_code">
+<pre>1111 1111 1111 1111 1111 1111 1110 1101
+                                      1
+---------------------------------------
+1111 1111 1111 1111 1111 1111 1110 1110</pre>
+</div>
+<p>　　因此，-18 的二进制表示即 1111 1111 1111 1111 1111 1111 1110 1110</p>
+<p>　　ECMAScript会尽力向我们隐藏所有这些信息，在以二进制字符串形式输出一个负数时，我们看到的只是这个负数绝对值的二进制码前面加上了一个负号</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">var</span> num = -18<span style="color: #000000;">;
+console.log(num.toString(</span>2));<span style="color: #008000;">//</span><span style="color: #008000;">'-10010'</span></pre>
+</div>
+<p>　　位运算符可以进行7种运算，包括按位非(NOT)、按位与(AND)、按位或(OR)、按位异或(XOR)、左移、有符号右移和无符号右移</p>
+<p>&nbsp;</p>
+<h3 id="anchor2">按位非(NOT)</h3>
+<p>　　按位非操作符由一个波浪线(~)表示，执行按位非的结果就是返回数值的反码。其本质是操作数的负值减1</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">var</span> num1 = 25<span style="color: #000000;">;
+</span><span style="color: #0000ff;">var</span> num2 = ~<span style="color: #000000;">num1;
+console.log(num2);</span><span style="color: #008000;">//</span><span style="color: #008000;">-26</span></pre>
+</div>
+<p>　　对一个整数两次按位非，可以得到它本身；对一个小数两次按位非，可以得到取整效果</p>
+<div class="cnblogs_code">
+<pre>console.log(~~3);<span style="color: #008000;">//</span><span style="color: #008000;">3</span>
+console.log(~~3.1);<span style="color: #008000;">//</span><span style="color: #008000;">3</span>
+console.log(~~3.9);<span style="color: #008000;">//</span><span style="color: #008000;">3</span></pre>
+</div>
+<p>&nbsp;</p>
+<h3 id="anchor3">按位与(AND)</h3>
+<p>　　按位与操作符由一个和号符号(&amp;)表示，它有两个操作符数。从本质上讲，按位与操作就是将两个数值的每一位对齐，然后根据下表中的规则，对相同位置上的两个数执行AND操作</p>
+<div class="cnblogs_code">
+<pre><span style="color: #000000;">第一个数值的位        第二个数值的位         结果
+</span>1                        1                1
+1                        0                0
+0                        1                0
+0                        0                0</pre>
+</div>
+<p>　　按位与操作只有在两个数值的对应位都是1时才返回1，任何一位是0，结果都是0</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">var</span> iResult = 25 &amp; 3<span style="color: #000000;">;
+console.log(iResult);</span><span style="color: #008000;">//</span><span style="color: #008000;">"1"</span></pre>
+</div>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">//</span><span style="color: #008000;">分析如下</span>
+ 25 = 0000 0000 0000 0000 0000 0000 0001 1001
+  3 = 0000 0000 0000 0000 0000 0000 0000 0011
+---------------------------------------------<span style="color: #000000;">
+AND </span>= 0000 0000 0000 0000 0000 0000 0000 0001</pre>
+</div>
+<p>&nbsp;</p>
+<h3 id="anchor4">按位或(OR)</h3>
+<p>　　按位或操作符由一个竖线符号(|)表示，同样也有两个操作数，按位或操作遵循下面这个真值表</p>
+<div class="cnblogs_code">
+<pre><span style="color: #000000;">第一个数值的位        第二个数值的位         结果
+</span>1                        1                1
+1                        0                1
+0                        1                1
+0                        0                0</pre>
+</div>
+<p>　　按位或操作在有一个位是1的情况下就返回1，而只有在两个位都是0的情况下才返回0</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">var</span> iResult = 25 | 3<span style="color: #000000;">;
+console.log(iResult);</span><span style="color: #008000;">//</span><span style="color: #008000;">"27"</span></pre>
+</div>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">//</span><span style="color: #008000;">分析如下</span>
+25 = 0000 0000 0000 0000 0000 0000 0001 1001
+ 3 = 0000 0000 0000 0000 0000 0000 0000 0011
+--------------------------------------------<span style="color: #000000;">
+OR </span>= 0000 0000 0000 0000 0000 0000 0001 1011</pre>
+</div>
+<pre>　　一个整数与0按位或运算可以得到它本身，一个小数与0按位或运算可以得到取整效果</pre>
+<div class="cnblogs_code">
+<pre>console.log(3.1 | 0);<span style="color: #008000;">//</span><span style="color: #008000;">3</span>
+console.log(3.9 | 0);<span style="color: #008000;">//</span><span style="color: #008000;">3</span></pre>
+</div>
+<p>&nbsp;</p>
+<h3 id="anchor5">按位异或(XOR)</h3>
+<p>　　按位异或操作符由一个插入符号(^)表示，也有两个操作数。以下是按位异或的真值表</p>
+<div class="cnblogs_code">
+<pre><span style="color: #000000;">第一个数值的位        第二个数值的位         结果
+</span>1                        1                0
+1                        0                1
+0                        1                1
+0                        0                0</pre>
+</div>
+<p>　　按位异或的两个数值相同时返回0，不同时返回1</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">var</span> iResult = 25 ^ 3<span style="color: #000000;">;
+console.log(iResult);</span><span style="color: #008000;">//</span><span style="color: #008000;">"26"</span></pre>
+</div>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">//</span><span style="color: #008000;">分析如下</span>
+ 25 = 0000 0000 0000 0000 0000 0000 0001 1001
+  3 = 0000 0000 0000 0000 0000 0000 0000 0011
+---------------------------------------------<span style="color: #000000;">
+XOR </span>= 0000 0000 0000 0000 0000 0000 0001 1010</pre>
+</div>
+<p>　　“异或运算”有一个特殊运用，连续对两个数a和b进行三次异或运算，aˆ=b, bˆ=a, aˆ=b，可以互换它们的值。这意味着，使用“异或运算”可以在不引入临时变量的前提下，互换两个变量的值</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">var</span> a=10,b=9<span style="color: #000000;">;
+a </span>^= b, b ^= a, a ^=<span style="color: #000000;"> b;
+console.log(a,b);</span><span style="color: #008000;">//</span><span style="color: #008000;">9,10</span></pre>
+</div>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #008000;">//</span><span style="color: #008000;">分析如下</span>
+  a = 0000 0000 0000 0000 0000 0000 0000 1010<span style="color: #000000;">
+  b </span>= 0000 0000 0000 0000 0000 0000 0000 1001
+---------------------------------------------<span style="color: #000000;">
+ a1 </span>= 0000 0000 0000 0000 0000 0000 0000 0011<span style="color: #000000;">
+
+ a1 </span>= 0000 0000 0000 0000 0000 0000 0000 0011<span style="color: #000000;"> 
+  b </span>= 0000 0000 0000 0000 0000 0000 0000 1001
+---------------------------------------------<span style="color: #000000;">
+ b1 </span>= 0000 0000 0000 0000 0000 0000 0000 1010<span style="color: #000000;">
+ 
+ b1 </span>= 0000 0000 0000 0000 0000 0000 0000 1010<span style="color: #000000;"> 
+ a1 </span>= 0000 0000 0000 0000 0000 0000 0000 0011 
+---------------------------------------------<span style="color: #000000;">
+ a2 </span>= 0000 0000 0000 0000 0000 0000 0000 1001
+<span style="color: #008000;">//</span><span style="color: #008000;">a=a2=10;b=b1=9</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>　　一个整数与0按位异或可以保持其自身，一个小数与0按位异或可以取整</p>
+<div class="cnblogs_code">
+<pre>console.log(3.1 ^ 0);<span style="color: #008000;">//</span><span style="color: #008000;">3</span>
+console.log(3.9 ^ 0);<span style="color: #008000;">//</span><span style="color: #008000;">3</span></pre>
+</div>
+<p>&nbsp;</p>
+<h3 id="anchor6">左移</h3>
+<p>　　左移操作符由两个小于号(&lt;&lt;)表示，这个操作符会将数值的所有位向左移动指定的位数</p>
+<p>　　例如，如果将数值2(二进制码为10)向左移动5位，结果就是64(1000000)</p>
+<div><img src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/740839-20160713200945623-381816553.gif" alt=""></div>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">var</span> oldValue = 2<span style="color: #000000;">;
+</span><span style="color: #0000ff;">var</span> newValue = oldValue&lt;&lt;5<span style="color: #000000;">;
+console.log(newValue);</span><span style="color: #008000;">//</span><span style="color: #008000;">64</span></pre>
+</div>
+<p>　　左移不会影响操作数的符号位。换句话说，如果将-2向左移动5位，结果将是-64</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">var</span> oldValue = -2<span style="color: #000000;">;
+</span><span style="color: #0000ff;">var</span> newValue = oldValue&lt;&lt;5<span style="color: #000000;">;
+console.log(newValue);</span><span style="color: #008000;">//</span><span style="color: #008000;">-64</span></pre>
+</div>
+<p>　　左移0位可以实现取整效果</p>
+<div class="cnblogs_code">
+<pre>console.log(3.1 &lt;&lt; 0);<span style="color: #008000;">//</span><span style="color: #008000;">3</span>
+console.log(3.9 &lt;&lt; 0);<span style="color: #008000;">//</span><span style="color: #008000;">3</span></pre>
+</div>
+<p>&nbsp;</p>
+<h3 id="anchor7">有符号右移</h3>
+<p>　　有符号的右移操作符由两个大于号(&gt;&gt;)表示，这个操作符会将数值向右移动，但保留符号位(即正负号标记)。有符号的右移操作与左移操作正好相反，即如果将64向右移动5位，结果将变回2</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">var</span> oldValue = 64<span style="color: #000000;">;
+</span><span style="color: #0000ff;">var</span> newValue = oldValue&gt;&gt;5<span style="color: #000000;">;
+console.log(newValue);</span><span style="color: #008000;">//</span><span style="color: #008000;">2</span></pre>
+</div>
+<p>　　同样，在移位过程中，原数值中也会出现空位。只不过这次的空位出现在原数值的左侧、符号位的右侧。而此时ECMAScript会用符号位的值来填充所有空位，以便得到一个完整的值</p>
+<p>　　右移可以模拟2的整除运算</p>
+<div class="cnblogs_code">
+<pre>console.log(5&gt;&gt;1);<span style="color: #008000;">//</span><span style="color: #008000;">2</span>
+console.log(15&gt;&gt;1);<span style="color: #008000;">//</span><span style="color: #008000;">7</span></pre>
+</div>
+<p>&nbsp;</p>
+<h3 id="anchor8">无符号右移</h3>
+<p>　　无符号右移操作符由3个大于号(&gt;&gt;&gt;)表示，这个操作符会将数值的所有32位都向右移动。对正数来说，无符号右移的结果与有符号右移相同。仍以前面有符号右移为便，如果将64无符号右移5位，结果仍然是2</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">var</span> oldValue = 64<span style="color: #000000;">;
+</span><span style="color: #0000ff;">var</span> newValue = oldValue&gt;&gt;&gt;5<span style="color: #000000;">;
+console.log(newValue);</span><span style="color: #008000;">//</span><span style="color: #008000;">2</span></pre>
+</div>
+<p>　　但是，对负数就不一样了。首先，无符号右移是以0来填充空位，而不是像有符号右移那样以符号位的值来填充空位。所以，对正数的无符号右移与有称
+号右移结果相同，但对负数的结果就不同了。其次，无符号右移操作符会把负数的二进制码当成正数的二进制码。而且，由于负数以其绝对值的二进制补码形式表
+示，因此就会导致无符号右移后的结果非常之大</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">var</span> oldValue = -64<span style="color: #000000;">;
+</span><span style="color: #0000ff;">var</span> newValue = oldValue&gt;&gt;&gt;5<span style="color: #000000;">;
+console.log(newValue)</span><span style="color: #008000;">//</span><span style="color: #008000;">134217726</span></pre>
+</div>
+<p>　　要确定-64的二进制表示，首先必须得到64的二进制表示，如下所示：</p>
+<div class="cnblogs_code">
+<pre>0000 0000 0000 0000 0000 0000 0100 0000</pre>
+</div>
+<p>　　接下来，计算二进制反码，如下所示：</p>
+<div class="cnblogs_code">
+<pre>1111 1111 1111 1111 1111 1111 1011 1111</pre>
+</div>
+<p>　　最后，在二进制反码上加 1，如下所示</p>
+<div class="cnblogs_code">
+<pre>1111 1111 1111 1111 1111 1111 1011 1111
+                                      1
+---------------------------------------
+1111 1111 1111 1111 1111 1111 1100 0000</pre>
+</div>
+<p>　　向右移动5位后，如下所示：</p>
+<div class="cnblogs_code">
+<pre>0000 0111 1111 1111 1111 1111 1111 1110</pre>
+</div>
+<div class="cnblogs_code">
+<pre>console.log(0b00000111111111111111111111111110);<span style="color: #008000;">//</span><span style="color: #008000;">134217726</span></pre>
+</div>
+<p>&nbsp;</p>
+<h3 id="anchor9">常见应用</h3>
+<p>【1】乘法运算</p>
+<p>　　利用左移(&lt;&lt;)来实现乘法运算</p>
+<div class="cnblogs_code">
+<pre>console.log(2 &lt;&lt; 1);<span style="color: #008000;">//</span><span style="color: #008000;">4</span>
+console.log(3 &lt;&lt; 1);<span style="color: #008000;">//</span><span style="color: #008000;">6</span>
+console.log(4 &lt;&lt; 1);<span style="color: #008000;">//</span><span style="color: #008000;">8</span></pre>
+</div>
+<p>【2】除法运算</p>
+<p>　　利用有符号右移(&gt;&gt;)来模拟2的整除运算</p>
+<div class="cnblogs_code">
+<pre>console.log(2 &gt;&gt; 1);<span style="color: #008000;">//</span><span style="color: #008000;">1</span>
+console.log(5 &gt;&gt; 1);<span style="color: #008000;">//</span><span style="color: #008000;">2</span>
+console.log(8 &gt;&gt; 1);<span style="color: #008000;">//</span><span style="color: #008000;">4</span>
+console.log(9 &gt;&gt; 1);<span style="color: #008000;">//</span><span style="color: #008000;">4</span></pre>
+</div>
+<p>【3】值互换</p>
+<p>　　利用异或操作(^)可以实现值互换的效果</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">var</span> a=10,b=9<span style="color: #000000;">;
+a </span>^= b, b ^= a, a ^=<span style="color: #000000;"> b;
+console.log(a,b);</span><span style="color: #008000;">//</span><span style="color: #008000;">9,10</span></pre>
+</div>
+<p>【4】小数取整</p>
+<p>　　利用取两次按位非、与0按位或、与0按位异或、左移0位、右移0位都可以实现小数取整效果</p>
+<div class="cnblogs_code">
+<pre>console.log(~~3.1);<span style="color: #008000;">//</span><span style="color: #008000;">3</span>
+console.log(3.1|0);<span style="color: #008000;">//</span><span style="color: #008000;">3</span>
+console.log(3.1^0);<span style="color: #008000;">//</span><span style="color: #008000;">3</span>
+console.log(3.1&lt;&lt;0);<span style="color: #008000;">//</span><span style="color: #008000;">3</span>
+console.log(3.1&gt;&gt;0);<span style="color: #008000;">//</span><span style="color: #008000;">3</span></pre>
+</div>
+<p>【5】开关</p>
+<p>　　位运算符可以用作设置对象属性的开关。假定某个对象有四个开关，每个开关都是一个变量。那么，可以设置一个四位的二进制数，它的每个位对应一个开关</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">var</span> FLAG_A = 1; <span style="color: #008000;">//</span><span style="color: #008000;"> 0001</span>
+<span style="color: #0000ff;">var</span> FLAG_B = 2; <span style="color: #008000;">//</span><span style="color: #008000;"> 0010</span>
+<span style="color: #0000ff;">var</span> FLAG_C = 4; <span style="color: #008000;">//</span><span style="color: #008000;"> 0100</span>
+<span style="color: #0000ff;">var</span> FLAG_D = 8; <span style="color: #008000;">//</span><span style="color: #008000;"> 1000</span></pre>
+</div>
+<p>　　上面代码设置A、B、C、D四个开关，每个开关分别占有一个二进制位</p>
+<p>　　现在假设需要打开ABD三个开关，我们可以构造一个掩码变量</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">var</span> mask = FLAG_A | FLAG_B |<span style="color: #000000;"> FLAG_D;
+</span><span style="color: #008000;">//</span><span style="color: #008000;"> 0001 | 0010 | 1000 =&gt; 1011</span></pre>
+</div>
+<p>　　上面代码对ABD三个变量进行“或运算”，得到掩码值为二进制的1011</p>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">//</span><span style="color: #008000;">“或运算”可以确保打开指定的开关</span>
+flags = flags | mask;</pre>
+</div>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">//</span><span style="color: #008000;">“与运算”可以将当前设置中凡是与开关设置不一样的项，全部关闭</span>
+flags = flags &amp; mask;</pre>
+</div>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">//</span><span style="color: #008000;">“异或运算”可以切换（toggle）当前设置，即第一次执行可以得到当前设置的相反值，再执行一次又得到原来的值</span>
+flags = flags ^ mask;</pre>
+</div>
+<div class="cnblogs_code">
+<pre><span style="color: #008000;">//</span><span style="color: #008000;">“否运算”可以翻转当前设置，即原设置为0，运算后变为1；原设置为1，运算后变为0</span>
+flags = ~flags;</pre>
+</div>
+<p>&nbsp;</p>
+<h2>参考资料</h2>
+<p>【1】 ES5/位运算移位运算符 <a href="https://www.w3.org/html/ig/zh/wiki/ES5/expressions#.E7.A7.BB.E4.BD.8D.E8.BF.90.E7.AE.97.E7.AC.A6" target="_blank">https://www.w3.org/html/ig/zh/wiki/ES5/expressions</a><br>【2】 阮一峰Javascript标准参考教程——运算符 <a href="http://javascript.ruanyifeng.com/grammar/operator.html#toc16" target="_blank">http://javascript.ruanyifeng.com/grammar/operator.html#toc16</a><br>【3】《javascript权威指南(第6版)》第4章 表达式和运算符<br>【4】《javascript高级程序设计(第3版)》 第3章 基本概念</p>
+<p>&nbsp;</p></div><div id="MySignature">好的代码像粥一样，都是用时间熬出来的</div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory"></div>
+<div id="EntryTag">标签: <a href="https://www.cnblogs.com/xiaohuochai/tag/javascript%E6%80%BB%E7%BB%93/">javascript总结</a></div>
+<div id="blog_post_info"><div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(5668004,cb_blogId,1);green_channel_success(this,'谢谢推荐！');">好文要顶</a>
+            <a id="green_channel_follow" onclick="follow('fff91f67-38dc-e411-b908-9dcfd8948a71');" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/xiaohuochai/" target="_blank"><img src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/20150730225601.png" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/xiaohuochai/">小火柴的蓝色理想</a><br>
+            <a href="http://home.cnblogs.com/u/xiaohuochai/followees">关注 - 76</a><br>
+            <a href="http://home.cnblogs.com/u/xiaohuochai/followers">粉丝 - 3263</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow('fff91f67-38dc-e411-b908-9dcfd8948a71');return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(5668004,'Digg')">
+        <span class="diggnum" id="digg_count">4</span>
+    </div>
+    <div class="buryit" onclick="votePost(5668004,'Bury')">
+        <span class="burynum" id="bury_count">1</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="https://www.cnblogs.com/xiaohuochai/p/5666530.html" class="p_n_p_prefix">« </a> 上一篇：<a href="https://www.cnblogs.com/xiaohuochai/p/5666530.html" title="发布于2016-07-13 14:56">javascript运算符语法概述</a><br><a href="https://www.cnblogs.com/xiaohuochai/p/5669107.html" class="p_n_p_prefix">» </a> 下一篇：<a href="https://www.cnblogs.com/xiaohuochai/p/5669107.html" title="发布于2016-07-14 10:32">javascript运算符——条件、逗号、赋值、()和void运算符</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2016-07-13 22:24</span> <a href="https://www.cnblogs.com/xiaohuochai/">小火柴的蓝色理想</a> 阅读(<span id="post_view_count">1356</span>) 评论(<span id="post_comment_count">3</span>)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=5668004" rel="nofollow">编辑</a> <a href="#" onclick="AddToWz(5668004);return false;">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,cb_blogId=221787,cb_entryId=5668004,cb_blogApp=currentBlogApp,cb_blogUserGuid='fff91f67-38dc-e411-b908-9dcfd8948a71',cb_entryCreatedDate='2016/7/13 22:24:00';loadViewCount(cb_entryId);var cb_postType=1;</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"><div id="comments_pager_top"></div>
+<br>
+<div class="feedback_area_title">评论列表</div>
+<div class="feedbackNoItems"></div>	
+
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="#3469580" class="layer">#1楼</a><a name="3469580" id="comment_anchor_3469580"></a>  <span class="comment_date">2016-07-13 22:26</span> <a id="a_comment_author_3469580" href="http://home.cnblogs.com/u/919999/" target="_blank">BUG_Qusa</a> <a href="http://msg.cnblogs.com/send/BUG_Qusa" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3469580" class="blog_comment_body">很详细。</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3469580,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3469580,'Bury',this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="#3469901" class="layer">#2楼</a><a name="3469901" id="comment_anchor_3469901"></a>  <span class="comment_date">2016-07-14 11:57</span> <a id="a_comment_author_3469901" href="https://www.cnblogs.com/hst-xj/" target="_blank">kst_xj</a> <a href="http://msg.cnblogs.com/send/kst_xj" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3469901" class="blog_comment_body">想问问，你这个左侧的导航是你自己写的么？有点问题，如果用翻页按钮翻页的话就会失效。感觉百度经验的左侧导航按钮做的特别好</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3469901,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3469901,'Bury',this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="#3469943" class="layer">#3楼</a><a name="3469943" id="comment_anchor_3469943"></a>[<span class="louzhu">楼主</span>]<span id="comment-maxId" style="display:none;">3469943</span><span id="comment-maxDate" style="display:none;">2016/7/14 13:08:45</span>  <span class="comment_date">2016-07-14 13:08</span> <a id="a_comment_author_3469943" href="https://www.cnblogs.com/xiaohuochai/" target="_blank">小火柴的蓝色理想</a> <a href="http://msg.cnblogs.com/send/%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3469943" class="blog_comment_body"><a href="#3469901" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,3469901);">@</a>
+kst_xj<br>?翻页？一篇博客不是就一页吗？</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3469943,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3469943,'Bury',this)">反对(0)</a></div><span id="comment_3469943_avatar" style="display:none;">http://pic.cnblogs.com/face/740839/20150730225601.png</span>
+			</div>
+		</div>
+	<div id="comments_pager_bottom"></div></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login('commentform');">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank">【推荐】超50万VC++源码: 大型组态工控、电力仿真CAD与GIS源码库！</a><br><a href="http://clickc.admaster.com.cn/c/a116493,b2949399,c1705,i0,m101,8a1,8b3,h" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-会员节')">【活动】华为云12.12会员节 云产品1折起 满额送Mate20 点击抢购</a><br><a href="https://cloud.tencent.com/act/southwest?fromSource=gwzcw.2017844.2017844.2017844" target="_blank" onclick="ga('send', 'event', 'Link', 'click', 'T2-腾讯云')">【推荐】服务器100%基准CPU性能，1核1G首年168元，限时特惠！</a><br></div>
+<div id="opt_under_post"></div>
+<div id="cnblogs_c1" class="c_ad_block"><a href="https://cloud.tencent.com/act/special/amd?fromSource=gwzcw.1351353.1351353.1351353" target="_blank"><img src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/24442-20181129113406214-695115565.jpg" alt="腾讯云1129" onclick="ga('send', 'event', 'Link', 'click', 'C1');" width="300" height="250"></a></div>
+<div id="under_post_news"></div>
+<script async="async" src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/gpt.js"></script>
+<script>
+  var googletag = googletag || {};
+  googletag.cmd = googletag.cmd || [];
+</script>
+
+<script>
+  googletag.cmd.push(function() {
+    googletag.defineSlot('/1090369/C2', [468, 60], 'div-gpt-ad-1539008685004-0').addService(googletag.pubads());
+    googletag.pubads().enableSingleRequest();
+    googletag.enableServices();
+  });
+</script>
+<div id="cnblogs_c2" class="c_ad_block">
+    <div id="div-gpt-ad-1539008685004-0" style="height:60px; width:468px;" data-google-query-id="CN6PxNCmvN8CFRSlvQodNT0E_A">
+    <script>
+    if (new Date() >= new Date(2018, 9, 13)) {
+        googletag.cmd.push(function() { googletag.display('div-gpt-ad-1539008685004-0'); });
+    }
+    </script>
+    <div id="google_ads_iframe_/1090369/C2_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C2_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C2_0" scrolling="no" marginwidth="0" marginheight="0" style="border: 0px none; vertical-align: bottom;" srcdoc="" data-google-container-id="1" data-load-complete="true" width="468" height="60" frameborder="0"></iframe></div></div>
+</div>
+<div id="under_post_kb"><div class="itnews c_ad_block"><b>最新新闻</b>：<br> ·  <a href="https://news.cnblogs.com/n/615797/" target="_blank">华为梁华：更好服务客户 相信客户也会做出选择</a><br> ·  <a href="https://news.cnblogs.com/n/615792/" target="_blank">排名一度超越微信，「音遇」为何能带火“接歌游戏”？</a><br> ·  <a href="https://news.cnblogs.com/n/615796/" target="_blank">一代手机巨头破产！年产8000万台的“神话”说凉就凉</a><br> ·  <a href="https://news.cnblogs.com/n/615794/" target="_blank">LG加入苹果英特尔阵营 支持韩国对高通罚款9亿美元</a><br> ·  <a href="https://news.cnblogs.com/n/615801/" target="_blank">上海消保委：小米、松下空气净化器部分功能不佳</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverAdT2();
+    deliverAdC1();
+    deliverAdC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);   
+</script>
+</div>
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"><p style="margin-bottom:10px;">【tips】点击右键可弹出功能菜单</p>
+<canvas id="canvas" style="width:100%;" height="100" width="700">当前浏览器不支持canvas，请更换浏览器后再试</canvas>
+<script type="text/javascript">window['__document_write_ajax_callbacks__']['6']();</script><script type="text/javascript">window['__document_write_ajax_callbacks__']['7']();</script><script charset="utf-8" type="text/javascript">window['__document_write_ajax_callbacks__']['5']();</script><script type="text/javascript">window['__document_write_ajax_callbacks__']['3']();</script><script type="text/javascript">window['__document_write_ajax_callbacks__']['4']();</script><script>window['__document_write_ajax_callbacks__']['1']();</script>
+<p style="margin:10px 4px;">前端小站<a target="_blank" href="https://github.com/littlematch0123/blog-client">
+    <svg aria-hidden="true" version="1.1" viewBox="0 0 16 16" width="16" height="16">
+      <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+    </svg>
+</a>：<a href="https://xiaohuochai.cc/" target="_blank">xiaohuochai.cc</a></p>
+<p style="margin:10px 4px;">前端小册<a target="_blank" href="https://github.com/littlematch0123/FE-booklet">
+    <svg aria-hidden="true" version="1.1" viewBox="0 0 16 16" width="16" height="16">
+      <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path>
+    </svg>
+</a>：<a href="https://xiaohuochai.site/" target="_blank">xiaohuochai.site</a></p>
+<style>
+.navbar{ overflow:hidden;}
+.navbar-link{float:left;margin: 2px;text-decoration: none;background:rgba(255,255,255,0.5);padding:3px;border-radius:10px;}
+.navbar-link:hover{color:#2175bc;background-color:transparent;}
+</style>
+<nav class="navbar">
+  <a class="navbar-link" target="_blank" href="http://www.cnblogs.com/xiaohuochai/p/5203223.html">HTML</a>
+  <a class="navbar-link" target="_blank" href="http://www.cnblogs.com/xiaohuochai/p/5249139.html">CSS</a>
+  <a class="navbar-link" target="_blank" href="http://www.cnblogs.com/xiaohuochai/p/5613593.html">JS</a>
+  <a class="navbar-link" target="_blank" href="http://www.cnblogs.com/xiaohuochai/p/5657404.html">PS</a>
+  <a class="navbar-link" target="_blank" href="http://www.cnblogs.com/xiaohuochai/p/7233392.html">ES6</a>
+  <a class="navbar-link" target="_blank" href="http://www.cnblogs.com/xiaohuochai/p/6392010.html">HTTP</a>
+
+
+  <a class="navbar-link" target="_blank" href="http://www.cnblogs.com/xiaohuochai/p/6489658.html">jQuery</a>
+ <a class="navbar-link" target="_blank" href="http://www.cnblogs.com/xiaohuochai/p/8794894.html">React</a>
+  <a class="navbar-link" target="_blank" href="http://www.cnblogs.com/xiaohuochai/p/7356084.html">Vue</a>
+  <a class="navbar-link" target="_blank" href="http://www.cnblogs.com/xiaohuochai/p/6940560.html">NodeJS</a>
+  <a class="navbar-link" target="_blank" href="http://www.cnblogs.com/xiaohuochai/p/6038637.html">PHP</a>
+  <a class="navbar-link" target="_blank" href="http://www.cnblogs.com/xiaohuochai/p/6081482.html">MySQL</a>
+    <a class="navbar-link" target="_blank" href="http://www.cnblogs.com/xiaohuochai/p/7097376.html">Bootstrap</a>
+  <a class="navbar-link" target="_blank" href="http://www.cnblogs.com/xiaohuochai/p/7372243.html">MongoDB</a>
+<a class="navbar-link" target="_blank" href="http://www.cnblogs.com/xiaohuochai/p/7423751.html">移动端</a>
+  <a class="navbar-link" target="_blank" href="http://www.cnblogs.com/xiaohuochai/p/6666415.html">前端工具</a>
+</nav><div id="profile_block">昵称：<a href="https://home.cnblogs.com/u/xiaohuochai/">小火柴的蓝色理想</a><br>园龄：<a href="https://home.cnblogs.com/u/xiaohuochai/" title="入园时间：2015-04-06">3年8个月</a><br>粉丝：<a href="https://home.cnblogs.com/u/xiaohuochai/followers/">3263</a><br>关注：<a href="https://home.cnblogs.com/u/xiaohuochai/followees/">76</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="follow('fff91f67-38dc-e411-b908-9dcfd8948a71')">+加关注</a></div><script type="text/javascript">window['__document_write_ajax_callbacks__']['8']();</script><script>window['__document_write_ajax_callbacks__']['2']();</script></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="blog-calendar" style="display:none"></div><script type="text/javascript">loadBlogDefaultCalendar();</script>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk"></div>
+<div id="widget_my_google" class="div_my_zzk"><input type="text" name="google_q" id="google_q" onkeydown="return google_go_enter(event)" class="input_my_zzk">&nbsp;<input onclick="google_go()" type="button" value="谷歌搜索" class="btn_my_zzk"></div>
+</div>
+</div>
+
+</div><div id="sidebar_toptags" class="sidebar-block">
+<div class="catListTag">
+<h3 class="catListTitle">我的标签</h3>
+<ul>
+<li><a href="https://www.cnblogs.com/xiaohuochai/tag/javascript%E6%80%BB%E7%BB%93/">javascript总结</a>(253)</li><li><a href="https://www.cnblogs.com/xiaohuochai/tag/css%E6%80%BB%E7%BB%93/">css总结</a>(102)</li><li><a href="https://www.cnblogs.com/xiaohuochai/tag/%E5%B7%A5%E5%85%B7/">工具</a>(61)</li><li><a href="https://www.cnblogs.com/xiaohuochai/tag/Vue/">Vue</a>(44)</li><li><a href="https://www.cnblogs.com/xiaohuochai/tag/PHP/">PHP</a>(36)</li><li><a href="https://www.cnblogs.com/xiaohuochai/tag/bootstrap/">bootstrap</a>(34)</li><li><a href="https://www.cnblogs.com/xiaohuochai/tag/jQuery/">jQuery</a>(31)</li><li><a href="https://www.cnblogs.com/xiaohuochai/tag/HTML%E6%80%BB%E7%BB%93/">HTML总结</a>(30)</li><li><a href="https://www.cnblogs.com/xiaohuochai/tag/nodejs/">nodejs</a>(27)</li><li><a href="https://www.cnblogs.com/xiaohuochai/tag/HTTP/">HTTP</a>(25)</li><li><a href="https://www.cnblogs.com/xiaohuochai/tag/">更多</a></li>
+</ul>
+</div></div><div id="sidebar_scorerank" class="sidebar-block">
+<div class="catListBlogRank">
+<h3 class="catListTitle">积分与排名</h3>
+<ul>
+	<li class="liScore">
+		积分 -	1226006
+	</li>
+	<li class="liRank">
+		排名 -	57
+	</li>
+</ul>
+</div>
+
+
+</div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock"><ul><li><a href="https://www.cnblogs.com/xiaohuochai/p/7388866.html">1. Vue组件选项props(99036)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/5347930.html">2. 深入理解CSS过渡transition(57044)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/5289653.html">3. 深入理解CSS溢出overflow(42999)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/5777186.html">4. 深入理解定时器系列第二篇——被誉为神器的requestAnimationFrame(37152)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/6036475.html">5. 深入理解ajax系列第一篇——XHR对象(33110)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/5179909.html">6. 了解HTML表单之input元素的23种type类型(32181)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/7215067.html">7. Mongoose基础入门(28266)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/7372665.html">8. animate.css的使用(27100)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/5494624.html">9. 移动web开发之像素和DPR(25822)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/4793421.html">10. 前端工程师技能之photoshop巧用系列第五篇——雪碧图(24420)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/5351477.html">11. 深入理解CSS变形transform(3d)(22752)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/7243166.html">12. ES6解构赋值(21555)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/5202761.html">13. 深入理解display属性(19866)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/5773183.html">14. 深入理解定时器系列第一篇——理解setTimeout和setInterval(19212)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/5831640.html">15. 深入理解滚动scroll(18953)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/7222227.html">16. pug模板引擎(原jade)(17698)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/5721552.html">17. 一张图理解prototype、proto和constructor的三角关系(16985)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/5728577.html">18. 深入理解闭包系列第一篇——到底什么才是闭包(16951)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/5314289.html">19. 深入理解CSS中的margin负值(16566)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/7083153.html">20. grid栅格布局(16492)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topdiggedposts" class="sidebar-block"><div id="topdigg_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">推荐排行榜</h3>
+<div id="TopDiggPostsBlock"><ul><li><a href="https://www.cnblogs.com/xiaohuochai/p/5869472.html">1. 博客园博文添加自定义右键菜单(220)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/9228543.html">2. 使用vue全家桶制作博客网站(89)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/5347930.html">3. 深入理解CSS过渡transition(72)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/6370123.html">4. canvas动态小球重叠效果(62)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/6368039.html">5. canvas粒子时钟(57)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/7388866.html">6. Vue组件选项props(47)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/5721552.html">7. 一张图理解prototype、proto和constructor的三角关系(43)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/5613593.html">8. javascript学习目录(39)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/7521282.html">9. CSS文本效果(39)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/5777186.html">10. 深入理解定时器系列第二篇——被誉为神器的requestAnimationFrame(37)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/5419236.html">11. 动画animation的三个应用(漂浮的白云、旋转的星球、正方体合成)(37)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/5249139.html">12. CSS学习目录(37)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/5289653.html">13. 深入理解CSS溢出overflow(34)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/6036475.html">14. 深入理解ajax系列第一篇——XHR对象(34)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/5351477.html">15. 深入理解CSS变形transform(3d)(33)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/5271217.html">16. 深入理解line-height与vertical-align(31)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/5836179.html">17. 5种回到顶部的写法从实现到增强(29)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/5773183.html">18. 深入理解定时器系列第一篇——理解setTimeout和setInterval(28)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/6146939.html">19. 自动生成博客目录(28)</a></li><li><a href="https://www.cnblogs.com/xiaohuochai/p/5248536.html">20. 深入理解BFC(27)</a></li></ul></div>
+</div></div></div></div><script type="text/javascript">loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2018 小火柴的蓝色理想
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+<!--PageEndHtml Block Begin-->
+<script src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/z_stat_002.php" language="JavaScript"></script><script src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/core.php" charset="utf-8" type="text/javascript"></script><a href="https://www.cnzz.com/stat/website.php?web_id=1258390419" target="_blank" title="站长统计">站长统计</a>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1258390419'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1258390419%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));</script><span id="cnzz_stat_icon_1258390419"><a href="https://www.cnzz.com/stat/website.php?web_id=1258390419" target="_blank" title="站长统计"><img src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/pic1.gif" vspace="0" hspace="0" border="0"></a></span><script src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/z_stat.php" type="text/javascript"></script>
+<script type="text/javascript" src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/contextMenu.js"></script><ul id="list"><li id="menuTop">回到顶部</li>	<li id="menuFavour">点赞(<span id="favourNum">4</span>赞)</li>	<li id="menuCommand">评论</li></ul>
+<script type="text/javascript" src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/catalog.js"></script><progress id="progress" style="position: fixed; left: 0px; right: 0px; bottom: 0px; width: 100%; height: 12px; text-align: center; font: 12px/12px &quot;宋体&quot;;" max="8149"></progress><script type="text/javascript" src="javascript%E8%BF%90%E7%AE%97%E7%AC%A6%E2%80%94%E2%80%94%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6%20-%20%E5%B0%8F%E7%81%AB%E6%9F%B4%E7%9A%84%E8%93%9D%E8%89%B2%E7%90%86%E6%83%B3%20-%20%E5%8D%9A%E5%AE%A2%E5%9B%AD_files/qrcode.js"></script>
+<!--PageEndHtml Block End-->
+
+
+<script type="text/javascript">getFollowStatus('fff91f67-38dc-e411-b908-9dcfd8948a71')</script><div id="box" class="box boxHide"><span id="boxQuit" class="box-quit box-quitAnother">显示目录</span><h6 class="box-title">目录</h6><a class="box-anchor" href="#anchor1" title="&lt;span class=&quot;Apple-tab-span&quot;&gt;二进制表示&lt;/span&gt;">[1]<span class="Apple-tab-span">二进制表示</span></a><a class="box-anchor" href="#anchor2" title="按位非(NOT)">[2]按位非(NOT)</a><a class="box-anchor" href="#anchor3" title="按位与(AND)">[3]按位与(AND)</a><a class="box-anchor" href="#anchor4" title="按位或(OR)">[4]按位或(OR)</a><a class="box-anchor" href="#anchor5" title="按位异或(XOR)">[5]按位异或(XOR)</a><a class="box-anchor" href="#anchor6" title="左移">[6]左移</a><a class="box-anchor" href="#anchor7" title="有符号右移">[7]有符号右移</a><a class="box-anchor" href="#anchor8" title="无符号右移">[8]无符号右移</a><a class="box-anchor" href="#anchor9" title="常见应用">[9]常见应用</a></div><iframe id="google_osd_static_frame_639948770183" name="google_osd_static_frame" style="display: none; width: 0px; height: 0px;"></iframe></body></html>
