@@ -2749,19 +2749,236 @@ Java使用包（package）这种机制是为了防止命名冲突，访问控制
 
 ### 5.1.1 异常简介：
 
-Java中的异常
+Java中的异常又称为例外，是一个在程序执行期间发生的事情，它中断正在执行程序的正常指令流。为了能够及时有效的处理程序中的运行错误，必须使用异常类，这可以让程序具有极好的容错性且更加健壮。
 
+在Java中一个异常的产生，主要有如下三种原因：
 
+1. Java内部错误发生的异常，Java虚拟机产生的异常；
+2. 编写的程序代码中的错误所产生的的异常，例如空指针异常、数组越界异常等；
+3. 通过throw语句手动生成的异常，一般用来告知该方法的调用者一些必备信息；
 
+我们把生成异常对象，并把它提交给运行时系统的过程称为抛出（throw）异常。运行时系统在方法的调用栈中查找，直到找到能够处理该类型异常的对象，这一过程称为捕获（catch）异常。
 
+### 5.1.2 异常类型：
 
+为了能够及时有效的处理程序中的运行错误，Java专门引入了异常类。`在Java中所有异常类都是内置类java.lang.Throwable类的子类，即Throwable位于异常层次结构的顶层`。
 
+![img](images/JavaCore详解/3-1Q0231H424V1.jpg)
 
+由上图可以知道，Throwable类是所有异常和错误的超类，下面有Error和Exception两个子类分别表示错误和异常。其中异常类Exception又分为运行时异常和非运行时异常，这两种异常有很大的区别，也称为非受检查异常（Unchecked Exception）和受检查异常（Checked Exception）。
 
+- Exception类用于用户程序可能出现的异常情况，它也是用来创建自定义异常类型的类；
+- Error定义了在通常环境下不希望被程序捕获的异常。一般指的是JVM异常，如堆栈溢出；
 
+#### 5.1.2.1 运行时异常：
 
+运行时异常（非受检查异常）都是RuntimeException类及其子类异常，如NullPointerException、IndexOutOfBoundsException等，这些异常是不受检查异常，程序中可以选择处理，也可以不处理。这些异常一般是由程序逻辑错误引起，程序应该从逻辑角度尽可能避免这类异常的发生。
 
+#### 5.1.2.2 非运行时异常：
 
+非运行时异常是指RuntimeException以外的异常，类型上都属于Exception类及其子类。从程序语法角度讲是必须进行处理的异常，如果不处理，程序就不能编译通过。如IOException、ClassNotFoundException等以及用户自定义的异常（一般情况下不自定义受检查异常）。
+
+### 5.1.3 异常处理机制：
+
+> Java的异常处理通过5个关键字来实现：try、catch、throw、throws和finally。try catch语句用于捕获处理异常，finally语句用于在任何情况下（除特殊情况外）都必须执行的代码，throw语句用于抛出异常，throws语句用于声明可能出现的异常。
+
+Java的异常处理机制提供了一种结构性和控制性的方式来处理程序执行期间发生的事件。异常处理的机制如下：
+
+- 在方法中用try  catch语句捕获并处理异常，catch语句可以有多个，用来匹配多个异常；
+- 对于处理不了的异常或者要转型的异常，在方法的声明处通过throws语句来声明异常，即由上层的调用方法来处理；
+
+异常处理程序的基本结构：
+
+```java
+try {
+    逻辑程序块
+} catch(ExceptionType1 e) {
+    处理代码块1
+} catch (ExceptionType2 e) {
+    处理代码块2
+    throw(e);    // 再抛出这个"异常"
+} finally {
+    释放资源代码块
+}
+```
+
+### 5.1.4 try catch：
+
+在Java中通常采用try catch语句来捕获异常并处理：
+
+```java
+try {
+    // 可能发生异常的语句
+} catch(ExceptionType e) {
+    // 处理异常语句
+}
+```
+
+在以上语法中，把可能引发异常的语句封装在try语句块中，用于捕获可能发生的异常。catch后的`()`里放匹配的异常类，指明catch语句可以处理的异常类型，发生异常时产生异常类的实例化对象。
+
+如果try语句块中发生异常，那么一个相应的一场对象会被抛出，然后catch语句就会依据所抛出异常对象的类型进行捕获，并处理。处理之后，程序会跳过try语句块中剩余的语句，转到catch语句块里面的第一条语句开始执行。
+
+如果try语句块没有发生异常，那么try块正常结束，后面的catch语句块被跳过，程序将从catch语句块后的第一条语句开始执行。
+
+### 5.1.5 try catch finally：
+
+在实际开发中，根据try catch语句的执行过程，try语句块和catch语句块有可能`不被完全执行`，而有些处理代码则要求必须执行。例如，程序在try块里打开了一些物理资源（如数据库连接、网络连接和磁盘文件等），这些物理资源都必须显式回收。
+
+> Java的垃圾回收机制不会回收任何物理资源，垃圾回收机制只回收堆内存中对象所占用的内存。
+
+所以为了确保一定能回收try块中打开的物理资源，异常处理机制提供了finally代码块，并且在Java7之后提供了自动资源管理（Automatic Resource Management）技术。
+
+finally语句可以与前面介绍的try catch语句块匹配，语法格式如下：
+
+```java
+try {
+    // 可能会发生异常的语句
+} catch(ExceptionType e) {
+    // 处理异常语句
+} finally {
+    // 清理代码块
+}
+```
+
+对于以上格式，无论是否发生异常（除特殊情况外），finally语句块中的代码都会被执行。此外，finally语句也可以和try语句匹配使用，其语法格式如下：
+
+```java
+try {
+    // 逻辑代码块
+} finally {
+    // 清理代码块
+}
+```
+
+使用try-catch-finally语句时需注意以下几点：
+
+1. 异常处理语法结构中只有try块是必须的，也就是说，如果没有try块，则不能有后面的catch块和finally块；
+2. catch块和finally块都是可选的，但catch块和finally块至少出现其中之一，也可以同时出现；
+3. 可以有多个catch块，捕获父类异常的catch块必须位于捕获子类异常的后面；
+4. 不能只有try块，catch块或finally块必须要有；
+5. 多个catch块必须位于try块之后，finally块必须位于所有catch块之后；
+6. finally与try语句块匹配的语法格式，此种情况会导致异常丢失，所以不常见；
+
+一般情况下，无论是否有异常抛出，都会执行finally语句块中的语句，执行流程如图1所示：
+
+![img](images/JavaCore详解/3-1Q024110159364.jpg)
+
+try-catch-finally语句块的执行情况可以细分为一下三种情况：
+
+1. 如果try代码块中没有抛出异常，则执行完try代码块之后直接执行finally代码块，然后执行try-catch-finally语句块之后的语句。
+2. 如果try代码块中抛出异常，并被catch子句捕捉，那么在抛出异常的地方终止try代码块的执行，转而执行相匹配的catch代码块，之后执行finally代码块。如果finally代码块中没有抛出异常，则继续执行try catch finally语句块之后的语句；如果finally代码块中抛出异常，则把该异常传递给该方法的调用者。
+3. 如果try代码块中抛出的异常没有被任何catch子句捕捉到，那么将直接执行finally代码块中的语句，并把该异常传递给该方法的调用者。
+
+除非在try块、catch块中调用了退出虚拟机的方法`System.exit(int status)`，否则不管在try块或者catch块中执行怎样的代码，出现怎样的情况，异常处理的finally块总会执行。
+
+通常情况下`不在finally代码块中使用return或throw等导致终止的语句`，否则将会导致try和catch代码块中的return和throw语句失效。
+
+### 5.1.6 声明和抛出异常：
+
+Java中的异常处理除了捕获异常和处理异常之外，还包括声明异常和抛出异常。实现声明和抛出异常的关键字非常相似，它们是throws和throw。可以通过throws关键字在方法上声明该方法要抛出的异常，然后在方法内部通过throw抛出异常对象。
+
+#### 5.1.6.1 throws申明异常：
+
+当一个方法产生一个它不处理的异常时，那么就需要在改方法的头部声明这个异常，以便将该异常传递到方法的外部进行处理。使用throws声明的方法表示此方法不处理异常。throws具体格式如下：
+
+```java
+returnType method_name(paramList) throws Exception 1,Exception2,…{…}
+```
+
+使用throws声明抛出异常的思路是，当前方法不知道如何处理这种类型的异常，该异常应该由上一级的调用者处理；如果main方法也不知道该如何处理这种类型的异常，也可以使用throws声明抛出异常，将该异常交给JVM处理。JVM对异常的处理方法是：打印异常的跟踪栈信息，并中止程序运行，这就是前面程序在遇到异常后自动结束的原因。
+
+> 注：
+>
+> 1. 并不是说当前方法声明了异常，就一定会抛出异常，当前方法声明异常只是表明该方法可能出现异常，上层方法调用的时候，自行决定如何处理；
+> 2. 当前方法没有抛出异常，并不是说就不会抛出异常。
+> 3. 并不是throw了异常，就一定要在方法上声明。如果抛出了受检查异常，则一定要方法上声明该异常；如果抛出了非受检查异常，方法上可以声明也可以不声明。
+
+#### 5.1.6.2 throw抛出异常：
+
+与throws不同的是，throw语句用来直接抛出一个异常，后接一个可抛出的异常对象，其语法格式如下：
+
+```java
+throw ExceptionObject;
+```
+
+其中，ExceptionObject必须是Throwable类或其子类的对象。如果是自定义异常类，也必须是Throwable的直接或间接子类。例如，以下语句在编译时将会产生语法错误：
+
+```java
+throw new String("拋出异常");    // String类不是Throwable类的子类
+```
+
+当throw语句执行时，它后面的语句将不执行，此时程序转向调用者程序，寻找与之匹配的catch语句，执行相应的异常处理程序。如果没有找到相匹配的catch语句，则再转向上一层的调用程序。这样逐层向上，直到最外层的异常处理程序终止程序并打印出调用栈情况。
+
+### 5.1.7 Java9增强的自动资源管理：
+
+Java7增加了一个新特性，该特性提供了另外一种资源管理的方式，这种方式能自动关闭文件，被称为**自动资源管理**（Automatic Resource Management）。该特性是在try语句上的拓展，主要释放不再需要的文件或其他资源。该特性是在try语句上的拓展，主要释放不再需要的文件或其他资源。
+
+自动资源管理替代了finally代码块，并优化了代码结构和提供程序可读性。语法如下：
+
+```java
+try (声明或初始化资源语句) {
+    // 可能会生成异常语句
+} catch(Throwable e1){
+    // 处理异常e1
+} catch(Throwable e2){
+    // 处理异常e1
+} catch(Throwable eN){
+    // 处理异常eN
+}
+```
+
+当try代码块结束时，自动释放资源。不再需要显式的调用close()方法，该形式也称为“**带资源的try语句**”
+
+注意：
+
+1. try语句中声明的资源被隐式声明为final，资源的作用局限于带资源的try语句；
+2. 可以在一条try语句中声明或初始化多个资源，每个资源以`；`隔开即可；
+3. 需要关闭的字眼必须实现了AutoCloseable或closeable接口；
+
+> Closeable是AutoCloseable的子接口，Closeable接口里的close()方法声明抛出了IOException，因此它的实现类在实现close()方法时只能声明抛出IOException或其子类；AutoCloseable接口里的close()方法声明抛出了Exception，因此它的实现类在实现close()方法时可以声明抛出任何异常。
+
+下面示范如何使用自动关闭资源的try语句：
+
+```java
+public class AutoCloseTest {
+    public static void main(String[] args) throws IOException {
+        try (
+                // 声明、初始化两个可关闭的资源
+                // try语句会自动关闭这两个资源
+                BufferedReader br = new BufferedReader(new FileReader("AutoCloseTest.java"));
+                PrintStream ps = new PrintStream(new FileOutputStream("a.txt"))) {
+            // 使用两个资源
+            System.out.println(br.readLine());
+            ps.println("C语言中文网");
+        }
+    }
+}
+```
+
+自动关闭资源的try语句相当于包含了隐式的finally块（这个finally块用于关闭资源），因此这个try语句可以既没有catch块，也没有finally块。
+
+> Java7几乎把所有的“资源类”（包括文件IO的各种类、JDBC编程的Connection和Statement等接口）进行了改写，改写后的资源类都实现了AutoCloseable或Closeable接口。
+
+如果程序需要，自动关闭资源的try语句后也可以带多个catch块和一个finally块。
+
+Java9再次增强了这种try语句。Java9不要求在try后的圆括号内声明并创建资源，只需要自动关闭的资源有final修饰或是有效的final，Java9允许将资源变量放在try后的圆括号内。上面程序在Java9中可以改写为如下形式。
+
+```java
+public class AutoCloseTest {
+    public static void main(String[] args) throws IOException {
+        // 有final修饰的资源
+        final BufferedReader br = new BufferedReader(new FileReader("AutoCloseTest.java"));
+        // 没有显式使用final修饰，但只要不对该变量重新赋值，该变量就是有效的
+        final PrintStream ps = new PrintStream(new FileOutputStream("a. txt"));
+        // 只要将两个资源放在try后的圆括号内即可
+        try (br; ps) {
+            // 使用两个资源
+            System.out.println(br.readLine());
+            ps.println("C语言中文网");
+        }
+    }
+}
+```
 
 
 
