@@ -2913,6 +2913,8 @@ throw new String("拋出异常");    // String类不是Throwable类的子类
 
 Java7增加了一个新特性，该特性提供了另外一种资源管理的方式，这种方式能自动关闭文件，被称为**自动资源管理**（Automatic Resource Management）。该特性是在try语句上的拓展，主要释放不再需要的文件或其他资源。该特性是在try语句上的拓展，主要释放不再需要的文件或其他资源。
 
+**【注】所谓的资源（resource）是指在程序完成后，必须关闭的对象。**
+
 自动资源管理替代了finally代码块，并优化了代码结构和提供程序可读性。语法如下：
 
 ```java
@@ -2969,7 +2971,7 @@ public class AutoCloseTest {
         // 有final修饰的资源
         final BufferedReader br = new BufferedReader(new FileReader("AutoCloseTest.java"));
         // 没有显式使用final修饰，但只要不对该变量重新赋值，该变量就是有效的
-        final PrintStream ps = new PrintStream(new FileOutputStream("a. txt"));
+        PrintStream ps = new PrintStream(new FileOutputStream("a. txt"));
         // 只要将两个资源放在try后的圆括号内即可
         try (br; ps) {
             // 使用两个资源
