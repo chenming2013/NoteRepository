@@ -2739,6 +2739,136 @@ Java使用包（package）这种机制是为了防止命名冲突，访问控制
 
 
 
+## 4.8 类的初始化和实例化：
+
+### 4.8.1 摘要：
+
+在Java中，一个对象在可以被使用之前必须要被正确的初始化，这一点是Java规范规定的。
+
+在实例化一个对象时，JVM会首先检查相关类型是否已经加载并初始化，如果没有，则JVM立即加载并调用类的构造器完成类的初始化。
+
+在类初始化过程中或初始化完毕后，根据具体情况才会去对类进行实例化。
+
+### 4.8.2 类初始化和类实例化：
+
+一个对象的创建过程往往包括`类初始化`和`类实例化`，本文主要注解Java对象创建的真实过程。
+
+### 4.8.3 Java对象的创建过程：
+
+> 当一个对象被创建时，虚拟机就会为其分配内存来存放对象自己的实例变量及其从父类继承过来的实例变量（即使这些从超类继承过来的实例变量有可能被隐藏也会分配）。`在为这些实例变量分配内存的同时，这些实例变量也会被赋予默认值。`在内存分配完成之后，Java虚拟机就会对新创建的对象按照程序员的意志进行初始化。在Java对象初始化过程中，主要涉及三种执行对象初始化的结构，分别是：`实例变量初始化`、`实例代码块初始化`以及`构造函数初始化`。
+
+#### 4.8.3.1 实例变量初始化与实例代码块初始化：
+
+我们在定义（声明）实例变量的同时，还可以直接对实例变量进行赋值或者使用实例代码块对其进行赋值。如果我们以这两种方式为实例变量进行初始化，那么它们将在构造函数执行之前完成这些初始化操作。**实际上，如果我们对实例变量直接赋值或者使用实例代码块赋值，那么编译器会将其中的代码放到类的构造函数中去，并且这些代码会被放在**`对超类构造函数的调用语句之后，构造函数本身的代码之前`：
+
+```java
+public class InstanceVariableInitializer {  
+    private int i = 1;  
+    private int j = i + 1;  
+
+    public InstanceVariableInitializer(int var){
+        System.out.println(i);
+        System.out.println(j);
+        this.i = var;
+        System.out.println(i);
+        System.out.println(j);
+    }
+
+    {               // 实例代码块
+        j += 3; 
+
+    }
+    public static void main(String[] args) {
+        new InstanceVariableInitializer(8);
+    }
+}
+```
+
+反编译上面源码生成的class文件，得到如下结构：
+
+```java
+public class InstanceVariableInitializer
+{
+
+    public InstanceVariableInitializer(int var)
+    {
+        super();
+        i = 1;
+        j = i + 1;
+        j += 3;
+        System.out.println(i);
+        System.out.println(j);
+        i = var;
+        System.out.println(i);
+        System.out.println(j);
+    }
+
+    public static void main(String args[])
+    {
+        new InstanceVariableInitializer(8);
+    }
+
+    private int i;
+    private int j;
+}
+```
+
+上面的例子正好印证了上面的结论。特别需要注意的是，Java按照编程顺序来执行实例变量初始化器和实例初始化器中的代码的，并且不允许顺序靠前的实例代码初始化在其后面定义的实例变量，比如：
+
+```java
+public class InstanceInitializer {  
+    {
+        j = i;  // Error:Illegal forward reference
+    }
+
+    private int i = 1;
+    private int j;  
+}  
+
+public class InstanceInitializer {  
+    private int j = i;  // Error:Illegal forward reference
+    private int i = 1; 
+}
+```
+
+上面这些代码是无法通过编译的，编译器会抱怨说我们使用了一个未经定义的变量，之所以要这么做是为了保证一个变量在被使用之前已经被正确的初始化。但是我们任然有办法绕过这种检查，比如：
+
+```java
+public class InstanceInitializer {  
+    private int j = getI();  
+    private int i = 1;  
+
+    public InstanceInitializer() {  
+        i = 2;  
+    }  
+
+    private int getI() {  
+        return i;  
+    }  
+
+    public static void main(String[] args) {  
+        InstanceInitializer ii = new InstanceInitializer();  
+        System.out.println(ii.j);  
+    }  
+}
+```
+
+如果我们执行上面这段代码，那么会发现打印的结果是0。因此我们可以确信，变量j被赋予了i的默认值0，这动作发生在实例变量i初始化之前和构造函数调用之前。
+
+#### 4.8.3.2 构造函数初始化：
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2982,6 +3112,33 @@ public class AutoCloseTest {
 }
 ```
 
+### 5.1.8 自定义异常：
+
+如果Java提供的内置异常类型不能满足程序设计的要求，这时我们可以自己设计Java类库或框架，其中包含异常类型。实现自定义异常类需要继承Exception类或子类，如果自定义运行时异常需要继承RuntimeException类或子类。
+
+自定义异常的语法形式为：
+
+```java
+<class><自定义异常名><extends><Exception>
+```
+
+在编码规范上，一般将自定义异常类的类名命名为XxxException，其中Xxx用来表示该异常的作用。
+
+自定义异常一般包含两个构造方法：一个是无参的默认构造方法，另一个构造方法以字符串的形式接收一个定制的异常信息，并将该消息传递给超类的构造方法。
+
+例如，以下代码创建一个名为IntegerRangeException的自定义异常类
+
+```java
+class IntegerRangeException extends Exception {
+    public IntegerRangeException() {
+        super();
+    }
+    public IntegerRangeException(String s) {
+        super(s);
+    }
+}
+```
+
 
 
 
@@ -3075,8 +3232,6 @@ public class AutoCloseTest {
 
 
 ## 10.2 重载，如果存在多态，怎么确定调用哪一个？
-
-
 
 
 
