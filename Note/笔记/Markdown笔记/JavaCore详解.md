@@ -2857,6 +2857,91 @@ public class InstanceInitializer {
 
 #### 4.8.3.2 构造函数初始化：
 
+我们可以从上文知道，实例变量初始化与实例代码块初始化总是发生在构造函数初始化之前，那么我们下面着重看看构造函数初始化过程。
+
+众所周知，每一个Java中的对象都至少会有一个构造函数，如果我们没有显式定义构造函数，那么它将会有一个默认无参的构造函数。在编译生成的字节码中，这些构造函数会被命名为`<init>()`方法，参数列表与Java语言书写的构造函数的参数列表相同。
+
+我们知道，`Java要求在实例化类之前，必须先实例化其超类，以保证所创建实例的完整性。`事实上，这一点是在构造函数中保证的：Java强制要求Object对象之外的所有对象构造函数的第一条语句必须是超类构造函数的调用语句或者是类中定义的其他的构造函数，如果我们既没有调用其他的构造函数，也没有显式调用超类的构造函数，那么编译器会为我们自动生成一个对超类构造函数的调用，比如：
+
+```java
+public class ConstructorExample {  
+
+}
+```
+
+对于上面代码中定义的类，我们观察编译之后的字节码，我们会发现编译器为我们生成一个构造函数，如下：
+
+```shell
+aload_0  
+invokespecial   #8; //Method java/lang/Object."<init>":()V  
+return  
+```
+
+上面代码的第二行就是调用Object类的默认构造函数的指令。也就是说，如果我们显式调用超类的构造函数，那么该调用必须放在构造函数所有代码的最前面，也就是必须是构造函数的第一条指令。正因为如此，Java才可以使得一个对象在初始化之前其所有的超类都被初始化完成，并保证创建一个完整的对象出来。
+
+特别的，如果我们在一个构造函数中调用另一个构造函数，如下所示：
+
+```java
+public class ConstructorExample {  
+    private int i;  
+
+    ConstructorExample() {  
+        this(1);  
+        ....  
+    }  
+
+    ConstructorExample(int i) {  
+        ....  
+        this.i = i;  
+        ....  
+    }  
+}
+```
+
+对于这种情况，Java只允许在ConstructorExample(int i)内调用超类的构造函数，也就是说，下面两种情形的代码编译是无法通过的：
+
+```java
+public class ConstructorExample {  
+    private int i;  
+
+    ConstructorExample() {  
+        super();  
+        this(1);  // Error:Constructor call must be the first statement in a constructor
+        ....  
+    }  
+
+    ConstructorExample(int i) {  
+        ....  
+        this.i = i;  
+        ....  
+    }  
+}
+```
+
+或者
+
+```java
+public class ConstructorExample {  
+    private int i;  
+
+    ConstructorExample() {  
+        this(1);  
+        super();  //Error: Constructor call must be the first statement in a constructor
+        ....  
+    }  
+
+    ConstructorExample(int i) {  
+        this.i = i;  
+    }  
+}
+```
+
+Java通过对构造函数做出这种限制以保证一个类的实例能够在使用之前正确的初始化。
+
+### 4.8.4 总结：
+
+
+
 
 
 
