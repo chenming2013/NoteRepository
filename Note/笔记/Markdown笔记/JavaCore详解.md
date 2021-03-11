@@ -2942,17 +2942,21 @@ Java通过对构造函数做出这种限制以保证一个类的实例能够在�
 
 > 参考：https://mp.weixin.qq.com/s/gLTgqWRdb6Mi6P1Tq9h1Rg
 
+创建对象的过程：
 
+1. 在堆区分配对象所需要的内存：
 
+   分配的内存包括本类和父类的所有实例变量，但不包括任何静态变量。
 
+2. 对所有实例变量赋默认值：
 
+   将方法区内对实例变量的定义拷贝一份到堆区，然后赋默认值。
 
+3. 执行实例初始化代码：
 
+   初始化顺序是先初始化父类再初始化子类，初始化时先执行实例代码块然后构造方法。
 
-
-
-
-
+4. 如果有类似于Child c = new Child()形式的c引用的话，在栈区定义Child类型引用变量c，然后将堆区对象的地址赋值给它。
 
 
 
@@ -3223,6 +3227,336 @@ class IntegerRangeException extends Exception {
     }
 }
 ```
+
+### 5.1.9 《Effective Java》中关于异常处理的几条建议：
+
+> 参考：https://www.cnblogs.com/skywang12345/p/3544287.html
+
+#### 5.1.9.1 只针对不正常的情况才使用异常：
+
+> **建议**：异常只应该被用于不正常的条件，它们永远不应该被用于正常的控制流。
+
+通过比较下面的两份代码进行说明。
+
+代码1：
+
+```java
+try {
+    int i=0;
+    while (true) {
+        arr[i]=0;
+        i++;
+    }
+} catch (IndexOutOfBoundsException e) {
+}
+```
+
+代码2：
+
+```java
+for (int i=0; i<arr.length; i++) {
+    arr[i]=0;
+}
+```
+
+两份代码的作用都是遍历arr数组，并设置数组中每一个元素的值为0。代码1的是通过异常来终止，看起来非常难懂，代码2是通过数组边界来终止。我们应该避免使用代码1这种方式，主要原因有三点：
+
+1. 异常机制的设计初衷是用于不正常的情况，所以很少会有JVM实现视图对它们的性能进行优化。所以，创建、抛出和捕获异常的开销是很昂贵的。
+2. 把代码放在try-catch中返回阻止了JVM实现本来可能要执行的某些特定的优化。
+3. 对数组进行遍历的标准模式并不会导致冗余的检查，有些现代的JVM会将它们优化掉。
+
+#### 5.1.9.2 对于可恢复的条件使用被检查的异常，对于程序错误使用运行时异常：
+
+- 运行时异常：RunTimeException类及其子类都被称为运行时异常。
+- 被检查的异常：Exception类本身，以及Exception的子类中除了"运行时异常"之外的异常都属于被检查异常。
+
+它们的区别是：`Java编译器会对"被检查的异常"进行检查，而对"运行时异常"不会检查`。也就是说，对于被检查的异常，要么通过throws进行声明抛出，要么通过try-catch进行捕获处理，否则不能通过编译。而对于运行时异常，倘若既"没有通过throws声明抛出"，也没有通过try-catch语句捕获它，还是会通过编译。当然，虽然说Java编译器不会检查运行时异常，但是我们同样可以通过throws对该异常进行说明，或通过try-catch进行捕获。
+
+#### 5.1.9.3 避免不必要的使用被检查的异常：
+
+"被检查的异常"是Java语言的一个很好的特性。与返回代码不同，"被检查的异常"会强迫程序员处理例外的条件，大大提高了程序的可靠性。
+
+但是，过分使用被检查异常会使API用起来非常不方便。如果一个方法抛出一个或多个被检查的异常，那么调用该方法的代码则必须在一个或多个catch语句块中处理这些异常，或者必须通过throws声明抛出这些异常。无论是通过catch处理，还是通过throws声明抛出，都给程序员添加了不可忽略的负担。
+
+#### 5.1.9.4 尽量使用标准的异常：
+
+代码重用是值得提倡的，这是一条通用规则，异常也不例外。重用现有的异常有几个好处：
+
+1. 它使得你的API更加容易学习和使用，因为它与程序员原来已经熟悉的习惯用法是一样的。
+2. 对于用到这些API的程序而言，它们的可读性更好，因为他们不会充斥着程序员不熟悉的异常。
+3. 异常类越少，意味着占用内存越少，并且转载这些类的时间开销也越小。
+
+#### 5.1.9.5 抛出的异常要适合于相应的抽象：
+
+如果一个方法抛出的异常与它执行的任务没有明显的关联关系，这种情形会让人不知所措。当一个方法传递一个由低层抽象排除的异常时，往往会发生这种情况。这种情况发生时，不仅会让人困惑，而且也"污染"了高层API。
+
+为了避免这个问题，高层实现应该捕获低层的异常，同时抛出一个可以按照高层抽象进行介绍的异常。这种做法被称为**"异常转译(exception translation)"**。
+
+例如，在Java的集合框架AbstractSequentialList的get()方法如下(基于JDK7)：
+
+```java
+public E get(int index) {
+    try {
+        return listIterator(index).next();
+    } catch (NoSuchElementException exc) {
+        throw new IndexOutOfBoundsException("Index: "+index);
+    }
+}
+```
+
+listIterator(index)或返回ListIterator对象，调用该对象的next()方法可能会抛出NoSuchElementException异常，而在get()方法中，抛出NoSuchElementException异常会让人感到困惑。所以，get()对NoSuchElementException进行了捕获，并抛出了IndexOutOfBoundsException异常。即相当于键NoSuchElementException转译成了IndexOutOfBounds异常。
+
+#### 5.1.9.6 每个方法抛出的异常都要有文档：
+
+要单独的声明被检查的异常，并且利用Javadoc的@throws标记，准确的记录下每个异常被抛出的条件。
+
+如果一个类中的许多方法处于同样的原因而抛出同一个异常，那么在该类的文档注释中对这个异常做文档，而不是每个方法单独做文档，这是可以接受的。
+
+#### 5.1.9.7 在细节消息中包含失败--捕获消息：
+
+简而言之，当我们自定义异常或者抛出异常时，应该包含失败的信息。
+
+当一个程序由于一个未被捕获的异常而失败的时候，系统会自动打印出该异常的栈轨迹。在栈轨迹中包含该异常的字符串表示。典型情况下它包含该异常类的类名，以及紧随其后的细节消息。
+
+#### 5.1.9.8 努力使失败保持原子性：
+
+当一个对象抛出一个异常之后，我们总期望着这个对象任然保持在一种定义良好的可用状态之中。对于被检查的异常而言，这尤为重要，因为调用者通常期望从被检查的异常中恢复过来。
+
+一般而言，一个失败的方法调用应该保持使对象保持在"它在被调用之前的状态"。具有这种属性的方法被称为“失败原子性(failure atomic)”。可以理解为：失败了还保持着原子性。
+
+#### 5.1.9.9 不要忽略异常：
+
+当一个API的设计者声明一个方法会抛出某个异常的时候，它们正在视图说明某些事情。所以，请不要忽略它！忽略异常的代码如下：
+
+```java
+try {
+    ...
+} catch (SomeException e) {
+}
+```
+
+空的异常块会使异常达不到应有的目的，异常的目的是强迫你处理不正常的条件。忽略一个异常，就如同忽略一个火警信号一样。
+
+### 5.1.10 《Java Puzzles》中关于异常的几个迷题：
+
+#### 5.1.10.1 优柔寡断：
+
+```java
+public class Indecisive {
+
+    public static void main(String[] args) {
+        System.out.println(decision());
+    }
+
+    private static boolean decision() {
+        try {
+            return true;
+        } finally {
+            return false;
+        }
+    }
+}
+```
+
+运行结果：
+
+```java
+false
+```
+
+结果说明：
+
+`在一个try-finally语句中，finally语句块总是在控制权离开try语句块时执行的。无论try语句块是正常结束还是意外结束，情况都是如此。`
+
+一条语句或一个语句块在它抛出了一个异常，或者对某个封闭型语句执行了一个break或continue，或是像这个程序一样在方法中执行了一个return语句时，将发生意外结束。它们之所以被称为意外结束，是因为它们阻止程序按照去按顺序执行下面的语句。当try语句块和finally语句块都意外结束时，try语句块中引发意外结束的原因将被丢弃，而整个try-finally语句意外结束的原因在于finally语句块意外结束的原因相同。在这个程序中，在try语句块中的return语句所引发的意外结束将被丢弃，try-finally语句意外结束是由finally语句块中的return而造成的。
+
+#### 5.1.10.2 极端不可思议：
+
+第一个程序：
+
+```java
+public class Arcane1 {
+
+    public static void main(String[] args) {
+        try {
+            System.out.println("Hello world");
+        } catch(IOException e) {
+            System.out.println("I've never seen println fail!");
+        }
+    }
+}
+```
+
+第二个程序：
+
+```java
+public class Arcane2 {
+    public static void main(String[] args) {
+        try {
+            // If you have nothing nice to say, say nothing
+        } catch(Exception e) {
+            System.out.println("This can't happen");
+        }
+    }
+}
+```
+
+第三个程序：
+
+```java
+interface Type1 {
+    void f() throws CloneNotSupportedException;
+}
+
+interface Type2 {
+    void f() throws InterruptedException;
+}
+
+interface Type3 extends Type1, Type2 {
+}
+
+public class Arcane3 implements Type3 {
+    public void f() {
+        System.out.println("Hello world");
+    }
+    public static void main(String[] args) {
+        Type3 t3 = new Arcane3();
+        t3.f();
+    }
+}
+```
+
+运行结果：
+
+(01)第一个程序编译错误！
+
+```java
+Arcane1.java:9: exception java.io.IOException is never thrown in body of corresponding try statement
+        } catch(IOException e) {
+          ^
+1 error
+```
+
+(02)第二个程序能正常编译和运行。
+
+(03)第三个程序能正常编译和运行。输出结果是：Hello world
+
+结果说明：
+
+(01)Arance1展示了被检查异常的一个基本原则。它看起来应该是可以编译的：try子句执行I/O，并且catch子句捕获IOException。但是这个程序不能编译，因为try代码块中没有没有声明会抛出任何被检查异常，而IOException却正是一个被检查异常。语言规范中描述道：**如果一个catch子句要捕获一个类型为E的被检查异常，而其相对应的try子句不能抛出E的某种子类型的异常，那么这就是一个编译器错误。**
+
+(02)基于同样的理由，第二个程序Arcane2，看起来应该是不可以编译的，但是它却可以。它之所以可以编译，是因为它唯一的catch子句检查了Exception。尽管在这一点上十分含糊不清，但是捕获Exception或Throwable的的catch子句是合法的，不管与其对应的try子句的内容为何。尽管Arcane2是一个合法的程序，但是catch子句的内容永远的不会被执行，这个程序什么都不会打印。
+
+(03)第三个程序Arcane3看起来它也不能编译。方法 f在Type1接口中声明要抛出被检查异常CloneNotSupportException，并且在Type2接口中声明要抛出被检查异常InterruptedException。Type3接口继承了Type1和Type2，因此，看起来在静态类型为Type3的对象上调用方法f时，有潜在可能会抛出这些异常。一个方法必须要么捕获其方法体可以抛出的所有被检查异常，要么声明它将抛出这些异常。Arcane3的main方法在静态类型为Type3的对象上调用了方法f，但它对CloneNotSupportException和InterruptedException并没有做这些处理，那么为什么这个程序可以编译呢？
+
+上述分析的缺陷在于对“Type3.f可以抛出在Type1.f上声明的异常和在Type2.f上声明的异常”所做的假设。这并不正确，因为每一个接口都限制了方法f可以抛出的被检查异常集合。一个方法可以抛出的被检查异常集合是它所适用的所有类型声明要抛出的被检查异常集合的`交集`，而不是合集。因此，静态类型为Type3的对象上的f方法根本就不能抛出任何被检查异常。因此Arcane3可以毫无错误的通过编译，并且打印Hello world。
+
+### 5.1.10.3 不受欢迎的宾客：
+
+下面的程序会打印出什么呢？
+
+```java
+public class UnwelcomeGuest {
+    public static final long GUEST_USER_ID = -1;
+    private static final long USER_ID;
+
+    static {
+        try {
+            USER_ID = getUserIdFromEnvironment();
+        } catch (IdUnavailableException e) {
+            USER_ID = GUEST_USER_ID;
+            System.out.println("Logging in as guest");
+        }
+    }
+
+    private static long getUserIdFromEnvironment() 
+        throws IdUnavailableException {
+        throw new IdUnavailableException();
+    }
+
+    public static void main(String[] args) {
+        System.out.println("User ID: " + USER_ID);
+    }
+}
+
+class IdUnavailableException extends Exception {
+}
+```
+
+运行结果：
+
+```java
+UnwelcomeGuest.java:10: variable USER_ID might already have been assigned
+            USER_ID = GUEST_USER_ID;
+            ^
+1 error
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## 5.2 集合
+
+### 5.2.1 简介：
+
+在编程时，可以使用数组保存多个对象，但数组长度不可变化，一旦在初始化数组时指定了长度，这个数组长度是不可变的。如果需要保存数量变化的数据，数组就有点无能为力了。而且数组无法保存具有映射关系的的数据，如成绩表为语文—79，数学—80，这种数据看上去像两个数组，但这两个数组的元素之间有一定的关联关系。
+
+为了保存数量不确定的数据，以及保存具有映射关系的数据，Java提供了集合类。**集合类主要负责保存、盛装其他数据，因此集合类也被称为容器类**。Java所有的集合类都位于java.util包下，提供了一个表示和操作对象集合的统一架构，包含大量集合接口，以及这些接口的实现类和操作它们的算法。
+
+集合类和数组不一样，数组元素既可以是基本类型的值，也可以是对象（实际上保存的是对象的引用），而集合里只能保存对象（实际上只是保存对象的引用变量，但通常习惯上认为集合里保存的是对象）。
+
+`Java集合类型分为Collection和Map`，它们是Java集合的根接口，这两个接口
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
