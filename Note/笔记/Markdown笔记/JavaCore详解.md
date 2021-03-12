@@ -3451,7 +3451,7 @@ Arcane1.java:9: exception java.io.IOException is never thrown in body of corresp
 
 上述分析的缺陷在于对“Type3.f可以抛出在Type1.f上声明的异常和在Type2.f上声明的异常”所做的假设。这并不正确，因为每一个接口都限制了方法f可以抛出的被检查异常集合。一个方法可以抛出的被检查异常集合是它所适用的所有类型声明要抛出的被检查异常集合的`交集`，而不是合集。因此，静态类型为Type3的对象上的f方法根本就不能抛出任何被检查异常。因此Arcane3可以毫无错误的通过编译，并且打印Hello world。
 
-### 5.1.10.3 不受欢迎的宾客：
+#### 5.1.10.3 不受欢迎的宾客：
 
 下面的程序会打印出什么呢？
 
@@ -3492,7 +3492,94 @@ UnwelcomeGuest.java:10: variable USER_ID might already have been assigned
 1 error
 ```
 
+结果说明：
 
+该程序看起来很直观。对getUserIDFromEnvironment的调用将抛出一个异常，从而使程序将GUEST_USER_ID(-1L)赋值给USER_ID，并打印Logging in as guest，然后main方法执行，使程序打印User ID：-1。表象再次欺骗了我们，该程序并不能编译。如果你试着去编译它，你将看到一条错误信息。
+
+问题出在哪里呢？USER_ID域是一个空final（blank final），它是一个在声明中没有进行初始化操作的final域。很明显，只有在对USER_ID赋值失败时，才会在try语句块中抛出异常，因此，在catch块中赋值是相当安全的。
+
+不管怎样执行静态初始化操作语句块，只会对USER_ID赋值一次，这正是空final所要求的。为什么编译器不知道这些呢？
+
+要确定一个程序是否可以不止一次的对一个空final进行赋值是一个很困难的问题。事实上，这是不可能的。这等价于经典的停机问题，它通常被认为是不可能解决的。为了能够编写出一个编译器，语言规范在这一点上采用了保守的方式。在程序中，一个空final域只有在它是明确未赋过值的地方才可以被赋值。规范长篇大论，对此术语提供了一个准确的但保守的定义。因为它是保守的，所以编译器必须拒绝某些可以证明是安全的程序。
+
+解决这类问题的最好方式就是将这个烦人的域从空final类型改变为普通的final类型，用一个静态域的初始化操作替换掉静态的初始化语句块。实现这一点的最佳方式是重构静态语句块中的代码为一个助手方法：
+
+```java
+public class UnwelcomeGuest {
+    public static final long GUEST_USER_ID = -1;
+    private static final long USER_ID = getUserIdOrGuest();
+    private static long getUserIdOrGuest() {
+        try {
+            return getUserIdFromEnvironment();
+        } catch (IdUnavailableException e) {
+            System.out.println("Logging in as guest");
+            return GUEST_USER_ID;
+        }
+    }
+
+    private static long getUserIdFromEnvironment() 
+        throws IdUnavailableException {
+        throw new IdUnavailableException();
+    }
+
+    public static void main(String[] args) {
+        System.out.println("User ID: " + USER_ID);
+    }
+}
+
+class IdUnavailableException extends Exception {
+}
+```
+
+程序的这个版本很显然是正确的，而且比最初的版本更具有可读性，因为它为了域值的计算而增加了一个描述性的名字，而最初的版本只有一个匿名的静态初始化操作语句块。将这样的修改作用于程序，它就可以如我们的期望来运行了。总之，大多数程序员都不需要学习明确赋值规则的细节。该规则的作为通常都是正确的。如果你必须重构一个程序，以消除由明确赋值规则所引发的错误，那么你应该考虑添加一个新方法。这样做除了可以解决明确赋值问题，还可以使程序的可读性提高。
+
+#### 5.1.10.4 您好，再见！
+
+下面的程序将会打印出什么呢？
+
+```java
+public class HelloGoodbye {
+    public static void main(String[] args) {
+        try {
+            System.out.println("Hello world");
+            System.exit(0);
+        } finally {
+            System.out.println("Goodbye world");
+        }
+    }
+}
+```
+
+运行结果：
+
+```java
+Hello world
+```
+
+结果说明：
+
+不论try语句块的执行是正常的还是意外的结束，finally语句块确实都会执行。然而在这个程序中，try语句块根本就没有结束其执行过程。System.exit方法将停止当前线程和所有其他当场死亡的线程。finally子句的出现并不能给与线程继续去执行的特殊权限。
+
+当System.exit被调用时，虚拟机在关闭前要执行两项清理工作。首先，它执行所有的关闭挂钩操作，这些挂钩已经注册到了Runtime.addShutdownHook上。这对于释放VM之外的资源将很有帮助。务必要为那些必须在VM退出之前发生的行为关闭挂钩。下面的程序版本示范了这种技术，它可以如我们所期望的打印出Hello world和Goodbye world：
+
+```java
+public class HelloGoodbye1 {
+    public static void main(String[] args) {
+        System.out.println("Hello world");
+        Runtime.getRuntime().addShutdownHook(
+        new Thread() {
+            public void run() {
+            System.out.println("Goodbye world");
+            }
+        });
+        System.exit(0);
+    }
+}
+```
+
+VM执行在System.exit被调用时执行的第二个清理任务与终结器有关。如果System.runFinalizerOnExit或它的魔鬼双胞胎Runtime.runFinalizersOnExit被调用了，那么VM将在所有还未终结的对象上面调用终结器。这些方法很久以前就过时了，而且原因也合理。无论什么原因，永远不要调用System.runFinalizersOnExit和Runtime.runFinalizersOnExit：它们属于Java类库中最危险的方法之一。调用这些方法导致的结果是，终结器会在那些其他线程正在并发操作的对象上面运行，从而导致不确定的行为或导致死锁。
+
+总之，System.exit将立即停止所有的程序线程，它并不会使finally语句块得到调用，但是它在停止VM之前会执行关闭挂钩操作。
 
 
 
