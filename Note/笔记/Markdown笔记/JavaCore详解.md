@@ -3339,6 +3339,8 @@ try {
 
 ### 5.1.10 《Java Puzzles》中关于异常的几个迷题：
 
+> 参考：https://www.cnblogs.com/skywang12345/p/3544353.html
+
 #### 5.1.10.1 优柔寡断：
 
 ```java
@@ -3581,27 +3583,139 @@ VM执行在System.exit被调用时执行的第二个清理任务与终结器有�
 
 总之，System.exit将立即停止所有的程序线程，它并不会使finally语句块得到调用，但是它在停止VM之前会执行关闭挂钩操作。
 
+#### 5.1.10.5 不情愿的构造器：
 
+下面的程序将打印出什么呢？
 
+```java
+public class Reluctant {
+    private Reluctant internalInstance = new Reluctant();
+    public Reluctant() throws Exception {
+        throw new Exception("I'm not coming out");
+    }
+    public static void main(String[] args) {
+        try {
+            Reluctant b = new Reluctant();
+            System.out.println("Surprise!");
+        } catch (Exception ex) {
+            System.out.println("I told you so");
+        }
+    }
+}
+```
 
+运行结果：
 
+```java
+Exception in thread "main" java.lang.StackOverflowError
+    at Reluctant.<init>(Reluctant.java:3)
+    ...
+```
 
+结果说明：
 
+main方法调用了Reluctant构造器，它将抛出一个异常。你可能期望catch子句能够捕获这个异常，并且打印 "I told you so"。凑近仔细看看就会发现Reluctant实例还包含第二个内部实例，它的构造器也会抛出一个异常。无论抛出哪一个异常，看起来main中catch子句都应该捕获它，因此预测该程序将打印 "I told you so"应该是一个安全的赌注。但是当你尝试着去运行它时，就会发现它压根没有去做这类的事情：它抛出了StackOverflowError异常，为什么呢？
 
+与大多数抛出StackOverflowError异常的程序一样，本程序包含了一个无限递归。当你调用一个构造器时，实例变量的初始化操作将先于构造器的程序体而运行。在本迷题中，internalInstance变量的初始化操作递归调用了构造器，而该构造器通过再次调用Reluctant构造器而初始化变量自己的internalInstance域，如此无限递归下去。这些递归调用在构造器程序体获得执行机会之前就会抛出StackOverflowError异常，因为StackOverflowError是Error的子类别而不是Exception的子类型，所以catch语句无法捕获它。对于一个对象包含它与自己类型相同的实例的情况并不少见。例如，链表列表节点、树节点和图节点都属于这种情况。你必须得非常小心的初始化这样的包含实例，以避免StackOverflowError异常。
 
+#### 5.1.10.6 域和流：
 
+下面的方法将一个文件拷贝到另一个文件，并且被设计为要关闭它所创建的每一个流，即使它碰到I/O错误也要如此。遗憾的是，它并非总是能够做到这一点。为什么不能呢？你如何才能修正它？
 
+```java
+static void copy(String src, String dest) throws IOException {
+    InputStream in = null;
+    OutputStream out = null;
+    try {
+        in = new FileInputStream(src);
+        out = new FileOutputStream(dest);
+        byte[] buf = new byte[1024];
+        int n;
+        while ((n = in.read(buf)) > 0)
+            out.write(buf, 0, n);
+    } finally {
+        if (in != null) in.close();
+        if (out != null) out.close();
+    }
+}
+```
 
+迷题分析：
 
+这个程序看起来已经面面俱到了。其流域（in和out）被初始化为null，并且新的流一旦被创建，它们马上就被设置为这些流域的新值。对于这些域所引用的流，如果不为空，则finally语句块会将其关闭。即便在拷贝操作引发了一个IOExcetion的情况下，finally语句块也会在方法返回之前执行，出什么错了呢？
 
+问题在finally语句块中，close方法也可能会抛出IOException。如果这正好发生在in.close()被调用之时，那么这个异常就会阻止out.close()被调用，从而使输出流仍保持在开放状态。请注意，该程序违反了“优柔寡断”的建议：对close()的调用可能会导致finally语句块意外结束。遗憾的是，编译器并不能帮助你发现此问题，因为close方法抛出的异常与read和write抛出的异常类型相同，而且外围方法copy声明将传播该异常。解决方式是将每一个close都包装在一个嵌套的try语句中。
 
+下面的finally语句块的版本可以保证在两个流上都会close：
 
+```java
+try {
+    // 和之前一样
+} finally {
+    if (in != null) {
+        try {
+            in.close();
+        } catch (IOException ex) {
+            // There is nothing we can do if close fails
+        }
+    }
 
+    if (out != null) {
+        try {
+            out.close();
+        } catch (IOException ex) {
+            // There is nothing we can do if close fails
+        }
+    }
+}
+```
 
+#### 5.1.10.7 异常为循环而抛：
 
+下面的程序会打印出什么呢？
 
+```java
+public class Loop {
+    public static void main(String[] args) {
+        int[][] tests = { { 6, 5, 4, 3, 2, 1 }, { 1, 2 },
+            { 1, 2, 3 }, { 1, 2, 3, 4 }, { 1 } };
+        int successCount = 0;
+        try {
+            int i = 0;
+            while (true) {
+                if (thirdElementIsThree(tests[i++]))
+                    successCount ++;
+            }
+        } catch(ArrayIndexOutOfBoundsException e) {
+            // No more tests to process
+        }
+        System.out.println(successCount);
+    }
+    private static boolean thirdElementIsThree(int[] a) {
+        return a.length >= 3 & a[2] == 3;
+    }
+}
+```
 
+运行结果：
 
+```java
+0
+```
+
+结果说明：
+
+该程序主要说明了两个问题：
+
+第一个问题：不应该使用异常作为终止循环的手段！
+
+该程序使用thirdElementIsThree方法测试了tests数组中的每个元素。遍历这个数组的循环显然是非传统的循环：它不是在循环变量等于数组长度的时候终止，而是它视图访问一个并不在数组中的元素时终止。尽管它是非传统的，但是这个循环应该可以工作。
+
+如果传递给thirdElementIsThree的参数具有3个或更多的元素，并且其第三个元素等于3，那么该方法将返回true。对于tests中的5个元素来说，有2个将返回true，因此看起来该程序将打印2。如果你运行它，就会发现它打印的是0。肯定是哪里出问题了，你能确定吗？
+
+事实上，这个程序犯了两个错误。第一个错误是该程序使用了一种可怕的循环惯用法，该惯用法依赖的是对数组的访问会抛出异常。这种惯用法不仅难以阅读，而且运行速度还非常的慢。不要使用异常来进行循环控制：应该只是为异常条件而使用异常。为了纠正这个错误，可以将整个try-finally语句块替换为循环遍历数组的标准惯用法。
+
+第二个问题：主要比较 "&操作符" 和 "&&操作符" 的区别
 
 
 
@@ -3615,15 +3729,30 @@ VM执行在System.exit被调用时执行的第二个清理任务与终结器有�
 
 集合类和数组不一样，数组元素既可以是基本类型的值，也可以是对象（实际上保存的是对象的引用），而集合里只能保存对象（实际上只是保存对象的引用变量，但通常习惯上认为集合里保存的是对象）。
 
-`Java集合类型分为Collection和Map`，它们是Java集合的根接口，这两个接口
+`Java集合类型分为Collection和Map`，它们是Java集合的根接口，这两个接口又包含了一些子接口或实现类。图1和图2分别为Collection和Map的子接口及其实现类。
 
+![img](images/JavaCore详解/5-1912051036333V.png)
 
+​																	图1 Collection接口基本结构
 
+![img](images/JavaCore详解/5-191205103G5960.png)
 
+​													图2 Map接口基本结构
 
+在图1和图2中，黄色块为集合的接口，蓝色块为集合的实现类。
 
+### 5.2.2 Collection接口：
 
+`Collection接口是List、Set和Queue接口的父接口，通常情况下不被直接使用。`Collection接口定义了一些通用的方法，通过这些方法可以实现对集合的基本操作。定义的方法既可用于操作Set集合，也可用于操作List和Queue集合。
 
+这里只介绍两个方法：
+
+- boolean retainAll(Collection c)：Java取两个集合交集的方法
+  - 对于返回值：如果两个完全相同，那么返回值为false；只要两个集合不完全相同，返回值就是true。
+  - 对于交集：   两个集合的交集会保存在调用对象里面，如果没有交集，那么调用对象里面就没有元素
+- boolean removeAll(Collection c)：从列表中移除指定Collection中包含的所有元素
+  - 对于返回值：如果指定的Collection c中，即列表移除了元素，就返回true，否则返回false。
+  - 对于交接：   两个集合否有的元素会从列表中移除。
 
 
 
