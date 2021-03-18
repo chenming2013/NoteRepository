@@ -3745,6 +3745,12 @@ public class Loop {
 
 `Collection接口是List、Set和Queue接口的父接口，通常情况下不被直接使用。`Collection接口定义了一些通用的方法，通过这些方法可以实现对集合的基本操作。定义的方法既可用于操作Set集合，也可用于操作List和Queue集合。
 
+为了方便，Java抽象出了AbstractCollection抽象类，它实现了Collection中的绝大部分函数；这样，在Collection的实现类中，我们就可以通过继承AbstractCollection省去重复编码。AbstractList和AbstractSet都继承于AbstractCollection，具体的List实现继承于AbstractList，而Set的实现类继承于AbstractSet。
+
+另外，Collection中有一个Iterator()函数，它的作用是返回一个Iterator接口。通常，我们通过Iterator迭代器来遍历集合。ListIterator是List接口所特有的，在List接口中，通过listIterator()返回一个ListIterator对象。
+
+
+
 这里只介绍两个方法：
 
 - boolean retainAll(Collection c)：Java取两个集合交集的方法
@@ -3752,7 +3758,207 @@ public class Loop {
   - 对于交集：   两个集合的交集会保存在调用对象里面，如果没有交集，那么调用对象里面就没有元素
 - boolean removeAll(Collection c)：从列表中移除指定Collection中包含的所有元素
   - 对于返回值：如果指定的Collection c中，即列表移除了元素，就返回true，否则返回false。
-  - 对于交接：   两个集合否有的元素会从列表中移除。
+  - 对于交集：   两个集合都有的元素会从列表中移除。
+
+### 5.2.3 List集合：
+
+List是一个`有序、可重复的集合`，集合中每个元素都有其对应的顺序索引。List集合允许使用重复元素，可以通过索引来访问指定位置的集合元素。List集合默认按元素的添加顺序设置元素的索引，第一个添加到List集合的元素的索引为0，第二个1，依次类推。
+
+#### 5.2.3.1 ArrayList：
+
+`ArrayList实现了可变数组的大小`，存储在内的数据称为元素。它还提供了快速`基于索引访问元素的方式，对尾部成员的增加和删除支持较好`。使用ArrayList创建的集合，允许对集合中的元素进行快速的随机访问，不过，向ArrayList中插入和删除元素的速度相对较慢。
+
+#### 5.2.3.2 LinkedList：
+
+`LinkedList采用链表结构保存元素`，这种结构的优点是便于向集合中插入或删除元素。需要频繁向集合中插入和删除元素时，使用LinkedList类比ArrayList类效率更高，但是LinkedList随机访问元素的速度则相对较慢。这里的随机访问是指检索集合中特定索引位置的元素。
+
+### 5.2.4 Set集合：
+
+Set集合类似于一个罐子，程序可以依次把多个对象“丢进”Set集合，而Set集合通常不能记住元素的添加顺序。也就是说`Set集合中的对象不按特定的方式排序`，只是简单的把对象加入集合。
+
+- Set集合不能包含重复的对象，如果Set中添加两个相同的元素，则后添加的会覆盖前面添加的元素，即在Set集合中不会出现相同的元素。
+- 最多只允许包含一个null元素。
+
+#### 5.2.4.1 HashSet：
+
+HashSet是Set接口的典型实现，大多数使用Set集合时就是使用这个实现类。HashSet是按照hash算法来存储集合中的元素。因此具有很好的存取和查找性能。
+
+HashSet具有以下特点：
+
+- 不能保证元素的排列顺序，顺序可能与添加顺序不同，顺序也有可能发生变化。
+- HashSet不是同步的，如果多个线程同时访问或修改一个HashSet，则必须通过代码来保证其同步。
+- 集合元素可以是null。
+
+当向HashSet集合中存入一个元素时，HashSet会调用该对象的hashCode()方法来得到该对象的hashCode值，然后根据该hashCode值决定该对象在HashSet中的存储位置。如果两个元素通过equals()方法比较返回的结果为true，但它们的hashCode不相等，HashSet将会把它们存储在不同的位置，依然可以添加成功。
+
+也就是说，两个对象的hashCode值相等且通过equals()方法比较返回结果为true，则HashSet集合认为两个元素相等。
+
+#### 5.2.4.2 TreeSet：
+
+`TreeSet类同时实现了Set接口和SortedSet接口。SortedSet接口是Set接口的子接口，可以实现对集合进行自然排序`，因此使用TreeSet类实现的Set接口默认情况下是自然排序的，这里的自然排序指的是生序排序。
+
+TreeSet只能对实现了Comparable接口的类对象进行排序，因为Comparable接口中有一个compareTo(Object o)方法用于比较两个对象的大小。
+
+### 5.2.5 Map：
+
+Map是一种键值对(key-value)集合，Map集合中的每一个元素都包含一个键(key)对象和一个值(value)对象。用于保存具有映射关系的数据。
+
+Map集合里保存着两组值，一组值用于保存Map里的key，另外一组值用于保存Map里的value，key和value都可以使任何引用类型的数据。Map的key不允许重复，value可以重复。
+
+Map中的key和value之间存在单向一对一关系，即通过指定的key，总能找到唯一的、确定的value。从Map中取出数据时，只要给出指定的key，就可以取出对应的value。
+
+### 5.2.6 AbstractCollection：
+
+AbstractCollection的定义如下：
+
+```java
+public abstract class AbstractCollection<E> implements Collection<E>{
+    //...
+}
+```
+
+AbstractCollection是一个抽象类，它实现了Collection中除iterator()和size()之外的函数。
+
+AbstractCollection的主要作用：它实现了Collection接口中的大部分函数。从而方便其他实现类Collection，比如ArrayList、LinkedList等，它们这些类想要实现Collection接口，通过继承AbstractCollection就已经实现了大部分的接口了。
+
+### 5.2.7 AbstractList：
+
+AbstractList的定义如下：
+
+```java
+public abstract class AbstractList<E> extends AbstractCollection<E> implements List<E> {
+    //...
+}
+```
+
+AbstractList是一个继承于AbstractCollection，并且实现List接口的抽象类。它实现了List中除size()、get(int location)之外的函数。
+
+AbstractList的主要作用：它实现了List接口中的大部分函数。从而方便其他类继承List。另外，和AbstractCollection相比，AbstractList抽象类中，实现了iterator()接口。
+
+### 5.2.8 AbstractSet：
+
+AbstractSet的定义如下：
+
+```java
+public abstract class AbstractSet<E> extends AbstractCollection<E> implements Set<E> {
+    //...
+}
+```
+
+AbstractSet是一个继承于AbstractCollection，并且实现Set接口的抽象类。由于Set接口和Collection接口中的API完全一样，Set也就没有没有自己单独的API。和AbstractCollection一样，它实现了List中除iterator()和size()之外的函数。
+
+AbstractSet的主要作用：它实现了Set接口中的大部分函数，从而方便其它类实现Set接口。
+
+### 5.2.9 Iterator：
+
+Iterator（迭代器）是一个接口，它的作用就是遍历容器的所有元素，也是Java集合框架的成员，但它与Collection和Map系列的集合不一样，Collection和Map系列集合主要用于盛装其他对象，而Iterator则主要用于遍历（即迭代访问）Collection集合中的元素。
+
+Iterator接口隐藏了各种Collection实现类的底层细节，向应用程序提供了遍历Collection集合元素的统一编程接口。Iterator接口里定义了如下4个接口：
+
+- boolean hasNext()：如果被迭代的集合元素还没有被遍历完，则返回true。
+- Object  next()：返回集合里的下一个元素。
+- void remove()：删除集合里上一次next方法返回的元素。
+- void forEachRemaining(Consumer action)：这是Java 8为Iterator新增的默认方法，该方法可使用Lambda表达式来遍历集合元素。
+
+`当使用Iterator迭代器访问Collection集合元素时，Collection集合里的元素不能被改变`，只有通过Iterator的remove()方法删除上一次next()方法返回的集合元素才可以，否则将会引发`"java.util.ConcurrentModificationException"`异常。
+
+【错误范例】
+
+```java
+public void test1() {
+        List<String> list = new ArrayList<>();
+        list.add("a");
+        list.add("b");
+        list.add("c");
+        list.add("d");
+        list.add("e");
+        list.add("f");
+
+        Iterator<String> iterator = list.iterator();
+        while (iterator.hasNext()) {
+            String item = iterator.next();
+            System.out.println(item);
+            if (item.equals("c")) {
+                // 遍历的时候删除元素不能用集合对象的remove()方法
+                list.remove(item);
+            }
+        }
+}
+```
+
+【正确范例】
+
+```java
+public void test1() {
+        List<String> list = new ArrayList<>();
+        list.add("a");
+        list.add("b");
+        list.add("c");
+        list.add("d");
+        list.add("e");
+        list.add("f");
+
+        Iterator<String> iterator = list.iterator();
+        while (iterator.hasNext()) {
+            String item = iterator.next();
+            System.out.println(item);
+            if (item.equals("c")) {
+                // 遍历的时候若要删除元素,只能用迭代器的remove()方法
+                iterator.remove();
+            }
+        }
+        System.out.println(list.toString());
+}
+```
+
+Iterator迭代器采用的是快速失败（fail-fast）机制，一旦在迭代过程中检测到该集合已经被修改（通常是程序中其它线程修改），程序立即引发ConcurrentModificationException异常，而不是显示修改后的结果，这样可以避免共享资源而引发的潜在问题。
+
+> 快速失败（fail-fast）机制，是Java Collection集合中的一种错误检测机制。
+
+### 5.2.10 ListIterator：
+
+ListIterator的定义如下：
+
+```java
+public interface ListIterator<E> extends Iterator<E> {
+	//...
+}
+```
+
+ListIterator是一个继承于Iterator的接口，它是列表迭代器。专门用于遍历List，能提供向前/向后遍历。相比于Iterator，它新增了添加、是否存在上一个元素、获取上一个元素等等API接口。
+
+### 5.2.11 Java 9新增的不可变集合：
+
+Java 9版本之前，加入要创建一个包含6个元素的Set集合，程序需要先创建Set集合，然后调用6次add()方法向集合中增加元素。Java9对此进行了简化，程序直接调用Set、List、Map的of()方法即可创建包含N个元素的不可变集合，这样一行代码就可以创建包含N个元素的集合。
+
+`不可变意味着程序不能向集合中添加元素，也不能从集合中删除元素。`
+
+如下程序示范了如何创建不可变集合：
+
+```java
+public class Java9Collection {
+    public static void main(String[] args) {
+        // 创建包含4个元素的Set集合
+        Set set = Set.of("Java", "Kotlin", "Go", "Swift");
+        System.out.println(set);
+        // 不可变集合，下面代码导致运行时错误
+        // set.add("Ruby");
+        // 创建包含4个元素的List集合
+        List list = List.of(34, -25, 67, 231);
+        System.out.println(list);
+        // 不可变集合，下面代码导致运行时错误
+        // list.remove(1);
+        // 创建包含3个key-value对的Map集合
+        Map map = Map.of("语文", 89, "数学", 82, "英语", 92);
+        System.out.println(map);
+        // 不可变集合，下面代码导致运行时错误
+        // map.remove("语文");
+        // 使用Map.entry()方法显式构建key-value对
+        Map map2 = Map.ofEntries(Map.entry("语文", 89), Map.entry("数学", 82), Map.entry("英语", 92));
+        System.out.println(map2);
+    }
+}
+```
 
 
 
@@ -3761,6 +3967,42 @@ public class Loop {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+## 5.3 泛型
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## 5.4 包装类
 
 
 
