@@ -4172,7 +4172,23 @@ private int size;
 
 7. removeAll()：
 
-   
+   求两个集合的单方向差集，只保留当前集合中不在c中的元素，不保留在c中不在当前集体中的元素。
+  
+  ```java
+  public boolean removeAll(Collection<?> c) {
+      // 集合c不能为空
+      Objects.requireNonNull(c);
+      // 同样调用批量删除方法，这时complement传入false，表示删除包含在c中的元素
+      return batchRemove(c, false);
+  }
+  ```
+  
+  与retainAll方法类似，只是这里保留的是不在c中的元素。
+
+###### 5.2.3.1.2.4 总结：
+
+- ArrayList内部使用数组存储元素，当数组长度不够时进行扩容，每次增加一半的空间，ArrayList不会进行缩容。
+- ArrayList支持随机访问，通过索引
 
 
 
