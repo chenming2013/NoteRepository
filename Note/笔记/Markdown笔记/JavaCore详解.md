@@ -4173,7 +4173,7 @@ private int size;
 7. removeAll()：
 
    求两个集合的单方向差集，只保留当前集合中不在c中的元素，不保留在c中不在当前集体中的元素。
-  
+
   ```java
   public boolean removeAll(Collection<?> c) {
       // 集合c不能为空
@@ -4182,37 +4182,390 @@ private int size;
       return batchRemove(c, false);
   }
   ```
-  
+
   与retainAll方法类似，只是这里保留的是不在c中的元素。
 
-###### 5.2.3.1.2.4 总结：
+##### 5.2.3.1.3 总结：
 
-- ArrayList内部使用数组存储元素，当数组长度不够时进行扩容，每次增加一半的空间，ArrayList不会进行缩容。
-- ArrayList支持随机访问，通过索引
+- ArrayList内部使用数组存储元素，当数组长度不够时进行扩容，每次增加一半的空间，ArrayList不会进行缩容；
+- ArrayList支持随机访问，通过索引访问元素极快，时间复杂度为O(1)；
+- ArrayList添加元素到末尾极快，平均时间复杂度为O(1)；
+- ArrayList添加元素到中间比较慢，因为要搬移元素，平均时间复杂度为O(n)；
+- ArrayList从尾部删除元素极快，时间复杂度为O(1)；
+- ArrayList从中间删除元素极慢，因为要搬移元素，平均时间复杂度为O(n)；
 
+##### 5.2.3.1.4 解疑答惑：
 
+1. elementData为什么要设置成transient？
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+   > [参考]https://blog.csdn.net/u011733020/article/details/98878453
 
 #### 5.2.3.2 LinkedList：
 
-`LinkedList采用链表结构保存元素`，这种结构的优点是便于向集合中插入或删除元素。需要频繁向集合中插入和删除元素时，使用LinkedList类比ArrayList类效率更高，但是LinkedList随机访问元素的速度则相对较慢。这里的随机访问是指检索集合中特定索引位置的元素。
+`LinkedList采用链表结构保存元素，是一个以双链表实现的List`，这种结构的优点是便于向集合中插入或删除元素。需要频繁向集合中插入和删除元素时，使用LinkedList类比ArrayList类效率更高，但是LinkedList随机访问元素的速度则相对较慢。这里的随机访问是指检索集合中特定索引位置的元素。
+
+##### 5.2.3.2.1 继承体系：
+
+![img](images/JavaCore详解/LinkedList.png)
+
+通过继承体系，可以看到LinkedList不仅实现了List接口，还实现了Queue和Deque接口，所以它既能作为List使用，也能作为双端队列使用，当然也可以作为栈使用。
+
+##### 5.2.3.2.2 源码详解：
+
+###### 5.2.3.2.2.1 主要属性：
+
+```java
+// 元素个数
+transient int size = 0;
+// 链表首节点
+transient Node<E> first;
+// 链表尾节点
+transient Node<E> last;
+```
+
+###### 5.2.3.2.2.2 主要内部类：
+
+典型的双链表结构
+
+```java
+private static class Node<E> {
+    E item;
+    Node<E> next;
+    Node<E> prev;
+
+    Node(Node<E> prev, E element, Node<E> next) {
+        this.item = element;
+        this.next = next;
+        this.prev = prev;
+    }
+}
+```
+
+###### 5.2.3.2.2.3 主要构造方法：
+
+```java
+public LinkedList() {
+}
+
+public LinkedList(Collection<? extends E> c) {
+    this();
+    addAll(c);
+}
+```
+
+###### 5.2.3.2.2.4 普通方法：
+
+1. 添加元素：
+
+   作为一个双端队列，添加元素主要有两种，一种是在队列尾部添加元素，一种是在队列首部添加元素，这两种形式在LinkedList中主要通过下面两个方法来实现的。
+
+   ```java
+   // 从队列首添加元素
+   private void linkFirst(E e) {
+       // 首节点
+       final Node<E> f = first;
+       // 创建新节点，新节点的next是首节点
+       final Node<E> newNode = new Node<>(null, e, f);
+       // 让新节点作为新的首节点
+       first = newNode;
+       // 判断是不是第一个添加的元素
+       // 如果是就把last也置为新节点
+       // 否则把原首节点的prev指针置为新节点
+       if (f == null)
+           last = newNode;
+       else
+           f.prev = newNode;
+       // 元素个数加1
+       size++;
+       // 修改次数加1，说明这是一个支持fail-fast的集合
+       modCount++;
+   }
+   
+   // 从队列尾添加元素
+   void linkLast(E e) {
+       // 队列尾节点
+       final Node<E> l = last;
+       // 创建新节点，新节点的prev是尾节点
+       final Node<E> newNode = new Node<>(l, e, null);
+       // 让新节点成为新的尾节点
+       last = newNode;
+       // 判断是不是第一个添加的元素
+       // 如果是就把first也置为新节点
+       // 否则把原尾节点的next指针置为新节点
+       if (l == null)
+           first = newNode;
+       else
+           l.next = newNode;
+       // 元素个数加1
+       size++;
+       // 修改次数加1
+       modCount++;
+   }
+   
+   public void addFirst(E e) {
+       linkFirst(e);
+   }
+   
+   public void addLast(E e) {
+       linkLast(e);
+   }
+   
+   // 作为无界队列，添加元素总是会成功的
+   public boolean offerFirst(E e) {
+       addFirst(e);
+       return true;
+   }
+   
+   public boolean offerLast(E e) {
+       addLast(e);
+       return true;
+   }
+   ```
+
+   典型的双链表在首尾添加元素的方法。
+
+   上面是作为双端队列来看，它的添加元素分为首尾添加元素，那么作为List呢？
+
+   作为List，是要支持在中间添加元素的，主要是通过下面的方法实现的。
+
+   ```java
+   // 在节点succ之前添加元素
+   void linkBefore(E e, Node<E> succ) {
+       // succ是待添加节点的后继节点
+       // 找到待添加节点的前置节点
+       final Node<E> pred = succ.prev;
+       // 在其前置节点和后继节点之间创建一个新节点
+       final Node<E> newNode = new Node<>(pred, e, succ);
+       // 修改后继节点的前置指针指向新节点
+       succ.prev = newNode;
+       // 判断前置节点是否为空
+       // 如果为空，说明是第一个添加的元素，修改first指针
+       // 否则修改前置节点的next为新节点
+       if (pred == null)
+           first = newNode;
+       else
+           pred.next = newNode;
+       // 修改元素个数
+       size++;
+       // 修改次数加1
+       modCount++;
+   }
+   
+   // 寻找index位置的节点
+   Node<E> node(int index) {
+       // 因为是双链表
+       // 所以根据index是在前半段还是后半段决定从前遍历还是从后遍历
+       // 这样index在后半段的时候可以少遍历一半的元素
+       if (index < (size >> 1)) {
+           // 如果是在前半段
+           // 就从前遍历
+           Node<E> x = first;
+           for (int i = 0; i < index; i++)
+               x = x.next;
+           return x;
+       } else {
+           // 如果是在后半段
+           // 就从后遍历
+           Node<E> x = last;
+           for (int i = size - 1; i > index; i--)
+               x = x.prev;
+           return x;
+       }
+   }
+   
+   // 在指定index位置处添加元素
+   public void add(int index, E element) {
+       // 判断是否越界
+       checkPositionIndex(index);
+       // 如果index是在队列尾节点之后的一个位置
+       // 把新节点直接添加到尾节点之后
+       // 否则调用linkBefore()方法在中间添加节点
+       if (index == size)
+           linkLast(element);
+       else
+           linkBefore(element, node(index));
+   }
+   ```
+
+   添加元素的三种方式大致如下图所示：
+
+   ![img](images/JavaCore详解/LinkedList-1.png)
+
+2. 删除元素：
+
+   作为双端队列，删除元素有两种方式，一种是队列首删除元素，一种是队列尾删除元素。
+
+   作为List，又要支持中间删除元素，所有删除元素一共有三个方法，分别如下：
+
+   ```java
+   // 删除首节点
+   private E unlinkFirst(Node<E> f) {
+       // 首节点的元素值
+       final E element = f.item;
+       // 首节点的next指针
+       final Node<E> next = f.next;
+       // 添加首节点的内容，协助GC
+       f.item = null;
+       f.next = null; // help GC
+       // 把首节点的next作为新的首节点
+       first = next;
+       // 如果只有一个元素，删除了，把last也置为空
+       // 否则把next的前置指针置为空
+       if (next == null)
+           last = null;
+       else
+           next.prev = null;
+       // 元素个数减1
+       size--;
+       // 修改次数加1
+       modCount++;
+       // 返回删除的元素
+       return element;
+   }
+   // 删除尾节点
+   private E unlinkLast(Node<E> l) {
+       // 尾节点的元素值
+       final E element = l.item;
+       // 尾节点的前置指针
+       final Node<E> prev = l.prev;
+       // 清空尾节点的内容，协助GC
+       l.item = null;
+       l.prev = null; // help GC
+       // 让前置节点成为新的尾节点
+       last = prev;
+       // 如果只有一个元素，删除了把first置为空
+       // 否则把前置节点的next置为空
+       if (prev == null)
+           first = null;
+       else
+           prev.next = null;
+       // 元素个数减1
+       size--;
+       // 修改次数加1
+       modCount++;
+       // 返回删除的元素
+       return element;
+   }
+   // 删除指定节点x
+   E unlink(Node<E> x) {
+       // x的元素值
+       final E element = x.item;
+       // x的前置节点
+       final Node<E> next = x.next;
+       // x的后置节点
+       final Node<E> prev = x.prev;
+   
+       // 如果前置节点为空
+       // 说明是首节点，让first指向x的后置节点
+       // 否则修改前置节点的next为x的后置节点
+       if (prev == null) {
+           first = next;
+       } else {
+           prev.next = next;
+           x.prev = null;
+       }
+   
+       // 如果后置节点为空
+       // 说明是尾节点，让last指向x的前置节点
+       // 否则修改后置节点的prev为x的前置节点
+       if (next == null) {
+           last = prev;
+       } else {
+           next.prev = prev;
+           x.next = null;
+       }
+   
+       // 清空x的元素值，协助GC
+       x.item = null;
+       // 元素个数减1
+       size--;
+       // 修改次数加1
+       modCount++;
+       // 返回删除的元素
+       return element;
+   }
+   // remove的时候如果没有元素抛出异常
+   public E removeFirst() {
+       final Node<E> f = first;
+       if (f == null)
+           throw new NoSuchElementException();
+       return unlinkFirst(f);
+   }
+   // remove的时候如果没有元素抛出异常
+   public E removeLast() {
+       final Node<E> l = last;
+       if (l == null)
+           throw new NoSuchElementException();
+       return unlinkLast(l);
+   }
+   // poll的时候如果没有元素返回null
+   public E pollFirst() {
+       final Node<E> f = first;
+       return (f == null) ? null : unlinkFirst(f);
+   }
+   // poll的时候如果没有元素返回null
+   public E pollLast() {
+       final Node<E> l = last;
+       return (l == null) ? null : unlinkLast(l);
+   }
+   // 删除中间节点
+   public E remove(int index) {
+       // 检查是否越界
+       checkElementIndex(index);
+       // 删除指定index位置的节点
+       return unlink(node(index));
+   }
+   ```
+
+   删除元素的三种方法都是典型的双链表删除元素的方法，大致流程如下图所示：
+
+   ![img](images/JavaCore详解/LinkedList-2.png)
+
+###### 5.2.3.2.2.5 栈：
+
+LinkedList是双端队列，还记得双端队列可以作为栈使用吗？
+
+```java
+public void push(E e) {
+    addFirst(e);
+}
+
+public E pop() {
+    return removeFirst();
+}
+```
+
+栈的特性是LIFO（Last In First Out），所以作为栈使用也很简单，添加元素都只操作队列首节点即可。
+
+5.2.3.2.2.6 总结：
+
+- LinkedList是一个以双链表实现的List；
+- LinkedList还是一个双端队列，具有队列、双端队列、栈的特性；
+- LinkedList在功能上等于ArrayList + ArrayDeque；
+
+##### 5.2.3.2.3 解疑答惑：
+
+###### 5.2.3.2.3.1 头指针、头结点、首元结点：
+
+> [参考]https://blog.51cto.com/12261659/1912664
+
+1. 头结点：
+
+   头结点是链表里面的第一个节点，它的数据域可以不存放任何信息（有时候也会存放链表的长度等信息），它的指针区域存放的是链表中第一个数据元素的节点（就是传说中的首元结点）存放的地址。
+
+   头结点的好处：
+
+   - 为了方便链表的特殊操作，插入在表头或者删除第一个结点，这样就保持了链表操作的一致性。
+
+2. 首元结点：
+
+   首元结点就是链表里面第一个存放元素的节点，在存在头结点的情况下，头结点的指针区域指的就是首元结点。
+
+3. 头指针：
+
+   如果链表里有头结点，头指针就指向头结点；如果没有头结点，头指针就指向首元结点。
+
+> 注：LinkedList没有头结点
 
 ### 5.2.4 Set集合：
 
@@ -4248,6 +4601,319 @@ Map是一种键值对(key-value)集合，Map集合中的每一个元素都包含
 Map集合里保存着两组值，一组值用于保存Map里的key，另外一组值用于保存Map里的value，key和value都可以使任何引用类型的数据。Map的key不允许重复，value可以重复。
 
 Map中的key和value之间存在单向一对一关系，即通过指定的key，总能找到唯一的、确定的value。从Map中取出数据时，只要给出指定的key，就可以取出对应的value。
+
+#### 5.2.5.1 HashMap：
+
+##### 5.2.5.1.1 继承体系：
+
+![img](images/JavaCore详解/HashMap.png)
+
+##### 5.2.5.1.2 存储结构：
+
+![img](images/JavaCore详解/HashMap-structure.png)
+
+在Java中，HashMap的实现采用了（数组+链表+红黑树）的复杂结构，数组的一个元素又称为桶。
+
+在添加元素时，会根据hash值算出元素在数组中的位置，如果该位置没有元素，则直接把元素放置在此处，如果该位置有元素了，则把元素以链表的形式放置在链表的尾部。
+
+当一个链表的元素个数达到一定的数量（且数组的长度达到一定的长度）后，则把该链表转化为红黑树，从而提升效率。
+
+数组的查询效率为O(1)，链表的查询效率是O(k)，红黑树的查询效率是O(logk)，k为桶中元素的个数，所以当元素数量非常多的时候，转化为红黑树能极大的提高效率。
+
+##### 5.2.5.1.3 源码详解：
+
+###### 5.2.5.1.3.1 属性：
+
+```java
+/**
+ * 默认的初始容量为16
+ */
+static final int DEFAULT_INITIAL_CAPACITY = 1 << 4;
+
+/**
+ * 最大的容量为2的30次方
+ */
+static final int MAXIMUM_CAPACITY = 1 << 30;
+
+/**
+ * 默认的装载因子
+ */
+static final float DEFAULT_LOAD_FACTOR = 0.75f;
+
+/**
+ * 当一个桶中的元素个数大于等于8时进行树化
+ */
+static final int TREEIFY_THRESHOLD = 8;
+
+/**
+ * 当一个桶中的元素个数小于等于6时把树转化为链表
+ */
+static final int UNTREEIFY_THRESHOLD = 6;
+
+/**
+ * 当桶的个数达到64的时候才进行树化
+ */
+static final int MIN_TREEIFY_CAPACITY = 64;
+
+/**
+ * 数组，数组中的每一个元素又叫做一个作桶（bucket）
+ */
+transient Node<K,V>[] table;
+
+/**
+ * 作为entrySet()的缓存
+ */
+transient Set<Map.Entry<K,V>> entrySet;
+
+/**
+ * 元素的数量
+ */
+transient int size;
+
+/**
+ * 修改次数，用于在迭代的时候执行快速失败策略
+ */
+transient int modCount;
+
+/**
+ * 当桶的使用数量达到多少时进行扩容，threshold = capacity * loadFactor
+ */
+int threshold;
+
+/**
+ * 装载因子
+ */
+final float loadFactor;
+```
+
+1）容量：容量为数组的长度，亦即桶的个数，默认为16，最大为2的30次方，当容量达到64时才可以树化。
+
+2）装载因子：装载因子用来计算容量达到多少时才进行扩容，默认装载因子是0.75。
+
+3）树化：当容量达到64且链表的长度达到8时进行树化。
+
+###### 5.2.5.1.3.2 Node内部类：
+
+Node是一个典型的单链表节点，其中，hash用来存储key计算得来的hash值。
+
+```java
+static class Node<K,V> implements Map.Entry<K,V> {
+    final int hash;
+    final K key;
+    V value;
+    Node<K,V> next;
+}
+```
+
+###### 5.2.5.1.3.3 TreeNode内部类：
+
+这是一个神奇的类，它继承自LinkedHashMap中的Entry类，关于LinkedHashMap.Entry这个类我们后面再讲。
+
+TreeNode是一个典型的树型节点，其中，prev是链表中的节点，用于在删除的时候可以快速找到它的前置节点。
+
+```java
+// 位于HashMap中
+static final class TreeNode<K,V> extends LinkedHashMap.Entry<K,V> {
+    TreeNode<K,V> parent;  // red-black tree links
+    TreeNode<K,V> left;
+    TreeNode<K,V> right;
+    TreeNode<K,V> prev;    // needed to unlink next upon deletion
+    boolean red;
+}
+
+// 位于LinkedHashMap中，典型的双向链表节点
+static class Entry<K,V> extends HashMap.Node<K,V> {
+    Entry<K,V> before, after;
+    Entry(int hash, K key, V value, Node<K,V> next) {
+        super(hash, key, value, next);
+    }
+}
+```
+
+###### 5.2.5.1.3.4 构造方法：
+
+1. HashMap()构造方法：
+
+   空参构造方法，全部使用默认值。
+
+   ```java
+   public HashMap() {
+       this.loadFactor = DEFAULT_LOAD_FACTOR; // all other fields defaulted
+   }
+   ```
+
+2. HashMap(int initialCapacity)构造方法：
+
+   调用HashMap(int initialCapacity, float loadFactory)构造方法，传入默认装载因子。
+
+   ```java
+   public HashMap(int initialCapacity) {
+       this(initialCapacity, DEFAULT_LOAD_FACTOR);
+   }
+   ```
+
+3. HashMap(int initialCapacity, float loadFactory)：
+
+   判断传入的初始容量和装载因子是否合法，并计算扩容门槛，扩容门槛为传入的初始容量往上取最近的2的n次方。
+
+   ```java
+   public HashMap(int initialCapacity, float loadFactor) {
+       // 检查传入的初始容量是否合法
+       if (initialCapacity < 0)
+           throw new IllegalArgumentException("Illegal initial capacity: " +
+                                              initialCapacity);
+       if (initialCapacity > MAXIMUM_CAPACITY)
+           initialCapacity = MAXIMUM_CAPACITY;
+       // 检查装载因子是否合法
+       if (loadFactor <= 0 || Float.isNaN(loadFactor))
+           throw new IllegalArgumentException("Illegal load factor: " +
+                                              loadFactor);
+       this.loadFactor = loadFactor;
+       // 计算扩容门槛
+       this.threshold = tableSizeFor(initialCapacity);
+   }
+   
+   static final int tableSizeFor(int cap) {
+       // 扩容门槛为传入的初始容量往上取最近的2的n次方
+       int n = cap - 1;
+       n |= n >>> 1;
+       n |= n >>> 2;
+       n |= n >>> 4;
+       n |= n >>> 8;
+       n |= n >>> 16;
+       return (n < 0) ? 1 : (n >= MAXIMUM_CAPACITY) ? MAXIMUM_CAPACITY : n + 1;
+   }
+   ```
+
+###### 5.2.5.1.3.5 普通方法：
+
+1. put(K key,V value)方法：
+
+   添加元素的入口。
+
+   ```java
+   public V put(K key, V value) {
+       // 调用hash(key)计算出key的hash值
+       return putVal(hash(key), key, value, false, true);
+   }
+   
+   static final int hash(Object key) {
+       int h;
+       // 如果key为null，则hash值为0，否则调用key的hashCode()方法
+       // 并让高16位与整个hash异或，这样做是为了使计算出的hash更分散
+       return (key == null) ? 0 : (h = key.hashCode()) ^ (h >>> 16);
+   }
+   
+   final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
+                  boolean evict) {
+       Node<K, V>[] tab;
+       Node<K, V> p;
+       int n, i;
+       // 如果桶的数量为0，则初始化
+       if ((tab = table) == null || (n = tab.length) == 0)
+           // 调用resize()初始化
+           n = (tab = resize()).length;
+       // (n - 1) & hash 计算元素在哪个桶中
+       // 如果这个桶中还没有元素，则把这个元素放在桶中的第一个位置
+       if ((p = tab[i = (n - 1) & hash]) == null)
+           // 新建一个节点放在桶中
+           tab[i] = newNode(hash, key, value, null);
+       else {
+           // 如果桶中已经有元素存在了
+           Node<K, V> e;
+           K k;
+           // 如果桶中第一个元素的key与待插入元素的key相同，保存到e中用于后续修改value值
+           if (p.hash == hash &&
+                   ((k = p.key) == key || (key != null && key.equals(k))))
+               e = p;
+           else if (p instanceof TreeNode)
+               // 如果第一个元素是树节点，则调用树节点的putTreeVal插入元素
+               e = ((TreeNode<K, V>) p).putTreeVal(this, tab, hash, key, value);
+           else {
+               // 遍历这个桶对应的链表，binCount用于存储链表中元素的个数
+               for (int binCount = 0; ; ++binCount) {
+                   // 如果链表遍历完了都没有找到相同key的元素，说明该key对应的元素不存在，则在链表最后插入一个新节点
+                   if ((e = p.next) == null) {
+                       p.next = newNode(hash, key, value, null);
+                       // 如果插入新节点后链表长度大于8，则判断是否需要树化，因为第一个元素没有加到binCount中，所以这里-1
+                       if (binCount >= TREEIFY_THRESHOLD - 1) // -1 for 1st
+                           treeifyBin(tab, hash);
+                       break;
+                   }
+                   // 如果待插入的key在链表中找到了，则退出循环
+                   if (e.hash == hash &&
+                           ((k = e.key) == key || (key != null && key.equals(k))))
+                       break;
+                   p = e;
+               }
+           }
+           // 如果找到了对应key的元素
+           if (e != null) { // existing mapping for key
+               // 记录下旧值
+               V oldValue = e.value;
+               // 判断是否需要替换旧值
+               if (!onlyIfAbsent || oldValue == null)
+                   // 替换旧值为新值
+                   e.value = value;
+               // 在节点被访问后做点什么事，在LinkedHashMap中用到
+               afterNodeAccess(e);
+               // 返回旧值
+               return oldValue;
+           }
+       }
+       // 到这里了说明没有找到元素
+       // 修改次数加1
+       ++modCount;
+       // 元素数量加1，判断是否需要扩容
+       if (++size > threshold)
+           // 扩容
+           resize();
+       // 在节点插入后做点什么事，在LinkedHashMap中用到
+       afterNodeInsertion(evict);
+       // 没找到元素返回null
+       return null;
+   }
+   ```
+
+   (1)计算key的hash值；
+
+   (2)如果桶(数组)数量为0，则初始化桶；
+
+   (3)如果key所在的桶没有元素，则直接插入；
+
+   (4)如果key所在的桶中的第一个元素的key与待插入的key相同，说明找到了元素，转后续流程(9)处理；
+
+   (5)如果第一个元素是树节点，则调用树节点的putTreeVal()寻找元素或插入树节点；
+
+   (6)如果不是以上三种情况，则遍历桶对应的链表查找key是否存在于链表中；
+
+   (7)如果找到了对应key的元素，则转后续流程(9)处理；
+
+   (8)如果没找到对应key的元素，则在链表最后插入一个新节点，并判断是否需要树化；
+
+   (9)如果找到对应的key的元素，则判断是否需要替换旧值，并直接返回旧值；
+
+   (10)如果插入了元素，则数量加1并判断是否需要扩容；
+
+2. resize()方法：
+
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ### 5.2.6 AbstractCollection：
 
@@ -4401,6 +5067,205 @@ public class Java9Collection {
     }
 }
 ```
+
+### 5.2.12 fail-fast：
+
+#### 5.2.12.1 fail-fast简介：
+
+fail-fast机制是Java集合中的一种错误机制。当多个线程对同一个集合的内容进行操作时，就可能产生fail-fast事件。
+
+例如：当某一个线程A通过iterator去遍历某集合的过程中，若该集合的内容被其他线程所改变了；那么线程A访问集合时，就会抛出ConcurrentModificationException异常，产生fail-fast事件。
+
+#### 5.2.12.2 fail-fast示例：
+
+```java
+import java.util.*;
+import java.util.concurrent.*;
+
+/*
+ * @desc java集合中Fast-Fail的测试程序。
+ *
+ *   fast-fail事件产生的条件：当多个线程对Collection进行操作时，若其中某一个线程通过iterator去遍历集合时，该集合的内容被其他线程所改变；则会抛出ConcurrentModificationException异常。
+ *   fast-fail解决办法：通过util.concurrent集合包下的相应类去处理，则不会产生fast-fail事件。
+ *
+ *   本例中，分别测试ArrayList和CopyOnWriteArrayList这两种情况。ArrayList会产生fast-fail事件，而CopyOnWriteArrayList不会产生fast-fail事件。
+ *   (01) 使用ArrayList时，会产生fast-fail事件，抛出ConcurrentModificationException异常；定义如下：
+ *            private static List<String> list = new ArrayList<String>();
+ *   (02) 使用时CopyOnWriteArrayList，不会产生fast-fail事件；定义如下：
+ *            private static List<String> list = new CopyOnWriteArrayList<String>();
+ *
+ * @author skywang
+ */
+public class FastFailTest {
+
+    private static List<String> list = new ArrayList<String>();
+    //private static List<String> list = new CopyOnWriteArrayList<String>();
+    public static void main(String[] args) {
+
+        // 同时启动两个线程对list进行操作！
+        new ThreadOne().start();
+        new ThreadTwo().start();
+    }
+
+    private static void printAll() {
+        System.out.println("");
+
+        String value = null;
+        Iterator iter = list.iterator();
+        while(iter.hasNext()) {
+            value = (String)iter.next();
+            System.out.print(value+", ");
+        }
+    }
+
+    /**
+     * 向list中依次添加0,1,2,3,4,5，每添加一个数之后，就通过printAll()遍历整个list
+     */
+    private static class ThreadOne extends Thread {
+        public void run() {
+            int i = 0;
+            while (i<6) {
+                list.add(String.valueOf(i));
+                printAll();
+                i++;
+            }
+        }
+    }
+
+    /**
+     * 向list中依次添加10,11,12,13,14,15，每添加一个数之后，就通过printAll()遍历整个list
+     */
+    private static class ThreadTwo extends Thread {
+        public void run() {
+            int i = 10;
+            while (i<16) {
+                list.add(String.valueOf(i));
+                printAll();
+                i++;
+            }
+        }
+    }
+
+}
+```
+
+运行结果：
+
+运行该代码，抛出异常java.util.ConcurrentModificationException！即，产生fail-fast事件。
+
+结果说明：
+
+（1）new TheadOne().start() 和 new ThreadTwo().start() 同时启动两个线程去操作list。
+
+​	TheadOne线程：向list中依次添加0,1,2,3,4,5。没添加一个后，就通过printAll()遍历整个list。
+
+​	ThreadTwo线程：向list中依次添加10,11,12,13,14,15。没添加一个数之后，就通过printAll()遍历整个list。
+
+（2）当某一个线程遍历list的过程中，list的内容被另一个线程所改变了，就会抛出ConcurrentModificationException异常，产生fail-fast事件。
+
+#### 5.2.12.3 fail-fast解决办法：
+
+fail-fast机制，是一种错误检测机制。它只能被用来检测错误，因为JDK并不保证fail-fast机制一定会发生。若在多线程环境下使用fail-fast机制的集合，建议使用“java.util.concurrent包下的类”去取代“java.util包下的类”。
+
+所以，本例中只需要将ArrayList替换成java.util.concurrent包下对应的类即可。
+
+即，将代码
+
+```java
+private static List<String> list = new ArrayList<String>();
+```
+
+替换为
+
+```java
+private static List<String> list = new CopyOnWriteArrayList<String>();
+```
+
+#### 5.2.12.4 fail-fast原理：
+
+产生fail-fast事件，是通过抛出ConcurrentModificationException异常来触发的。
+
+那么，ArrayList是如何抛出ConcurrentModificationException异常的呢？
+
+我们知道，ConcurrentModificationException是在操作Iterator时抛出的异常。我们先看看Iterator的源码。ArrayList的Iterator是在父类AbstractList中实现的。
+
+代码如下：
+
+```java
+package java.util;
+
+public abstract class AbstractList<E> extends AbstractCollection<E> implements List<E> {
+
+    ...
+
+    // AbstractList中唯一的属性
+    // 用来记录List修改的次数：每修改一次(添加/删除等操作)，将modCount+1
+    protected transient int modCount = 0;
+
+    // 返回List对应迭代器。实际上，是返回Itr对象。
+    public Iterator<E> iterator() {
+        return new Itr();
+    }
+
+    // Itr是Iterator(迭代器)的实现类
+    private class Itr implements Iterator<E> {
+        int cursor = 0;
+
+        int lastRet = -1;
+
+        // 修改数的记录值。
+        // 每次新建Itr()对象时，都会保存新建该对象时对应的modCount；
+        // 以后每次遍历List中的元素的时候，都会比较expectedModCount和modCount是否相等；
+        // 若不相等，则抛出ConcurrentModificationException异常，产生fail-fast事件。
+        int expectedModCount = modCount;
+
+        public boolean hasNext() {
+            return cursor != size();
+        }
+
+        public E next() {
+            // 获取下一个元素之前，都会判断“新建Itr对象时保存的modCount”和“当前的modCount”是否相等；
+            // 若不相等，则抛出ConcurrentModificationException异常，产生fail-fast事件。
+            checkForComodification();
+            try {
+                E next = get(cursor);
+                lastRet = cursor++;
+                return next;
+            } catch (IndexOutOfBoundsException e) {
+                checkForComodification();
+                throw new NoSuchElementException();
+            }
+        }
+
+        public void remove() {
+            if (lastRet == -1)
+                throw new IllegalStateException();
+            checkForComodification();
+
+            try {
+                AbstractList.this.remove(lastRet);
+                if (lastRet < cursor)
+                    cursor--;
+                lastRet = -1;
+                expectedModCount = modCount;
+            } catch (IndexOutOfBoundsException e) {
+                throw new ConcurrentModificationException();
+            }
+        }
+
+        final void checkForComodification() {
+            if (modCount != expectedModCount)
+                throw new ConcurrentModificationException();
+        }
+    }
+
+    ...
+}
+```
+
+从中，我们可以发现在调用next()和remove()时，都会执行checkForComodification()。若“modCount不等于expectedModCount”，则抛出ConcurrentModificationException异常，产生fail-fast事件。
+
+
 
 
 
