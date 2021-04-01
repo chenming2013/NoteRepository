@@ -4754,7 +4754,7 @@ static class Entry<K,V> extends HashMap.Node<K,V> {
 
 3. HashMap(int initialCapacity, float loadFactory)：
 
-   判断传入的初始容量和装载因子是否合法，并计算扩容门槛，扩容门槛为传入的初始容量往上取最近的2的n次方。
+   判断传入的初始容量和装载因子是否合法，并计算扩容门槛，**扩容门槛为传入的初始容量往上取最近的2的n次方**。
 
    ```java
    public HashMap(int initialCapacity, float loadFactor) {
@@ -4769,7 +4769,7 @@ static class Entry<K,V> extends HashMap.Node<K,V> {
            throw new IllegalArgumentException("Illegal load factor: " +
                                               loadFactor);
        this.loadFactor = loadFactor;
-       // 计算扩容门槛
+       // 计算扩容门槛(注意这里的threshold的值没有*0.75)
        this.threshold = tableSizeFor(initialCapacity);
    }
    
