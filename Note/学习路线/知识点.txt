@@ -1,42 +1,6 @@
-okhttp
+WebService
 
-jackson
+SOA
 
+SaaS
 
-JINI
-
-微信小程序
-
-vue.js
-
-Dubbo（学习Dubbo之前要先学习Zookeeper，有时间的话最好在学习Zookeeper之前先学一些java自带的RMI）
-JSTL自定义函数（可以像这样调用  ${myfn:getUserById(id)}）
-
-Spring Boot >>>Spring Cloud
-
-Xml（IBM教程的《使用XML》系列）
-
-先看数据结构，再看jvm，然后再专项看书（IO、集合、JDBC、网络编程、反射等等）
-
-需要看的文章（IBM）：
-	《JSP 最佳实践》系列、《使用XML》系列
-
-
-http://www.cnblogs.com/dantefung/p/4883741.html
-http://www.jianshu.com/p/672673e2234c
-http://www.jianshu.com/p/875ebceee5dd
-
-
-使用Chrome，绿色的是padding，橙色的是margin
-
-
-
-
-小知识点：
-       1、后台：
-
-	POI(√)、log4j(√)、Junit(√)、JNDI、JNI、正则表达式、数据库连接池、读取配置文件、邮件开发、支付、加密解密、JMS&消息中间件
-	FreeMaker(√)、WebSocket、任务调度、缓存、RMI
-
-       2、前台：
-	在线地图、富文本编辑器、分页插件、layui、jquery validate、日历控件、滚动条、art-template、弹出框(layer、dialog)
